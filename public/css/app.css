@@ -154,7 +154,7 @@ html,
   -o-tab-size: 4;
      tab-size: 4;
   /* 3 */
-  font-family: Inter, sans-serif;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* 4 */
   font-feature-settings: normal;
   /* 5 */
@@ -554,13 +554,102 @@ video {
   display: none;
 }
 
-.bg-secondary {
+.container {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.bg-black {
   --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
+  background-color: rgb(22 22 22 / var(--tw-bg-opacity, 1));
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.font-roboto {
+  font-family: Roboto Flex, sans-serif;
 }
 
 .font-sans {
-  font-family: Inter, sans-serif;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.text-h1 {
+  font-size: 4.5rem;
+}
+
+.text-h2 {
+  font-size: 3rem;
+}
+
+.text-h3 {
+  font-size: 2.5rem;
+}
+
+.text-h4 {
+  font-size: 2.5rem;
+}
+
+.text-h5 {
+  font-size: 1.5rem;
+}
+
+.text-h6 {
+  font-size: 0.8rem;
+}
+
+.text-p-regular {
+  font-size: 0.8rem;
+}
+
+.text-p-small {
+  font-size: 0.7rem;
 }
 
 .text-xl {
@@ -572,7 +661,132 @@ video {
   font-weight: 700;
 }
 
-.text-primary {
-  --tw-text-opacity: 1;
-  color: rgb(29 78 216 / var(--tw-text-opacity, 1));
+.text-h1 {
+  font-size: 4.5rem;
+  font-weight: 700;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+.text-h2 {
+  font-size: 3rem;
+  font-weight: 500;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+.text-h3 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+.text-h4 {
+  font-size: 2.5rem;
+  font-weight: 500;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+.text-h5 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+.text-h6 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+.text-p-regular {
+  font-size: 0.8rem;
+  font-weight: 400;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+.text-p-small {
+  font-size: 0.7rem;
+  font-weight: 300;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+.btn-1 {
+  background-color: #FF3F00;
+  color: #DCDCDC;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 2.25rem;
+  border-radius: 0.6rem;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+  font-family: Roboto Flex, sans-serif;
+}
+
+.btn-1:hover {
+  background-color: #CC3300;
+}
+
+.btn-2 {
+  background-color: #DCDCDC;
+  color: #FF3F00;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 2.25rem;
+  border-radius: 0.6rem;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+  font-family: Roboto Flex, sans-serif;
+}
+
+.btn-2:hover {
+  background-color: #80858E;
+}
+
+.btn-3 {
+  border: 1px solid #DCDCDC;
+  color: #DCDCDC;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 2.25rem;
+  border-radius: 0.6rem;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+  font-family: Roboto Flex, sans-serif;
+}
+
+.btn-3:hover {
+  background-color: #DCDCDC;
+  color: #161616;
+}
+
+.btn-4 {
+  border: 1px solid #FF3F00;
+  color: #FF3F00;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 2.25rem;
+  border-radius: 0.6rem;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+  font-family: Roboto Flex, sans-serif;
+}
+
+.btn-4:hover {
+  background-color: #FF3F00;
+  color: #DCDCDC;
 }
