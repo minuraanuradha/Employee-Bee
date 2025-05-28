@@ -1,18 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./resources/views/**/*.{html,js}", // Include all HTML and JS files in resources/views
-    "./public/**/*.{html,js}"          // Include all HTML and JS files in public
+    "./resources/views/**/*.{html,js}",
+    "./public/**/*.{html,js}"
   ],
   theme: {
     extend: {
       colors: {
-        primary: '#1D4ED8', 
-        secondary: '#F3F4F6', 
-        accent: '#10B981'
+        orange: '#FF3F00',
+        black: '#161616',
+        darkgray: '#52555A',
+        lightgray: '#999DA6',
+        white: '#DCDCDC'
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif']
+        roboto: ['Roboto Flex', 'sans-serif']
       }
     }
   },
