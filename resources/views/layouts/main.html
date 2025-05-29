@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Bee - {{title}}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="./../../../public/css/app.css" rel="stylesheet">
+</head>
+<body class="min-h-screen flex flex-col justify-between sm:mx-10 lg:mx-28 font-roboto bg-black">
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center px-6 py-4  border-orange">
+    <!-- Logo -->
+    <div class="text-orange font-bold border border-orange px-4 py-1 rounded-full">
+      LOGO
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="flex space-x-10 border border-orange px-16 py-2 rounded-xl items-center">
+      <a href="#" class="text-p-regular text-orange ">Home</a>
+      <a href="#" class="text-p-regular text-white hover:text-orange">Company’s</a>
+      <a href="#" class="text-p-regular text-white hover:text-orange">About</a>
+      <a href="#" class="text-p-regular text-white hover:text-orange">Help</a>
+    </nav>
+
+    <!-- Profile Button -->
+    <button class="btn-3">
+      Profile
+    </button>
+  </header>
+
+
+  <!-- Main Content -->
+  <main class="flex items-center justify-center text-center px-4">
+      {{content}}
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-p-small text-white py-4 ">
+    © 2025 Employee Bee. All rights reserved. &nbsp; | &nbsp;
+    <a href="#" class="hover:underline">Privacy</a> &nbsp; | &nbsp;
+    <a href="#" class="hover:underline">Legal</a> &nbsp; | &nbsp;
+    <a href="#" class="hover:underline">Terms of Service</a>
+  </footer>
+
+</body>
+</html>
