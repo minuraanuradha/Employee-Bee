@@ -1,3 +1,3 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Employee Bee front-end loaded');
+    console.log('Employee Bee front-end initialized');
 });
