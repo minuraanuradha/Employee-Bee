@@ -19,7 +19,7 @@ module.exports = {
         roboto: ['Roboto Flex', 'sans-serif']
       },
       fontSize: {
-        'h1': '4.5rem',
+        'h1': '5rem',
         'h2': '3rem',
         'h3': '2.5rem',
         'h4': '2.5rem',
@@ -32,7 +32,7 @@ module.exports = {
         'h1': '700',
         'h2': '500',
         'h3': '700',
-        'h4': '500',
+        'h4': '300',
         'h5': '700',
         'h6': '700',
         'p-regular': '400',
@@ -44,60 +44,108 @@ module.exports = {
     function ({ addUtilities }) {
       const textStyles = {
         '.text-h1': {
-          fontSize: '4.5rem',
+          fontSize: '2.7rem',
           fontWeight: '700',
           fontFamily: 'Roboto Flex, sans-serif',
           color: '#DCDCDC', // White
-          letterSpacing: 'normal'
+          letterSpacing: 'normal',
+          '@screen sm': {
+            fontSize: '4rem'
+          },
+          '@screen md': {
+            fontSize: '5rem'
+          }
         },
         '.text-h2': {
-          fontSize: '3rem',
+          fontSize: '2.7rem',
           fontWeight: '500',
           fontFamily: 'Roboto Flex, sans-serif',
           color: '#DCDCDC', // White
-          letterSpacing: 'normal'
+          letterSpacing: 'normal',
+          '@screen sm': {
+            fontSize: '3rem'
+          },
+          '@screen md': {
+            fontSize: '4rem'
+          }
         },
         '.text-h3': {
           fontSize: '2.5rem',
           fontWeight: '700',
           fontFamily: 'Roboto Flex, sans-serif',
           color: '#DCDCDC', // White
-          letterSpacing: 'normal'
+          letterSpacing: 'normal',
+          '@screen sm': {
+            fontSize: '2.5rem'
+          },
+          '@screen md': {
+            fontSize: '2.5rem'
+          }
         },
         '.text-h4': {
           fontSize: '2.5rem',
-          fontWeight: '500',
+          fontWeight: '300',
           fontFamily: 'Roboto Flex, sans-serif',
           color: '#DCDCDC', // White
-          letterSpacing: 'normal'
+          letterSpacing: 'normal',
+          '@screen sm': {
+            fontSize: '2.5rem'
+          },
+          '@screen md': {
+            fontSize: '2.5rem'
+          }
         },
         '.text-h5': {
           fontSize: '1.5rem',
           fontWeight: '700',
           fontFamily: 'Roboto Flex, sans-serif',
           color: '#DCDCDC', // White
-          letterSpacing: 'normal'
+          letterSpacing: 'normal',
+          '@screen sm': {
+            fontSize: '1.5rem'
+          },
+          '@screen md': {
+            fontSize: '1.5rem'
+          }
         },
         '.text-h6': {
           fontSize: '0.8rem',
           fontWeight: '700',
           fontFamily: 'Roboto Flex, sans-serif',
           color: '#DCDCDC', // White
-          letterSpacing: 'normal'
+          letterSpacing: 'normal',
+          '@screen sm': {
+            fontSize: '0.8rem'
+          },
+          '@screen md': {
+            fontSize: '0.8rem'
+          }
         },
         '.text-p-regular': {
           fontSize: '0.8rem',
           fontWeight: '400',
           fontFamily: 'Roboto Flex, sans-serif',
           color: '#DCDCDC', // White
-          letterSpacing: 'normal'
+          letterSpacing: 'normal',
+          '@screen sm': {
+            fontSize: '0.8rem'
+          },
+          '@screen md': {
+            fontSize: '0.8rem'
+          }
         },
         '.text-p-small': {
           fontSize: '0.7rem',
           fontWeight: '300',
           fontFamily: 'Roboto Flex, sans-serif',
           color: '#DCDCDC', // White
-          letterSpacing: 'normal'
+          letterSpacing: 'normal',
+          '@screen sm': {
+            fontSize: '0.7rem'
+          },
+          '@screen md': {
+            fontSize: '0.7rem'
+          }
         }
       };
 
