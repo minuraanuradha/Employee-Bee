@@ -10,29 +10,57 @@
 <body class="min-h-screen flex flex-col justify-between sm:mx-10 lg:mx-28 font-roboto bg-black">
 
   <!-- Navbar -->
-  <header class="flex justify-between items-center px-6 py-4  border-orange">
+  <header class="flex justify-between items-center px-6 py-4 border-b border-orange sm:border-none">
     <!-- Logo -->
-    <div class="text-orange font-bold border border-orange px-4 py-1 rounded-full">
+    <div class="text-orange font-bold border border-orange px-4 py-1 rounded-full ">
       LOGO
     </div>
 
-    <!-- Navigation Links -->
-    <nav class="flex space-x-10 border border-orange px-16 py-2 rounded-xl items-center">
-      <a href="index.html" class="text-p-regular text-orange home-link">Home</a>
-      <a href="./companies.html" class="text-p-regular text-white hover:text-orange">Company’s</a>
-      <a href="./about.html" class="text-p-regular text-white hover:text-orange">About</a>
-      <a href="./help.html" class="text-p-regular text-white hover:text-orange">Help</a>
+    <!-- Hamburger Menu (Mobile Only) -->
+    <div class="sm:hidden">
+      <button id="menu-toggle" class="focus:outline-none">
+        <!-- Hamburger Icon -->
+        <svg id="hamburger-icon" class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+
+        <!-- Close Icon -->
+        <svg id="close-icon" class="w-6 h-6 text-white hidden" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden sm:flex space-x-10 border border-orange px-16 py-2 rounded-xl items-center">
+      <a href="./index.html" id="home-link" class="text-p-regular text-white hover:text-orange">Home</a>
+      <a href="./companies.html" id="companies-link" class="hover:text-orange text-p-regular text-white">Companys</a>
+      <a href="./about.html" id="about-link" class="hover:text-orange text-p-regular text-white">About</a>
+      <a href="./help.html" id="help-link" class="hover:text-orange text-p-regular text-white">Help</a>
     </nav>
 
     <!-- Profile Button -->
-    <button class="btn-3">
+    <button class="hidden sm:flex  btn-3">
       Profile
     </button>
   </header>
 
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="space-y-4 py-6 sm:hidden hidden">
+    <div class="flex flex-col space-y-4  items-center text-center">
+      <a href="./index.html" class="text-p-regular hover:text-orange">Home</a>
+      <a href="./companies.html" class="text-p-regular text-white hover:text-orange">Companys</a>
+      <a href="./about.html" class="text-p-regular text-white hover:text-orange">About</a>
+      <a href="./help.html" class="text-p-regular text-white hover:text-orange">Help</a>
+      <button class=" btn-3">Profile</button>
+    </div>
+  </div>
+
 
   <!-- Hero Section -->
-  <main class=" flex items-center justify-center text-center px-4">
+  <main id="main-content" class=" flex items-center justify-center text-center px-4">
     <div>
       <h2 style="line-height: 1;" class="text-h2 "> TROUBLING WITH EMPLOYEE </h2>
       <h1 style="line-height: 1;" class="text-h1 mt-2">VERIFICATION?</h1>
@@ -46,8 +74,16 @@
   </main>
 
   <!-- Footer -->
-  <footer class="text-center text-p-small text-white py-4 ">
+  <footer class="hidden sm:block text-center text-p-small text-white py-4 ">
     © 2025 Employee Bee. All rights reserved. &nbsp; | &nbsp;
+    <a href="#" class="hover:underline">Privacy</a> &nbsp; | &nbsp;
+    <a href="#" class="hover:underline">Legal</a> &nbsp; | &nbsp;
+    <a href="#" class="hover:underline">Terms of Service</a>
+  </footer>
+
+    <!--Mobile Footer -->
+  <footer class="sm:hidden text-center text-p-small text-white py-4 ">
+    © 2025 Employee Bee. All rights reserved. <br> 
     <a href="#" class="hover:underline">Privacy</a> &nbsp; | &nbsp;
     <a href="#" class="hover:underline">Legal</a> &nbsp; | &nbsp;
     <a href="#" class="hover:underline">Terms of Service</a>
