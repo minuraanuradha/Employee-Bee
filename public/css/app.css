@@ -609,8 +609,8 @@ video {
   margin-top: 2.5rem;
 }
 
-.mt-2 {
-  margin-top: 0.5rem;
+.mt-20 {
+  margin-top: 5rem;
 }
 
 .mt-4 {
@@ -619,10 +619,6 @@ video {
 
 .mt-6 {
   margin-top: 1.5rem;
-}
-
-.mt-8 {
-  margin-top: 2rem;
 }
 
 .flex {
@@ -871,6 +867,14 @@ video {
   font-weight: 700;
 }
 
+.leading-\[1\] {
+  line-height: 1;
+}
+
+.leading-none {
+  line-height: 1;
+}
+
 .text-orange {
   --tw-text-opacity: 1;
   color: rgb(255 63 0 / var(--tw-text-opacity, 1));
@@ -882,19 +886,43 @@ video {
 }
 
 .text-h1 {
-  font-size: 6rem;
-  font-weight: 800;
+  font-size: 2.7rem;
+  font-weight: 700;
   font-family: Roboto Flex, sans-serif;
   color: #DCDCDC;
   letter-spacing: normal;
 }
 
+@media (min-width: 640px) {
+  .text-h1 {
+    font-size: 4rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h1 {
+    font-size: 5rem;
+  }
+}
+
 .text-h2 {
-  font-size: 4rem;
+  font-size: 2.7rem;
   font-weight: 500;
   font-family: Roboto Flex, sans-serif;
   color: #DCDCDC;
   letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-h2 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h2 {
+    font-size: 4rem;
+  }
 }
 
 .text-h3 {
@@ -905,12 +933,36 @@ video {
   letter-spacing: normal;
 }
 
+@media (min-width: 640px) {
+  .text-h3 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h3 {
+    font-size: 2.5rem;
+  }
+}
+
 .text-h4 {
   font-size: 2.5rem;
   font-weight: 300;
   font-family: Roboto Flex, sans-serif;
   color: #DCDCDC;
   letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-h4 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h4 {
+    font-size: 2.5rem;
+  }
 }
 
 .text-h5 {
@@ -921,12 +973,36 @@ video {
   letter-spacing: normal;
 }
 
+@media (min-width: 640px) {
+  .text-h5 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h5 {
+    font-size: 1.5rem;
+  }
+}
+
 .text-h6 {
   font-size: 0.8rem;
   font-weight: 700;
   font-family: Roboto Flex, sans-serif;
   color: #DCDCDC;
   letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-h6 {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h6 {
+    font-size: 0.8rem;
+  }
 }
 
 .text-p-regular {
@@ -937,12 +1013,36 @@ video {
   letter-spacing: normal;
 }
 
+@media (min-width: 640px) {
+  .text-p-regular {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-p-regular {
+    font-size: 0.8rem;
+  }
+}
+
 .text-p-small {
   font-size: 0.7rem;
   font-weight: 300;
   font-family: Roboto Flex, sans-serif;
   color: #DCDCDC;
   letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-p-small {
+    font-size: 0.7rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-p-small {
+    font-size: 0.7rem;
+  }
 }
 
 .btn-1 {
@@ -1036,6 +1136,14 @@ video {
     margin-right: 2.5rem;
   }
 
+  .sm\:mt-12 {
+    margin-top: 3rem;
+  }
+
+  .sm\:mt-14 {
+    margin-top: 3.5rem;
+  }
+
   .sm\:block {
     display: block;
   }
@@ -1060,6 +1168,16 @@ video {
   .sm\:text-6xl {
     font-size: 3.75rem;
     line-height: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:mt-3 {
+    margin-top: 0.75rem;
+  }
+
+  .md\:mt-4 {
+    margin-top: 1rem;
   }
 }
 
