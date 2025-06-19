@@ -154,7 +154,7 @@ html,
   -o-tab-size: 4;
      tab-size: 4;
   /* 3 */
-  font-family: Inter, sans-serif;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* 4 */
   font-feature-settings: normal;
   /* 5 */
@@ -554,25 +554,665 @@ video {
   display: none;
 }
 
-.bg-secondary {
+.container {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+.visible {
+  visibility: visible;
+}
+
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
+}
+
+.mr-1 {
+  margin-right: 0.25rem;
+}
+
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-20 {
+  margin-top: 5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}
+
+.h-10 {
+  height: 2.5rem;
+}
+
+.h-6 {
+  height: 1.5rem;
+}
+
+.h-7 {
+  height: 1.75rem;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.w-10 {
+  width: 2.5rem;
+}
+
+.w-2\/3 {
+  width: 66.666667%;
+}
+
+.w-6 {
+  width: 1.5rem;
+}
+
+.w-7 {
+  width: 1.75rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.max-w-lg {
+  max-width: 32rem;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.space-x-10 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(2.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(2.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.border {
+  border-width: 1px;
+}
+
+.border-b {
+  border-bottom-width: 1px;
+}
+
+.border-orange {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 63 0 / var(--tw-border-opacity, 1));
+}
+
+.bg-black {
   --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
+  background-color: rgb(22 22 22 / var(--tw-bg-opacity, 1));
 }
 
-.font-sans {
-  font-family: Inter, sans-serif;
+.bg-darkgray {
+  --tw-bg-opacity: 1;
+  background-color: rgb(82 85 90 / var(--tw-bg-opacity, 1));
 }
 
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
+.bg-gray-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
+}
+
+.bg-orange {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 63 0 / var(--tw-bg-opacity, 1));
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.px-16 {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.pt-2 {
+  padding-top: 0.5rem;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.font-roboto {
+  font-family: Roboto Flex, sans-serif;
+}
+
+.text-h1 {
+  font-size: 5rem;
+}
+
+.text-h2 {
+  font-size: 3rem;
+}
+
+.text-h3 {
+  font-size: 2.5rem;
+}
+
+.text-h4 {
+  font-size: 2.5rem;
+}
+
+.text-h5 {
+  font-size: 1.5rem;
+}
+
+.text-h6 {
+  font-size: 0.8rem;
+}
+
+.text-p-regular {
+  font-size: 0.8rem;
+}
+
+.text-p-small {
+  font-size: 0.7rem;
 }
 
 .font-bold {
   font-weight: 700;
 }
 
-.text-primary {
+.leading-\[1\] {
+  line-height: 1;
+}
+
+.leading-none {
+  line-height: 1;
+}
+
+.text-orange {
   --tw-text-opacity: 1;
-  color: rgb(29 78 216 / var(--tw-text-opacity, 1));
+  color: rgb(255 63 0 / var(--tw-text-opacity, 1));
+}
+
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(220 220 220 / var(--tw-text-opacity, 1));
+}
+
+.text-h1 {
+  font-size: 2.7rem;
+  font-weight: 700;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-h1 {
+    font-size: 4rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h1 {
+    font-size: 5rem;
+  }
+}
+
+.text-h2 {
+  font-size: 2.7rem;
+  font-weight: 500;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-h2 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h2 {
+    font-size: 4rem;
+  }
+}
+
+.text-h3 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-h3 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h3 {
+    font-size: 2.5rem;
+  }
+}
+
+.text-h4 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-h4 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h4 {
+    font-size: 2.5rem;
+  }
+}
+
+.text-h5 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-h5 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h5 {
+    font-size: 1.5rem;
+  }
+}
+
+.text-h6 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-h6 {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-h6 {
+    font-size: 0.8rem;
+  }
+}
+
+.text-p-regular {
+  font-size: 0.8rem;
+  font-weight: 400;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-p-regular {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-p-regular {
+    font-size: 0.8rem;
+  }
+}
+
+.text-p-small {
+  font-size: 0.7rem;
+  font-weight: 300;
+  font-family: Roboto Flex, sans-serif;
+  color: #DCDCDC;
+  letter-spacing: normal;
+}
+
+@media (min-width: 640px) {
+  .text-p-small {
+    font-size: 0.7rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-p-small {
+    font-size: 0.7rem;
+  }
+}
+
+.btn-1 {
+  background-color: #FF3F00;
+  color: #DCDCDC;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 2.25rem;
+  border-radius: 0.6rem;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+  font-family: Roboto Flex, sans-serif;
+}
+
+.btn-1:hover {
+  background-color: #CC3300;
+}
+
+.btn-2 {
+  background-color: #DCDCDC;
+  color: #FF3F00;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 2.25rem;
+  border-radius: 0.6rem;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+  font-family: Roboto Flex, sans-serif;
+}
+
+.btn-2:hover {
+  background-color: #80858E;
+}
+
+.btn-3 {
+  border: 1px solid #DCDCDC;
+  color: #DCDCDC;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 2.25rem;
+  border-radius: 0.6rem;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+  font-family: Roboto Flex, sans-serif;
+}
+
+.btn-3:hover {
+  background-color: #DCDCDC;
+  color: #161616;
+}
+
+.btn-4 {
+  border: 1px solid #FF3F00;
+  color: #FF3F00;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 2.25rem;
+  border-radius: 0.6rem;
+  letter-spacing: 0.02em;
+  transition: all 0.3s ease;
+  font-family: Roboto Flex, sans-serif;
+}
+
+.btn-4:hover {
+  background-color: #FF3F00;
+  color: #DCDCDC;
+}
+
+.hover\:bg-zinc-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(39 39 42 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:text-orange:hover {
+  --tw-text-opacity: 1;
+  color: rgb(255 63 0 / var(--tw-text-opacity, 1));
+}
+
+.hover\:underline:hover {
+  text-decoration-line: underline;
+}
+
+.focus\:outline-none:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+@media (min-width: 640px) {
+  .sm\:mx-10 {
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+  }
+
+  .sm\:mt-12 {
+    margin-top: 3rem;
+  }
+
+  .sm\:mt-14 {
+    margin-top: 3.5rem;
+  }
+
+  .sm\:mt-16 {
+    margin-top: 4rem;
+  }
+
+  .sm\:block {
+    display: block;
+  }
+
+  .sm\:flex {
+    display: flex;
+  }
+
+  .sm\:hidden {
+    display: none;
+  }
+
+  .sm\:w-2\/3 {
+    width: 66.666667%;
+  }
+
+  .sm\:w-2\/5 {
+    width: 40%;
+  }
+
+  .sm\:border-none {
+    border-style: none;
+  }
+
+  .sm\:px-3 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .sm\:py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:mt-12 {
+    margin-top: 3rem;
+  }
+
+  .md\:mt-3 {
+    margin-top: 0.75rem;
+  }
+
+  .md\:mt-4 {
+    margin-top: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:mx-28 {
+    margin-left: 7rem;
+    margin-right: 7rem;
+  }
+
+  .lg\:w-3\/5 {
+    width: 60%;
+  }
 }
