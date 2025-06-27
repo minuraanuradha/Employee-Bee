@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Blockchain-powered employee record platform",
   "main": "index.js",
-"scripts": {
+  "scripts": {
     "build": "npx tailwindcss -i ./resources/css/input.css -o ./public/css/app.css",
     "watch": "npx tailwindcss -i ./resources/css/input.css -o ./public/css/app.css --watch"
   },

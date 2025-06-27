@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Bee - Style Test</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="css/app.css" rel="stylesheet">
-</head>
 <body class="bg-black font-roboto">
     <div class="container mx-auto p-4">
         <!-- Heading 01 -->
@@ -60,4 +51,3 @@
 
     <script src="js/app.js"></script>
 </body>
-</html>
