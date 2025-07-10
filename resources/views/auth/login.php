@@ -1,20 +1,36 @@
 <?php if (!isset($title)) $title = "Login"; ?>
-<div class="bg-gray-800 p-6 rounded-lg shadow-lg text-white">
-    <h2 class="text-2xl text-center mb-4">Sign In</h2>
-    <p class="text-center mb-4 text-orange-500">First time? <a href="?path=signup" class="underline">Sign up for free</a></p>
-    <form method="POST" action="?path=login" class="space-y-4">
-        <div>
-            <label for="email" class="block mb-1">Enter your mail</label>
-            <input type="email" id="email" name="email" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Enter your email" required>
-        </div>
-        <div>
-            <label for="password" class="block mb-1">Password</label>
-            <input type="password" id="password" name="password" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="Enter password" required>
-        </div>
-        <div class="text-right">
-            <a href="#" class="text-orange-500 underline">Forgot Password?</a>
-        </div>
-        <button type="submit" class="w-full bg-orange-500 text-white p-2 rounded">Sign In</button>
+<main class="flex items-center justify-center min-h-screen bg-black px-4">
+  <div class="bg-[#111111] text-white p-8 rounded-2xl shadow-md w-full max-w-md">
+    <h1 class="text-h2 text-center mb-2">Welcome Back 👋</h1>
+    <p class="text-p-regular text-center text-gray-400 mb-6">
+      Log in to your Employee Bee account
+    </p>
+
+    <form method="POST" action="?path=login" class="space-y-5">
+
+      <div>
+        <label for="email" class="block mb-1 text-sm text-gray-300">Email</label>
+        <input type="email" name="email" id="email" required
+          class="w-full p-3 rounded-lg bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+          placeholder="e.g., you@example.com">
+      </div>
+
+      <div>
+        <label for="password" class="block mb-1 text-sm text-gray-300">Password</label>
+        <input type="password" name="password" id="password" required
+          class="w-full p-3 rounded-lg bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+          placeholder="Enter your password">
+      </div>
+
+      <button type="submit"
+        class="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-full text-p-regular transition">
+        Log In →
+      </button>
     </form>
-    <p class="text-center mt-4 text-gray-400">© 2025 Employee Bee. All rights reserved. | <a href="#" class="underline">Privacy</a> | <a href="#" class="underline">Terms of Service</a></p>
-</div>
+
+    <p class="text-center text-sm text-gray-400 mt-6">
+      New here?
+      <a href="?path=signup" class="text-orange-400 underline hover:text-orange-300">Sign up now</a>
+    </p>
+  </div>
+</main>

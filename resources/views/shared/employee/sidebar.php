@@ -35,10 +35,10 @@ $currentPath = $_GET['path'] ?? 'home';
 
                 <!-- Projects -->
                 <li>
-                    <a href="?path=projects"
+                    <a href="?path=history"
                         class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'projects' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/Briefcase.svg" alt="Projects Icon" class="h-4 w-4">
-                        <span class="sidebar-text">Projects</span>
+                        <img src="assets/icons/Briefcase.svg" alt="Work History Icon" class="h-4 w-4">
+                        <span class="sidebar-text">Work History</span>
                     </a>
                 </li>
 
@@ -48,6 +48,15 @@ $currentPath = $_GET['path'] ?? 'home';
                         class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'insights' ? 'active bg-gray-700' : '' ?>">
                         <img src="assets/icons/Graph.svg" alt="Insights Icon" class="h-4 w-4">
                         <span class="sidebar-text">Career Insights</span>
+                    </a>
+                </li>
+
+                <!-- Edit Profile -->
+                <li>
+                    <a href="?path=edit-profile"
+                        class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'insights' ? 'active bg-gray-700' : '' ?>">
+                        <img src="assets/icons/Graph.svg" alt="edit profile Icon" class="h-4 w-4">
+                        <span class="sidebar-text">Edit Profile</span>
                     </a>
                 </li>
 

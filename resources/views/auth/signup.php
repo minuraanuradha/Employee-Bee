@@ -1,10 +1,27 @@
 <?php if (!isset($title)) $title = "Sign Up"; ?>
-<div class="bg-gray-800 p-6 rounded-lg shadow-lg text-white">
-    <h2 class="text-2xl text-center mb-4">Sign Up</h2>
-    <p class="text-center mb-4 text-orange-500">Already have an account? <a href="?path=login" class="underline">Sign in now</a></p>
+<main class="min-h-screen w-full flex items-center justify-center bg-black text-white px-4">
+  <div class="bg-[#111111] p-8 rounded-2xl shadow-md w-full max-w-md text-center">
+    <h1 class="text-h2 mb-3">Get Started</h1>
+    <p class="text-p-regular text-lightgray mb-6">Choose your registration type below</p>
+
     <div class="space-y-4">
-        <a href="?path=signup/employee" class="block w-full bg-orange-500 text-white p-2 rounded text-center">Employee</a>
-        <a href="?path=signup/company" class="block w-full bg-gray-600 text-white p-2 rounded text-center">Company</a>
+      <a href="?path=signup/employee"
+         class="block w-full bg-orange hover:bg-orange-600 text-white p-3 rounded-full font-medium transition">
+        I'm an Employee →
+      </a>
+      <a href="?path=signup/company"
+         class="block w-full bg-darkgray hover:bg-zinc-700 text-white p-3 rounded-full font-medium transition">
+        I'm a Company →
+      </a>
     </div>
-    <p class="text-center mt-4 text-gray-400">© 2025 Employee Bee. All rights reserved. | <a href="#" class="underline">Privacy</a> | <a href="#" class="underline">Terms of Service</a></p>
-</div>
+
+    <p class="text-p-small mt-6 text-lightgray">
+      Already have an account?
+      <a href="?path=login" class="text-orange underline hover:text-orange-300">Log in</a>
+    </p>
+
+    <p class="text-p-small mt-4 text-lightgray">
+      © 2025 Employee Bee | <a href="#" class="underline">Privacy</a> | <a href="#" class="underline">Terms</a>
+    </p>
+  </div>
+</main>
