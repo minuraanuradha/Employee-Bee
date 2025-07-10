@@ -121,6 +121,7 @@ switch ($path) {
             if ($_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
                 $title = 'Employee Profile';
                 $content = include_and_capture(__DIR__ . '/../resources/views/employee/index.php');
+                $layout = 'profile_dashboard'; // ✅ use the new dashboard layout
             } elseif ($_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
                 $title = 'Company Profile';
                 $content = include_and_capture(__DIR__ . '/../resources/views/company/index.php');
@@ -132,6 +133,11 @@ switch ($path) {
             header("Location: ?path=login");
             exit();
         }
+        break;
+    case 'logout':
+        session_destroy();
+        header("Location: ?path=login");
+        exit();
         break;
 
     default:
@@ -157,4 +163,3 @@ function include_and_capture($filePath)
     include $filePath;
     return ob_get_clean();
 }
-?>
