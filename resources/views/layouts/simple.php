@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="<?php echo $baseURL; ?>/css/app.css" rel="stylesheet">
 </head>
-<body class="bg-gray-900 text-white p-6">
+<body class="text-white p-6">
     <?php echo $content; ?>
 </body>
 </html>

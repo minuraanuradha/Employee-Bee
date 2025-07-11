@@ -19,7 +19,7 @@ $currentPath = $_GET['path'] ?? 'home';
                 <li>
                     <a href="?path=profile"
                         class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'profile' ? 'active bg-gray-700' : '' ?>">
-                        <img src="" alt="Dashboard Icon" class="h-4 w-4">
+                        <img src="assets/icons/Dashboard.svg" alt="Dashboard Icon" class="h-3 w-3 mr-1">
                         <span class="sidebar-text">Dashboard</span>
                     </a>
                 </li>
@@ -28,17 +28,17 @@ $currentPath = $_GET['path'] ?? 'home';
                 <li>
                     <a href="?path=profile-overview"
                         class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'profile-overview' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/UserCircle.svg" alt="Profile Icon" class="h-4 w-4">
+                        <img src="assets/icons/User.svg" alt="Profile Icon" class="h-3.5 w-3.5 mr-1">
                         <span class="sidebar-text">My Profile</span>
                     </a>
                 </li>
 
-                <!-- Projects -->
+                <!-- Employee History -->
                 <li>
                     <a href="?path=history"
-                        class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'projects' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/Briefcase.svg" alt="Work History Icon" class="h-4 w-4">
-                        <span class="sidebar-text">Work History</span>
+                        class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'history' ? 'active bg-gray-700' : '' ?>">
+                        <img src="assets/icons/ClockCounterClockwise.svg" alt="Work History Icon" class="h-4 w-4 mr-1">
+                        <span class="sidebar-text">Employee History</span>
                     </a>
                 </li>
 
@@ -46,19 +46,21 @@ $currentPath = $_GET['path'] ?? 'home';
                 <li>
                     <a href="?path=insights"
                         class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'insights' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/Graph.svg" alt="Insights Icon" class="h-4 w-4">
+                        <img src="assets/icons/Insight.svg" alt="Insights Icon" class="h-3.5 w-3.5 mr-1">
                         <span class="sidebar-text">Career Insights</span>
                     </a>
                 </li>
 
-                <!-- Edit Profile -->
+                <!-- Settings -->
                 <li>
-                    <a href="?path=edit-profile"
-                        class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'insights' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/Graph.svg" alt="edit profile Icon" class="h-4 w-4">
-                        <span class="sidebar-text">Edit Profile</span>
+                    <a href="?path=settings"
+                        class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'settings' ? 'active bg-gray-700' : '' ?>">
+                        <img src="assets/icons/Gearsix.svg"" alt="Settings Icon" class="h-4 w-4 mr-1">
+                        <span class="sidebar-text">Settings</span>
                     </a>
                 </li>
+                
+
 
                 <!-- Settings (submenu - still commented for later use) -->
                 <!--

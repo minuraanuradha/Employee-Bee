@@ -134,6 +134,51 @@ switch ($path) {
             exit();
         }
         break;
+
+    // Employee Dashboard Pages
+    case 'profile-overview':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $title = 'My Profile';
+            $content = include_and_capture(__DIR__ . '/../resources/views/employee/profile-overview.php');
+            $layout = 'profile_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    case 'history':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $title = 'Employee History';
+            $content = include_and_capture(__DIR__ . '/../resources/views/employee/history.php');
+            $layout = 'profile_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    case 'insights':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $title = 'Career Insights';
+            $content = include_and_capture(__DIR__ . '/../resources/views/employee/insights.php');
+            $layout = 'profile_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    case 'settings':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $title = 'Settings';
+            $content = include_and_capture(__DIR__ . '/../resources/views/employee/settings.php');
+            $layout = 'profile_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
     case 'logout':
         session_destroy();
         header("Location: ?path=login");
