@@ -2,6 +2,7 @@
 //session_start();
 require_once '../app/models/UserModel.php';
 require_once '../app/models/CompanyModel.php';
+
 class AuthController {
     private $userModel;
     private $companyModel;
@@ -29,12 +30,15 @@ class AuthController {
                 die("Invalid email format");
             }
 
-            $user = $this->userModel->getUserByEmail($email);
+            // Try to find employee first
+            $employee = $this->userModel->getEmployeeByEmail($email);
             $company = $this->companyModel->getCompanyByEmail($email);
 
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = $user['id'];
+            if ($employee && password_verify($password, $employee['password'])) {
+                $_SESSION['user_id'] = $employee['id'];
+                $_SESSION['unique_id'] = $employee['unique_id'];
                 $_SESSION['role'] = 'employee';
+                $_SESSION['full_name'] = $employee['full_name'] ?? '';
                 header("Location: ?path=profile");
                 exit();
             } elseif ($company && password_verify($password, $company['password'])) {

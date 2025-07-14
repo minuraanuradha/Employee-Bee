@@ -3,3 +3,28 @@
 @tailwind utilities;
 
 /* Custom classes can be added here */
+
+/* Custom scrollbar for dark UI */
+::-webkit-scrollbar {
+  width: 8px;
+  background: #18181b; /* dark gray */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff7300; /* orange */
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffa94d; /* lighter orange on hover */
+}
+
+::-webkit-scrollbar-track {
+  background: #23272f; /* even darker gray */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ff7300 #18181b;
+}

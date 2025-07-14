@@ -179,6 +179,20 @@ switch ($path) {
             exit();
         }
         break;
+        
+    case 'update-profile':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $userController->updateProfile();
+            } else {
+                header("Location: ?path=profile-overview");
+                exit();
+            }
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
     case 'logout':
         session_destroy();
         header("Location: ?path=login");

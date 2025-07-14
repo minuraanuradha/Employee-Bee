@@ -34,3 +34,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+/* Account Type Selection */
+let selectedAccountType = 'employee';
+
+function selectAccountType(type) {
+    selectedAccountType = type;
+    
+    const employeeBtn = document.getElementById('employeeBtn');
+    const companyBtn = document.getElementById('companyBtn');
+    const accountTypeInput = document.getElementById('accountType');
+    
+    if (type === 'employee') {
+        employeeBtn.className = 'flex-1 py-2 bg-orange text-white text-sm font-semibold rounded-lg transition-colors duration-300';
+        companyBtn.className = 'flex-1 py-2 bg-transparent border border-gray-600 text-gray-300 font-semibold rounded-lg hover:border-orange hover:text-orange transition-colors duration-300';
+        accountTypeInput.value = 'employee';
+    } else {
+        companyBtn.className = 'flex-1 py-2 bg-orange text-white text-sm font-semibold rounded-lg transition-colors duration-300';
+        employeeBtn.className = 'flex-1 py-2 bg-transparent border border-gray-600 text-gray-300 font-semibold rounded-lg hover:border-orange hover:text-orange transition-colors duration-300';
+        accountTypeInput.value = 'company';
+    }
+}

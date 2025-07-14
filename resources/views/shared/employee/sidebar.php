@@ -189,6 +189,5 @@ $currentPath = $_GET['path'] ?? 'home';
         background-color: #FF3F00 !important;
         /* Tailwind gray-800 */
         font-weight: 600;
-        border-left: #FF3F00 5px solid;
     }
 </style>

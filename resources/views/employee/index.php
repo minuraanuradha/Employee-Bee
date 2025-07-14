@@ -2,7 +2,10 @@
 // Employee Dashboard Page
 $user_id = $_SESSION['user_id'] ?? null;
 $user_role = $_SESSION['role'] ?? null;
-$username = $_SESSION['username'] ?? 'Employee';
+$unique_id = $_SESSION['unique_id'] ?? null;
+// $employee is expected to be provided by the controller
+$username = $employee['full_name'] ?? $_SESSION['full_name'] ?? 'Employee';
+$unique_id_display = $employee['unique_id'] ?? $unique_id ?? 'N/A';
 ?>
 
 <!-- Dashboard Container -->
@@ -16,8 +19,8 @@ $username = $_SESSION['username'] ?? 'Employee';
                 </span>
             </div>
             <h2 class="text-xl font-semibold text-white mb-1"><?= htmlspecialchars($username) ?></h2>
-            <p class="text-lightgray mb-1">Employee ID: <span class="text-white font-medium"> <?= $user_id ?? 'N/A' ?></span></p>
-            <p class="text-lightgray mb-2">Role: <span class="text-white font-medium"> <?= ucfirst($user_role ?? 'Employee') ?></span></p>
+            <p class="text-lightgray mb-1">Employee ID: <span class="text-white font-medium"><?= htmlspecialchars($unique_id_display) ?></span></p>
+            <p class="text-lightgray mb-2">Role: <span class="text-white font-medium"><?= ucfirst($user_role ?? 'Employee') ?></span></p>
             <button class="btn-2 w-full mt-2">View Profile</button>
         </div>
 
