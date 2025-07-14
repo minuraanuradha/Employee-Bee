@@ -47,14 +47,14 @@ class CompanyController {
             // Handle logo upload (optional)
             $logoPath = null;
             if (isset($_FILES['logo_path']) && $_FILES['logo_path']['error'] === UPLOAD_ERR_OK) {
-                $uploadDir = __DIR__ . '/../../storage/uploads/';
+                $uploadDir = __DIR__ . '/../../storage/uploads/company/';
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }
                 $fileName = uniqid('logo_') . '_' . basename($_FILES['logo_path']['name']);
                 $targetFile = $uploadDir . $fileName;
                 if (move_uploaded_file($_FILES['logo_path']['tmp_name'], $targetFile)) {
-                    $logoPath = 'storage/uploads/' . $fileName;
+                    $logoPath = 'storage/uploads/company/' . $fileName;
                 }
             }
             $data['logo_path'] = $logoPath;

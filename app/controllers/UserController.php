@@ -46,7 +46,8 @@ class UserController {
                 'resume_path' => $_POST['resume_path'] ?? '',
                 'skills' => $_POST['skills'] ?? '',
                 'education' => $_POST['education'] ?? '',
-                'profile_picture' => '/public/images/default-user.png' // default for now
+                // Handle profile picture upload (optional)
+                'profile_picture' => null // Initialize as null
             ];
     
             if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
@@ -54,6 +55,21 @@ class UserController {
             }
     
             try {
+                // Handle profile picture upload (optional)
+                $profilePicPath = null;
+                if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+                    $uploadDir = __DIR__ . '/../../storage/uploads/employee/';
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0777, true);
+                    }
+                    $fileName = uniqid('profile_') . '_' . basename($_FILES['profile_picture']['name']);
+                    $targetFile = $uploadDir . $fileName;
+                    if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $targetFile)) {
+                        $profilePicPath = 'storage/uploads/employee/' . $fileName;
+                    }
+                }
+                $data['profile_picture'] = $profilePicPath ?? '/public/images/default-user.png';
+                
                 $employee_id = $this->model->createEmployee($data);
                 
                 // Get the created employee data to show success message

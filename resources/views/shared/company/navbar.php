@@ -1,5 +1,16 @@
+<?php
+$companyName = $_SESSION['company_name'] ?? 'Company';
+$companyLogo = $_SESSION['company_logo'] ?? 'assets/images/Logo.png';
+// Fix path for web root
+if (strpos($companyLogo, 'storage/') === 0) {
+    // If running in a subfolder, set your base URL here:
+    $baseURL = '/Employee-Bee/';
+    $companyLogo = $baseURL . $companyLogo;
+}
+?>
+
 <div class="bg-stone-950 p-2 h-12 border-b">
-        <header class=" flex justify-between items-center lg:space-x-4  rounded-lg shadow-lg f-full pt-1">
+        <header class=" flex justify-between items-center lg:space-x-4  rounded-lg shadow-lg f-full">
 
             <!-- Hamburger Menu Icon(Mobile) -->
             <button id="mobileMenuButton" class="lg:hidden text-gray-600 focus:outline-none">
@@ -12,7 +23,7 @@
 
             <!--  Icon -->
             <button id="sidebarToggleButton" class="text-gray-600 pr-4 hidden lg:block">
-                <img src="{{ asset('assets/icons/Sidebar.svg') }}" alt="Sidebar Icon" class="h-5 w-5">
+                <img src="assets/icons/Sidebar.svg" alt="Sidebar Icon" class="h-5 w-5">
             </button>
 
             <!-- Search Bar -->
@@ -28,23 +39,20 @@
             </div>
 
             <!-- Notifications and User -->
-            <div class="flex items-center space-x-4 lg:space-x-6 pr-4 ">
+            <div class="flex items-center space-x-4 lg:space-x-6 pr-2 ">
+
                 <!-- Notifications Icon -->
-                <button class="text-gray-600 hidden lg:block">
-                    <img src="{{ asset('assets/icons/ClockCounterClockwise.svg') }}" alt="Sidebar Icon" class="h-5 w-5">
-                </button>
-                <!-- Notifications Icon -->
-                <button class="text-gray-600">
-                    <img src="{{ asset('assets/icons/Bell.svg') }}" alt="Sidebar Icon" class="h-5 w-5">
-                </button>
+            <!--  Icon -->
+            <button id="sidebarToggleButton" class="text-gray-600 pr-4 hidden lg:block">
+                <img src="                assets/icons/Bell.svg" alt="Sidebar Icon" class="h-5 w-5">
+            </button>
                 <!-- User Avatar -->
                 <div class="flex items-center space-x-2 ">
                     <div class="flex items-center space-x-2 text-white text-small username">
                         <div class="flex flex-col p-0">
-                            <span class="text-sm font-medium sidebar-text">Dunura Hansaja</span>
+                            <span class="text-sm font-medium sidebar-text"><?= htmlspecialchars($companyName) ?></span>
                         </div>
-                        <img src="assets/icons/Users.png" alt="User Avatar"
-                            class="h-6 w-6 rounded-full bg-blue-800 border border-blue-300">
+                        <img src="<?= htmlspecialchars($companyLogo) ?>" alt="Company Logo" class="h-7 w-7 rounded-full border border-orange bg-orange">
                     </div>
                 </div>
             </div>

@@ -39,11 +39,14 @@ class AuthController {
                 $_SESSION['unique_id'] = $employee['unique_id'];
                 $_SESSION['role'] = 'employee';
                 $_SESSION['full_name'] = $employee['full_name'] ?? '';
+                $_SESSION['profile_picture'] = $employee['profile_picture'] ?? 'assets/images/default-user.png';
                 header("Location: ?path=profile");
                 exit();
             } elseif ($company && password_verify($password, $company['password'])) {
                 $_SESSION['company_id'] = $company['id'];
                 $_SESSION['role'] = 'company';
+                $_SESSION['company_name'] = $company['company_name'] ?? 'Company';
+                $_SESSION['company_logo'] = $company['logo_path'] ?? 'assets/images/Logo.png';
                 header("Location: ?path=profile");
                 exit();
             } else {

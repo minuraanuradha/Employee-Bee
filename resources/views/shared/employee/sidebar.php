@@ -19,7 +19,7 @@ $currentPath = $_GET['path'] ?? 'home';
                 <li>
                     <a href="?path=profile"
                         class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'profile' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/Dashboard.svg" alt="Dashboard Icon" class="h-3 w-3 mr-1">
+                        <img src="assets/icons/Dashboard.svg" alt="Dashboard Icon" class="h-3 w-3 mr-1 img">
                         <span class="sidebar-text">Dashboard</span>
                     </a>
                 </li>
@@ -28,7 +28,7 @@ $currentPath = $_GET['path'] ?? 'home';
                 <li>
                     <a href="?path=profile-overview"
                         class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'profile-overview' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/User.svg" alt="Profile Icon" class="h-3.5 w-3.5 mr-1">
+                        <img src="assets/icons/User.svg" alt="Profile Icon" class="h-3.5 w-3.5 mr-1 img">
                         <span class="sidebar-text">My Profile</span>
                     </a>
                 </li>
@@ -37,7 +37,7 @@ $currentPath = $_GET['path'] ?? 'home';
                 <li>
                     <a href="?path=history"
                         class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'history' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/ClockCounterClockwise.svg" alt="Work History Icon" class="h-4 w-4 mr-1">
+                        <img src="assets/icons/ClockCounterClockwise.svg" alt="Work History Icon" class="h-4 w-4 mr-1 img">
                         <span class="sidebar-text">Employee History</span>
                     </a>
                 </li>
@@ -46,7 +46,7 @@ $currentPath = $_GET['path'] ?? 'home';
                 <li>
                     <a href="?path=insights"
                         class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'insights' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/Insight.svg" alt="Insights Icon" class="h-3.5 w-3.5 mr-1">
+                        <img src="assets/icons/Insight.svg" alt="Insights Icon" class="h-3.5 w-3.5 mr-1 img">
                         <span class="sidebar-text">Career Insights</span>
                     </a>
                 </li>
@@ -55,7 +55,7 @@ $currentPath = $_GET['path'] ?? 'home';
                 <li>
                     <a href="?path=settings"
                         class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'settings' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/Gearsix.svg"" alt="Settings Icon" class="h-4 w-4 mr-1">
+                        <img src="assets/icons/Gearsix.svg"" alt="Settings Icon" class="h-4 w-4 mr-1 img">
                         <span class="sidebar-text">Settings</span>
                     </a>
                 </li>
@@ -106,20 +106,12 @@ $currentPath = $_GET['path'] ?? 'home';
 
             </ul>
         </nav>
-
-        <!-- User Avatar -->
-        <div class=" flex items-center sidebar-toggle h-4  w-full ">
+        <!-- Logout -->
+        <div class="flex items-center sidebar-toggle h-4 w-full mt-4">
             <form method="POST" action="?path=logout" class="w-full">
                 <button type="submit" class="flex items-center justify-center w-full space-x-1 border border-orange rounded-md text-small logout hover:bg-orange p py-1">
-                    <span class="text-xs sidebar-text ">Logout</span>    
-                                                         
-                </button>
-            </form>
-            <form method="POST" action="?path=logout" class="w-full h-full hidden mini pr-2">
-                <button type="submit" class="flex items-center justify-center w-full border border-orange rounded-md text-small  hover:bg-orange p-1">
-                    
-            <img src="assets/icons/Graph.svg" alt="Insights Icon" class="h-4 w-4 buttonlog"> 
-                                                         
+                    <img src="assets/icons/Signin.svg" alt="Logout Icon" class="h-4 w-4 mr-1">
+                    <span class="text-xs sidebar-text">Logout</span>
                 </button>
             </form>
         </div>
@@ -128,60 +120,29 @@ $currentPath = $_GET['path'] ?? 'home';
 
 <style>
     /* Logo toggle */
-
     #sidebar.w-20 .full-logo {
         display: none;
     }
-
     #sidebar.w-20 .small-logo {
         display: block;
     }
-
     #sidebar .full-logo {
         display: block;
     }
-
     #sidebar .small-logo {
         display: none;
     }
-
     /* Hide text and arrows in small sidebar */
     #sidebar.w-20 .sidebar-text,
     #sidebar.w-20 .sidebar-arrow {
         display: none;
     }
-
     /* Center icons in small sidebar */
     #sidebar.w-20 .flex.items-center {
-        justify-content: center;
-        padding-left: 0;
-    }
-
-    /* Submenu positioning for compact mode */
-    #sidebar .submenu {
-        left: 100%;
-        top: 0;
-        z-index: 10;
-    }
-
-    #sidebar.w-20 .submenu {
-        position: absolute;
-        left: 4rem;
-        top: 0;
-        z-index: 100;
-        width: 11rem;
-    }
-
-    #sidebar.w-20 .logout {
-        border: none;
-        display: none;
-        
-        padding-left: 0;
-    }
-    #sidebar.w-20 .mini {
         display: flex;
+        justify-content: center;
+        align-items: center;
     }
-
 
 
     /* Active state */
