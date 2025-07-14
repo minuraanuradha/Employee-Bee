@@ -124,7 +124,8 @@ switch ($path) {
                 $layout = 'profile_dashboard'; // ✅ use the new dashboard layout
             } elseif ($_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
                 $title = 'Company Profile';
-                $content = include_and_capture(__DIR__ . '/../resources/views/company/index.php');
+                $content = include_and_capture(__DIR__ . '/../resources/views/company/dashboard_content.php');
+                $layout = 'company_dashboard';
             } else {
                 header("Location: ?path=login");
                 exit();
