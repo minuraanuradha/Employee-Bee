@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="<?php echo $baseURL; ?>/css/app.css" rel="stylesheet"> <!-- Relative to /public -->
 </head>
-<body class="min-h-screen flex flex-col justify-between sm:mx-10 lg:mx-28 font-roboto bg-black">
+<body class="min-h-screen flex flex-col justify-between sm:mx-10 lg:mx-28 font-roboto bg-black max-h-screen overflow-hidden">
 
   <!-- Navbar -->
   <header class="flex justify-between items-center px-6 py-4 border-b border-orange sm:border-none">
@@ -43,7 +42,11 @@
     </nav>
 
     <!-- Profile Button -->
-    <button class="hidden sm:flex btn-3">
+    <?php
+    $isLoggedIn = isset($_SESSION['role']) && (isset($_SESSION['user_id']) || isset($_SESSION['company_id']));
+    $profileUrl = $isLoggedIn ? "?path=profile" : "?path=login";
+    ?>
+    <button class="hidden sm:flex btn-3" onclick="window.location.href='<?php echo $profileUrl; ?>'">
       Profile
     </button>
   </header>
@@ -55,31 +58,33 @@
       <a href="<?php echo $baseURL; ?>/companies" class="text-p-regular text-white hover:text-orange">Companies</a>
       <a href="<?php echo $baseURL; ?>/about-us" class="text-p-regular text-white hover:text-orange">About</a>
       <a href="<?php echo $baseURL; ?>/help" class="text-p-regular text-white hover:text-orange">Help</a>
-      <button class="btn-3">Profile</button>
+      <button class="btn-3" onclick="window.location.href='<?php echo $profileUrl; ?>'">
+        Profile
+      </button>
     </div>
   </div>
 
   <!-- Main Content -->
-  <div id="main-content" class="flex items-center justify-center text-center px-4">
+  <div id="main-content" class="flex items-center justify-center text-center px-4 h-full w-full">
     <?php echo isset($content) ? $content : '<h1>Welcome to Employee Bee</h1>'; ?>
 </div>
 
   <!-- Footer -->
   <footer class="hidden sm:block text-center text-p-small text-white py-4">
-    © 2025 Employee Bee. All rights reserved. &nbsp;|&nbsp;
-    <a href="#" class="hover:underline">Privacy</a> &nbsp;|&nbsp;
-    <a href="#" class="hover:underline">Legal</a> &nbsp;|&nbsp;
+    © 2025 Employee Bee. All rights reserved.  | 
+    <a href="#" class="hover:underline">Privacy</a>  | 
+    <a href="#" class="hover:underline">Legal</a>  | 
     <a href="#" class="hover:underline">Terms of Service</a>
   </footer>
 
   <!-- Mobile Footer -->
   <footer class="sm:hidden text-center text-p-small text-white py-4">
     © 2025 Employee Bee. All rights reserved. <br>
-    <a href="#" class="hover:underline">Privacy</a> &nbsp;|&nbsp;
-    <a href="#" class="hover:underline">Legal</a> &nbsp;|&nbsp;
+    <a href="#" class="hover:underline">Privacy</a>  | 
+    <a href="#" class="hover:underline">Legal</a>  | 
     <a href="#" class="hover:underline">Terms of Service</a>
   </footer>
 
-  <script src="<?php echo $baseURL; ?>/js/app.js"></script> <!-- Relative to /public -->
+  <script src="<?php echo $baseURL; ?>/js/app.js"></script>
 </body>
 </html>

@@ -1,6 +1,5 @@
 <?php
-// /public/index.php
-
+// Enable session
 session_start();
 
 // Enable debug mode (set false for production)
@@ -31,11 +30,30 @@ if (stripos($path, $basePath) === 0) {
     $path = trim($path, '/');
 }
 
-console_log("Cleaned path: {$path}", 'debug');
+// Override path with query parameter if present
+if (isset($_GET['path'])) {
+    $path = $_GET['path'];
+    console_log("Overridden path from query: {$path}", 'debug');
+} else {
+    console_log("Using default path: {$path}", 'debug');
+}
 
 // Route logic
 $title = '';
 $content = '';
+$layout = 'main'; // Default layout
+
+// Include models and controllers
+require_once __DIR__ . '/../app/config/database.php';
+require_once __DIR__ . '/../app/models/UserModel.php';
+require_once __DIR__ . '/../app/models/CompanyModel.php';
+require_once __DIR__ . '/../app/controllers/AuthController.php';
+require_once __DIR__ . '/../app/controllers/UserController.php';
+require_once __DIR__ . '/../app/controllers/CompanyController.php';
+
+$authController = new AuthController();
+$userController = new UserController();
+$companyController = new CompanyController();
 
 switch ($path) {
     case '':
@@ -61,6 +79,228 @@ switch ($path) {
         $content = '<h1>Help</h1><p>Get support here...</p>';
         break;
 
+    case 'login':
+        $title = 'Login';
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $authController->login();
+        } else {
+            $content = include_and_capture(__DIR__ . '/../resources/views/auth/login.php');
+            $layout = 'simple'; // Use a different layout for login
+        }
+        break;
+
+    case 'signup':
+        $title = 'Sign Up';
+        $content = include_and_capture(__DIR__ . '/../resources/views/auth/signup.php');
+        $layout = 'simple'; // Use a different layout for signup
+        break;
+
+    case 'signup/employee':
+        $title = 'Sign Up - Employee';
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $userController->signup();
+        } else {
+            $content = include_and_capture(__DIR__ . '/../resources/views/auth/signup_employee.php');
+            $layout = 'simple'; // Use a different layout for employee signup
+        }
+        break;
+
+    case 'signup/company':
+        $title = 'Sign Up - Company';
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $companyController->signup();
+        } else {
+            $content = include_and_capture(__DIR__ . '/../resources/views/auth/signup_company.php');
+            $layout = 'simple'; // Use a different layout for company signup
+        }
+        break;
+
+    case 'profile':
+        console_log("Checking session for profile: role=" . ($_SESSION['role'] ?? 'none') . ", user_id=" . ($_SESSION['user_id'] ?? 'none') . ", company_id=" . ($_SESSION['company_id'] ?? 'none'), 'debug');
+        if (isset($_SESSION['role'])) {
+            if ($_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+                $title = 'Employee Profile';
+                $content = include_and_capture(__DIR__ . '/../resources/views/employee/index.php');
+                $layout = 'profile_dashboard'; // ✅ use the new dashboard layout
+            } elseif ($_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+                $title = 'Company Profile';
+                $content = include_and_capture(__DIR__ . '/../resources/views/company/dashboard_content.php');
+                $layout = 'company_dashboard';
+            } else {
+                header("Location: ?path=login");
+                exit();
+            }
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    // Employee Dashboard Pages
+    case 'profile-overview':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $title = 'My Profile';
+            $content = include_and_capture(__DIR__ . '/../resources/views/employee/profile-overview.php');
+            $layout = 'profile_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    case 'history':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $title = 'Employee History';
+            $content = include_and_capture(__DIR__ . '/../resources/views/employee/history.php');
+            $layout = 'profile_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    case 'insights':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $title = 'Career Insights';
+            $content = include_and_capture(__DIR__ . '/../resources/views/employee/insights.php');
+            $layout = 'profile_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    case 'settings':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $title = 'Settings';
+            $content = include_and_capture(__DIR__ . '/../resources/views/employee/settings.php');
+            $layout = 'profile_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+        
+    case 'update-profile':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $userController->updateProfile();
+            } else {
+                header("Location: ?path=profile-overview");
+                exit();
+            }
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'logout':
+        session_destroy();
+        header("Location: ?path=login");
+        exit();
+        break;
+
+    case 'company/dashboard':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Dashboard';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/index.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/profile':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Company Profile';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/profile-overview.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/search-employees':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Search Employees';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/employee_management/search-employees.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/active-employees':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Active Employees';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/employee_management/active-employees.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/inactive-employees':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Inactive Employees';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/employee_management/inactive-employees.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/add-update-records':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Add/Update Records';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/records/add-update-records.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/achievements':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Achievements';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/records/achievements.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/skills':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Skills';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/records/skills.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/account-settings':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Account Settings';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/settings/account-settings.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/export-data':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Export Data';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/settings/export-data.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
     default:
         $title = '404 - Not Found';
         ob_start();
@@ -69,8 +309,13 @@ switch ($path) {
         break;
 }
 
-// Load main layout
-include __DIR__ . '/../resources/views/layouts/main.php';
+// Load selected layout
+$layoutFile = __DIR__ . '/../resources/views/layouts/' . $layout . '.php';
+if (file_exists($layoutFile)) {
+    include $layoutFile;
+} else {
+    echo $content; // Fallback to raw content if layout file is missing
+}
 
 // Helper to capture included file output
 function include_and_capture($filePath)

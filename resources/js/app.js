@@ -1,12 +1,12 @@
 /* Employee Bee Front-End JavaScript*/
 document.addEventListener('DOMContentLoaded', () => {
 
-    const debugMode = true;
-    const currentPath = window.location.pathname;
+  const debugMode = true;
+  const currentPath = window.location.pathname;
 
-    console.log('Current path:', currentPath);
+  console.log('Current path:', currentPath);
 
-    console.log('Employee Bee front-end initialized');
+  console.log('Employee Bee front-end initialized');
 });
 
 
@@ -36,3 +36,16 @@ menuToggle.addEventListener('click', function () {
     console.log('Toggle menu closed, content visible');
   }
 });
+
+
+// Dropdown Toggle Script 
+
+document.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const submenu = btn.nextElementSibling;
+        const arrow = btn.querySelector('.arrow');
+        submenu.classList.toggle('hidden');
+        arrow.classList.toggle('rotate-180');
+    });
+});
+
