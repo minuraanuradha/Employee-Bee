@@ -200,6 +200,107 @@ switch ($path) {
         exit();
         break;
 
+    case 'company/dashboard':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Dashboard';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/index.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/profile':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Company Profile';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/profile-overview.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/search-employees':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Search Employees';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/employee_management/search-employees.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/active-employees':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Active Employees';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/employee_management/active-employees.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/inactive-employees':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Inactive Employees';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/employee_management/inactive-employees.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/add-update-records':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Add/Update Records';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/records/add-update-records.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/achievements':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Achievements';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/records/achievements.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/skills':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Skills';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/records/skills.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/account-settings':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Account Settings';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/settings/account-settings.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+    case 'company/export-data':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Export Data';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/settings/export-data.php');
+            $layout = 'company_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
     default:
         $title = '404 - Not Found';
         ob_start();
