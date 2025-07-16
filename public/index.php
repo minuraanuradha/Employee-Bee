@@ -141,6 +141,34 @@ switch ($path) {
         }
         break;
 
+    // Employee dashboard
+    case 'employee':
+        // Restrict access to logged-in employees
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $title = 'Employee Dashboard';
+            $content = include_and_capture(__DIR__ . '/../resources/views/employee/index.php');
+            $layout = 'profile_dashboard';
+        } else {
+            // Redirect to login if not authorized
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+        case 'employee/profile':
+            if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+                $title = 'Employee Profile';
+                $userModel = new UserModel();
+                $employee = $userModel->getEmployeeById($_SESSION['user_id']);
+                ob_start();
+                include __DIR__ . '/../resources/views/employee/profile-overview.php';
+                $content = ob_get_clean();
+                $layout = 'profile_dashboard';
+            } else {
+                header("Location: ?path=login"); exit();
+            }
+            break;
+
     // Profile page
     case 'profile':
         // Log session details for debugging
@@ -204,6 +232,61 @@ switch ($path) {
             $title = 'Settings';
             $content = include_and_capture(__DIR__ . '/../resources/views/employee/settings.php');
             $layout = 'profile_dashboard';
+        } else {
+            // Redirect to login if not authorized
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    // Employee profile overview page
+    case 'profile-overview':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $title = 'My Profile';
+            $userModel = new UserModel();
+            $employee = $userModel->getEmployeeById($_SESSION['user_id']);
+            ob_start();
+            include __DIR__ . '/../resources/views/employee/profile-overview.php';
+            $content = ob_get_clean();
+            $layout = 'profile_dashboard';
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    // Employee edit profile page
+    case 'employee/edit-profile':
+        // Restrict access to logged-in employees
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $title = 'Edit Employee Profile';
+            // Fetch employee data
+            $userModel = new UserModel();
+            $employee = $userModel->getEmployeeById($_SESSION['user_id']);
+            // Capture edit profile view output
+            ob_start();
+            include __DIR__ . '/../resources/views/employee/edit-profile.php';
+            $content = ob_get_clean();
+            $layout = 'profile_dashboard';
+        } else {
+            // Redirect to login if not authorized
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    // Employee update profile
+    case 'employee/updateProfile':
+        // Restrict access to logged-in employees
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            // Handle POST request for profile update
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $userController->updateProfile();
+            } else {
+                // Redirect to profile if not a POST request
+                header("Location: ?path=employee/profile-overview");
+                exit();
+            }
         } else {
             // Redirect to login if not authorized
             header("Location: ?path=login");

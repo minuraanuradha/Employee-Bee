@@ -1,96 +1,125 @@
-<div class="p-6 bg- min-h-screen rounded-lg shadow-md">
-    <div class="mb-6">
-        <h1 class="text-h3 text-white mb-2">My Profile</h1>
-        <p class="text-p-regular text-lightgray">Manage your personal information and preferences</p>
+<div class="mx-auto p-4">
+    <div class="mb-4">
+        <h2 class="text-h5 text-orange ">Employee Profile</h2>
+        <p class="text-p-regular text-lightgray">View and manage your personal information and preferences.</p>
     </div>
 
-    <!-- Profile Header -->
-    <div class="bg-gradient-to-r from-orange to-orange/80 rounded-xl p-4 mb-6 text-white shadow-lg">
-        <div class="flex items-center space-x-4">
-            <div class="h-20 w-20 rounded-xl border-2 border-white shadow">
-                <span class="text-2xl font-bold text-white">
-                    <?= substr($_SESSION['username'] ?? 'U', 0, 1) ?>
-                </span>
+    <!-- Profile Card -->
+    <div class="bg-gradient-to-r from-orange to-orange/80 rounded-xl shadow-xl p-6 flex flex-col md:flex-row items-center gap-8">
+        <!-- Profile Picture -->
+        <div class="flex-shrink-0 flex flex-col items-center">
+            <?php 
+            $profilePicPath = !empty($employee['profile_picture']) ? '/employee-bee/' . htmlspecialchars($employee['profile_picture']) : '/assets/images/Logo/Lgo.png';
+            ?>
+            <img src="<?= $profilePicPath ?>" alt="Profile Picture" class="h-28 w-28 rounded-xl border-2 border-white shadow" />
+        </div>
+        <!-- Info -->
+        <div class="flex-1 w-full">
+            <div class="flex flex-col md:flex-col md:items-s md:justify-between gap-2 mb-2">
+                <div class="text-2xl font-bold text-white"><?= htmlspecialchars($employee['full_name'] ?? 'No Name') ?></div>
+                <div class="text-gray-300 text-xs mb-2"><?= htmlspecialchars($employee['unique_id'] ?? 'No ID') ?></div>
             </div>
-            <div>
-                <h2 class="text-2xl font-bold text-white mb-2"><?= $_SESSION['full-name'] ?? 'Employee' ?></h2>
-                <p class="text-lightgray text-sm mb-1">Employee ID: <span class="text-white font-medium"> <?= $user_id ?? 'N/A' ?></span></p>
-                <p class="text-lightgray text-sm mb-1">Role: <span class="text-white font-medium"> <?= ucfirst($user_role ?? 'Employee') ?></span></p>
-            </div>
+            <div class="text-lightgray text-sm mb-1">Position: <span class="font-semibold text-white"><?= htmlspecialchars($employee['position'] ?? 'Employee') ?></span></div>
         </div>
     </div>
 
-    <!-- Profile Sections -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
         <!-- Personal Information -->
         <div class="bg-black/40 rounded-lg p-6 shadow">
             <h3 class="text-h5 text-orange mb-4">Personal Information</h3>
             <div class="space-y-3">
                 <div class="flex justify-between">
                     <span class="text-p-regular text-lightgray">Full Name:</span>
-                    <span class="text-p-regular text-white font-medium">John Doe</span>
+                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($employee['full_name'] ?? 'N/A') ?></span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-p-regular text-lightgray">Email:</span>
-                    <span class="text-p-regular text-white font-medium">john.doe@example.com</span>
+                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($employee['email'] ?? 'N/A') ?></span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-p-regular text-lightgray">Phone:</span>
-                    <span class="text-p-regular text-white font-medium">+1 (555) 123-4567</span>
+                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($employee['phone_number'] ?? 'N/A') ?></span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-p-regular text-lightgray">Location:</span>
-                    <span class="text-p-regular text-white font-medium">New York, NY</span>
+                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($employee['location'] ?? 'N/A') ?></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-p-regular text-lightgray">Country:</span>
+                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($employee['country'] ?? 'N/A') ?></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-p-regular text-lightgray">Birth Date:</span>
+                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($employee['birthdate'] ?? 'N/A') ?></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-p-regular text-lightgray">NIC/National ID:</span>
+                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($employee['nic_or_national_id'] ?? 'N/A') ?></span>
                 </div>
             </div>
-            <button class="btn-1 mt-4">Edit Information</button>
+            <a href="?path=employee/edit-profile" class="btn-1 mt-4 inline-block">Edit Information</a>
         </div>
 
-        <!-- Employment Details -->
-        <div class="bg-black/40 rounded-lg p-6 shadow">
-            <h3 class="text-h5 text-orange mb-4">Employment Details</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-p-regular text-lightgray">Position:</span>
-                    <span class="text-p-regular text-white font-medium">Software Developer</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-p-regular text-lightgray">Department:</span>
-                    <span class="text-p-regular text-white font-medium">Engineering</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-p-regular text-lightgray">Start Date:</span>
-                    <span class="text-p-regular text-white font-medium">January 15, 2023</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-p-regular text-lightgray">Status:</span>
-                    <span class="text-green-400 font-medium">Active</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Skills & Certifications -->
-        <div class="bg-black/40 rounded-lg p-6 shadow">
-            <h3 class="text-h5 text-orange mb-4">Skills & Certifications</h3>
-            <div class="space-y-3">
-                <div>
-                    <span class="text-p-regular text-lightgray">Skills:</span>
-                    <div class="flex flex-wrap gap-2 mt-2">
-                        <span class="bg-orange text-white px-3 py-1 rounded-full text-xs">JavaScript</span>
-                        <span class="bg-orange text-white px-3 py-1 rounded-full text-xs">React</span>
-                        <span class="bg-orange text-white px-3 py-1 rounded-full text-xs">Node.js</span>
-                        <span class="bg-orange text-white px-3 py-1 rounded-full text-xs">PHP</span>
+        <!-- Professional Information -->
+        <div class="space-y-6 flex flex-col">
+            <div class="bg-black/40 rounded-lg p-6 shadow">
+                <h3 class="text-h5 text-orange mb-4">Professional Information</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-p-regular text-lightgray">Employee ID:</span>
+                        <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($employee['unique_id'] ?? 'N/A') ?></span>
                     </div>
-                </div>
-                <div>
-                    <span class="text-p-regular text-lightgray">Certifications:</span>
-                    <div class="mt-2 space-y-1">
-                        <div class="text-p-regular text-white">• AWS Certified Developer</div>
-                        <div class="text-p-regular text-white">• Google Cloud Professional</div>
+                    <div class="flex justify-between">
+                        <span class="text-p-regular text-lightgray">LinkedIn:</span>
+                        <span class="text-p-regular text-orange font-medium"><?= htmlspecialchars($employee['linkedin_url'] ?? 'N/A') ?></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-p-regular text-lightgray">Portfolio:</span>
+                        <span class="text-p-regular text-orange font-medium"><?= htmlspecialchars($employee['portfolio_url'] ?? 'N/A') ?></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-p-regular text-lightgray">Resume:</span>
+                        <span class="text-p-regular text-orange font-medium"><?= htmlspecialchars($employee['resume_path'] ?? 'N/A') ?></span>
                     </div>
                 </div>
             </div>
-            <button class="btn-2 mt-4">Add Skills</button>
+
+            <!-- Skills & Education -->
+            <div class="bg-black/40 rounded-lg p-6 shadow">
+                <h3 class="text-h5 text-orange mb-4">Skills & Education</h3>
+                <div class="space-y-3">
+                    <div>
+                        <span class="text-p-regular text-lightgray">Skills:</span>
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <?php 
+                            $skills = $employee['skills'] ? json_decode($employee['skills'], true) : [];
+                            if (!empty($skills)) {
+                                foreach ($skills as $skill) {
+                                    echo '<span class="bg-orange text-white px-3 py-1 rounded-full text-xs">' . htmlspecialchars($skill) . '</span>';
+                                }
+                            } else {
+                                echo '<span class="text-gray-500 text-sm">No skills listed</span>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-p-regular text-lightgray">Education:</span>
+                        <div class="mt-2">
+                            <?php 
+                            $education = $employee['education'] ? json_decode($employee['education'], true) : [];
+                            if (!empty($education)) {
+                                foreach ($education as $edu) {
+                                    echo '<div class="text-p-regular text-white">• ' . htmlspecialchars($edu) . '</div>';
+                                }
+                            } else {
+                                echo '<div class="text-gray-500 text-sm">No education listed</div>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Preferences -->
@@ -124,7 +153,7 @@
 
     <!-- Action Buttons -->
     <div class="flex justify-end space-x-4 mt-6">
-        <button class="btn-3">Cancel</button>
-        <button class="btn-1">Save Changes</button>
+        <a href="?path=employee" class="btn-3">Back to Dashboard</a>
+        <a href="?path=employee/edit-profile" class="btn-1">Edit Profile</a>
     </div>
 </div> 
