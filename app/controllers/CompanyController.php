@@ -105,6 +105,15 @@ class CompanyController {
         require '../resources/views/company/edit-profile.php';
     }
 
+    public function searchEmployees() {
+        $query = $_GET['q'] ?? '';
+        $userModel = new UserModel();
+        $results = $userModel->searchEmployees($query);
+        header('Content-Type: application/json');
+        echo json_encode($results);
+        exit();
+    }
+
     public function updateProfile() {
         if ($_SERVER["REQUEST_METHOD"] != "POST") {
             header("Location: ?path=company/profile");

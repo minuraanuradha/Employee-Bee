@@ -230,5 +230,32 @@ class UserModel {
         $stmt->execute([':nic' => $nic]);
         return $stmt->fetchColumn() > 0;
     }
+
+    // Search employees for company add (AJAX)
+    public function searchEmployees($query) {
+        $stmt = $this->pdo->prepare("
+            SELECT ep.employee_id, ep.full_name, ep.email, ea.unique_id, ep.profile_picture
+            FROM employee_profile ep
+            JOIN employee_auth ea ON ep.employee_id = ea.id
+            WHERE ep.full_name LIKE :q OR ep.email LIKE :q OR ea.unique_id LIKE :q
+            LIMIT 10
+        ");
+        $stmt->execute([':q' => '%' . $query . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Add employee to company, prevent duplicates
+    public function addEmployeeToCompany($company_id, $unique_id) {
+        // Check if already added
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM company_employees WHERE company_id = ? AND employee_unique_id = ?");
+        $stmt->execute([$company_id, $unique_id]);
+        if ($stmt->fetchColumn() > 0) {
+            return ['success' => false, 'message' => 'Employee already added!'];
+        }
+        // Insert
+        $stmt = $this->pdo->prepare("INSERT INTO company_employees (company_id, employee_unique_id, status) VALUES (?, ?, ?)");
+        $stmt->execute([$company_id, $unique_id, 'active']);
+        return ['success' => true, 'message' => 'Employee added successfully!'];
+    }
 }
 ?>

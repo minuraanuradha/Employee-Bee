@@ -21,6 +21,7 @@ function console_log($message, $level = 'log')
     echo "<script>console.{$level}('[{$timestamp}] {$message}');</script>";
 }
 
+// Remove or comment out all console_log() calls before AJAX/JSON endpoints
 // Parse and clean the request URI path
 $rawPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $path = '/' . trim($rawPath, '/');
@@ -39,11 +40,9 @@ if (stripos($path, $basePath) === 0) {
 // Override path with query parameter if provided
 if (isset($_GET['path'])) {
     $path = $_GET['path'];
-    // Log overridden path for debugging
-    console_log("Overridden path from query: {$path}", 'debug');
+    // REMOVE: console_log("Overridden path from query: {$path}", 'debug');
 } else {
-    // Log default path for debugging
-    console_log("Using default path: {$path}", 'debug');
+    // REMOVE: console_log("Using default path: {$path}", 'debug');
 }
 
 // Initialize variables for page title, content, and layout
@@ -172,7 +171,7 @@ switch ($path) {
     // Profile page
     case 'profile':
         // Log session details for debugging
-        console_log("Checking session for profile: role=" . ($_SESSION['role'] ?? 'none') . ", user_id=" . ($_SESSION['user_id'] ?? 'none') . ", company_id=" . ($_SESSION['company_id'] ?? 'none'), 'debug');
+        // REMOVE: console_log("Checking session for profile: role=" . ($_SESSION['role'] ?? 'none') . ", user_id=" . ($_SESSION['user_id'] ?? 'none') . ", company_id=" . ($_SESSION['company_id'] ?? 'none'), 'debug');
         // Check if user is logged in
         if (isset($_SESSION['role'])) {
             // Handle employee profile
@@ -408,6 +407,15 @@ switch ($path) {
             exit();
         }
         break;
+
+        case 'company/search-employees-ajax':
+            if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+                $companyController->searchEmployees();
+            } else {
+                header("HTTP/1.1 403 Forbidden");
+                exit();
+            }
+            break;
 
     // Company: Active employees
     case 'company/active-employees':
