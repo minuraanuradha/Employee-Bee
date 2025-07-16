@@ -231,21 +231,29 @@ class UserModel {
         return $stmt->fetchColumn() > 0;
     }
 
-    // Search employees for company add (AJAX)
-    public function searchEmployees($query) {
-        $stmt = $this->pdo->prepare("
-            SELECT ep.employee_id, ep.full_name, ep.email, ea.unique_id, ep.profile_picture
+    // Search employees for company add (AJAX), include status for this company
+    public function searchEmployees($query, $company_id = null) {
+        $sql = "
+            SELECT ep.employee_id, ep.full_name, ep.email, ea.unique_id, ep.profile_picture,
+                   ce.status
             FROM employee_profile ep
             JOIN employee_auth ea ON ep.employee_id = ea.id
+            LEFT JOIN company_employees ce
+                ON ce.employee_unique_id = ea.unique_id
+                AND ce.company_id = :company_id
             WHERE ep.full_name LIKE :q OR ep.email LIKE :q OR ea.unique_id LIKE :q
             LIMIT 10
-        ");
-        $stmt->execute([':q' => '%' . $query . '%']);
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':q' => '%' . $query . '%',
+            ':company_id' => $company_id
+        ]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Add employee to company, prevent duplicates
-    public function addEmployeeToCompany($company_id, $unique_id) {
+    // Add employee to company, prevent duplicates, with role, skills, start_date
+    public function addEmployeeToCompany($company_id, $unique_id, $role_title, $skills_on_hire, $start_date) {
         // Check if already added
         $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM company_employees WHERE company_id = ? AND employee_unique_id = ?");
         $stmt->execute([$company_id, $unique_id]);
@@ -253,8 +261,8 @@ class UserModel {
             return ['success' => false, 'message' => 'Employee already added!'];
         }
         // Insert
-        $stmt = $this->pdo->prepare("INSERT INTO company_employees (company_id, employee_unique_id, status) VALUES (?, ?, ?)");
-        $stmt->execute([$company_id, $unique_id, 'active']);
+        $stmt = $this->pdo->prepare("INSERT INTO company_employees (company_id, employee_unique_id, role_title, skills_on_hire, start_date, status) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$company_id, $unique_id, $role_title, $skills_on_hire, $start_date, 'active']);
         return ['success' => true, 'message' => 'Employee added successfully!'];
     }
 }

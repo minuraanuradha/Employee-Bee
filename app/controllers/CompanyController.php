@@ -107,8 +107,9 @@ class CompanyController {
 
     public function searchEmployees() {
         $query = $_GET['q'] ?? '';
+        $company_id = $_SESSION['company_id'] ?? null;
         $userModel = new UserModel();
-        $results = $userModel->searchEmployees($query);
+        $results = $userModel->searchEmployees($query, $company_id);
         header('Content-Type: application/json');
         echo json_encode($results);
         exit();
@@ -190,6 +191,33 @@ class CompanyController {
             header("Location: ?path=company/edit-profile");
             exit();
         }
+    }
+
+    public function addEmployeeAjax() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+            exit();
+        }
+        header('Content-Type: application/json');
+        $company_id = $_SESSION['company_id'] ?? null;
+        if (!$company_id) {
+            echo json_encode(['success' => false, 'message' => 'Not authorized.']);
+            exit();
+        }
+        $unique_id = $_POST['unique_id'] ?? '';
+        $role_title = trim($_POST['role_title'] ?? '');
+        $skills_on_hire = trim($_POST['skills_on_hire'] ?? '');
+        $start_date = trim($_POST['start_date'] ?? '');
+        if (!$unique_id || !$role_title || !$start_date) {
+            echo json_encode(['success' => false, 'message' => 'All fields are required.']);
+            exit();
+        }
+        // Add employee to company (prevent duplicates)
+        $userModel = new UserModel();
+        $result = $userModel->addEmployeeToCompany($company_id, $unique_id, $role_title, $skills_on_hire, $start_date);
+        echo json_encode($result);
+        exit();
     }
 }
 ?>

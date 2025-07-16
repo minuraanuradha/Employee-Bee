@@ -515,6 +515,17 @@ switch ($path) {
         }
         break;
 
+    // Company: Add employee (AJAX)
+    case 'company/add-employee':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $companyController->addEmployeeAjax();
+        } else {
+            header('HTTP/1.1 403 Forbidden');
+            echo json_encode(['success' => false, 'message' => 'Not authorized.']);
+            exit();
+        }
+        break;
+
     // Handle unknown routes with 404 page
     default:
         $title = '404 - Not Found';

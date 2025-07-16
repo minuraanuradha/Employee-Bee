@@ -42,12 +42,25 @@ function renderResults(results) {
             const initial = emp.full_name ? emp.full_name.charAt(0).toUpperCase() : 'E';
             profileHtml = `<div class="w-16 h-16 rounded-full bg-darkgray flex items-center justify-center text-2xl font-bold text-orange">${initial}</div>`;
         }
+        // Status badge
+        let statusHtml = '';
+        if (emp.status) {
+            let color = 'bg-gray-700';
+            let label = emp.status.charAt(0).toUpperCase() + emp.status.slice(1);
+            if (emp.status === 'active') color = 'bg-green-700';
+            else if (emp.status === 'inactive') color = 'bg-gray-700';
+            else if (emp.status === 'resigned') color = 'bg-orange-600';
+            else if (emp.status === 'terminated') color = 'bg-red-700';
+            statusHtml = `<span class="inline-block px-3 py-1 rounded text-xs font-semibold text-white ml-2 ${color}">Already added: ${label}</span>`;
+        } else {
+            statusHtml = `<span class="inline-block px-3 py-1 rounded text-xs font-semibold text-gray-400 bg-gray-800 ml-2">Not added</span>`;
+        }
         html += `
-        <div class="bg-black/40 rounded-lg shadow-lg p-6 mb-6">
+        <div class="bg-black/40 rounded-lg shadow-lg p-6 mb-6" data-employee-card>
             <div class="flex items-center gap-4 mb-4">
                 ${profileHtml}
                 <div>
-                    <div class="text-lg font-semibold text-white">${emp.full_name || '-'}</div>
+                    <div class="text-lg font-semibold text-white">${emp.full_name || '-'} ${statusHtml}</div>
                     <div class="text-sm text-gray-400">${emp.email || '-'}</div>
                     <div class="text-xs text-lightgray">Unique ID: <span class="text-white">${emp.unique_id || '-'}</span></div>
                 </div>
@@ -116,9 +129,45 @@ searchInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') doSearch();
 });
 
-// Placeholder for addEmployee function (to be implemented next)
+// Add employee via AJAX
 function addEmployee(form) {
-    // We'll implement this in the next step
-    alert('Add employee functionality coming next!');
+    const unique_id = form.dataset.unique_id;
+    const formData = new FormData(form);
+    formData.append('unique_id', unique_id);
+    const card = form.closest('[data-employee-card]');
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Adding...';
+    // Remove any previous message
+    let msgDiv = card.querySelector('.add-employee-msg');
+    if (msgDiv) msgDiv.remove();
+    fetch('/employee-bee/public/?path=company/add-employee', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        // Show message
+        const msg = document.createElement('div');
+        msg.className = 'add-employee-msg mt-2 text-center rounded p-2 ' + (data.success ? 'bg-green-700 text-white' : 'bg-red-700 text-white');
+        msg.textContent = data.message;
+        card.appendChild(msg);
+        if (data.success) {
+            // Collapse the form
+            form.parentElement.style.display = 'none';
+        } else {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Add to Company';
+        }
+    })
+    .catch(() => {
+        const msg = document.createElement('div');
+        msg.className = 'add-employee-msg mt-2 text-center rounded p-2 bg-red-700 text-white';
+        msg.textContent = 'Error adding employee.';
+        card.appendChild(msg);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Add to Company';
+    });
 }
 </script>
