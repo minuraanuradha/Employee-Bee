@@ -1,9 +1,3 @@
-<?php
-// Employee Profile Overview Page
-$user_id = $_SESSION['user_id'] ?? null;
-$user_role = $_SESSION['role'] ?? null;
-?>
-
 <div class="p-6 bg- min-h-screen rounded-lg shadow-md">
     <div class="mb-6">
         <h1 class="text-h3 text-white mb-2">My Profile</h1>
@@ -11,17 +5,17 @@ $user_role = $_SESSION['role'] ?? null;
     </div>
 
     <!-- Profile Header -->
-    <div class="bg-gradient-to-r from-orange to-orange/80 rounded-lg p-6 mb-6 text-white shadow-lg">
+    <div class="bg-gradient-to-r from-orange to-orange/80 rounded-xl p-4 mb-6 text-white shadow-lg">
         <div class="flex items-center space-x-4">
-            <div class="w-20 h-20 bg-black/40 rounded-xl flex items-center justify-center border-4 border-orange">
-                <span class="text-3xl font-bold text-orange bg-white/10 rounded-full p-4">
+            <div class="h-20 w-20 rounded-xl border-2 border-white shadow">
+                <span class="text-2xl font-bold text-white">
                     <?= substr($_SESSION['username'] ?? 'U', 0, 1) ?>
                 </span>
             </div>
             <div>
-                <h2 class="text-xl font-semibold text-white"><?= $_SESSION['username'] ?? 'Employee' ?></h2>
-                <p class="text-lightgray">Employee ID: <span class="text-white font-medium"> <?= $user_id ?? 'N/A' ?></span></p>
-                <p class="text-lightgray">Role: <span class="text-white font-medium"> <?= ucfirst($user_role ?? 'Employee') ?></span></p>
+                <h2 class="text-2xl font-bold text-white mb-2"><?= $_SESSION['full-name'] ?? 'Employee' ?></h2>
+                <p class="text-lightgray text-sm mb-1">Employee ID: <span class="text-white font-medium"> <?= $user_id ?? 'N/A' ?></span></p>
+                <p class="text-lightgray text-sm mb-1">Role: <span class="text-white font-medium"> <?= ucfirst($user_role ?? 'Employee') ?></span></p>
             </div>
         </div>
     </div>

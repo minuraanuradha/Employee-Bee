@@ -77,11 +77,111 @@ class CompanyController {
     }
 
     public function profile() {
-        if (!isset($_SESSION['company_id']) || $_SESSION['role'] !== 'company') {
-            header("Location: ?controller=auth&action=showLogin");
+        $companyId = $_SESSION['company_id'] ?? 1;
+        $companyModel = new CompanyModel();
+        $company = $companyModel->getById($companyId);
+    
+        if (!$company) {
+            // Handle case where company is not found
+            $_SESSION['error'] = "Company profile not found.";
+            header("Location: ?path=error"); // Redirect to an error page or login
             exit();
         }
-        echo "Company Profile Page - Company ID: " . $_SESSION['company_id']; // Replace with actual profile view
+    
+        require '../resources/views/company/profile-overview.php';
+    }
+
+    public function editProfile() {
+        $companyId = $_SESSION['company_id'] ?? 1;
+        $companyModel = new CompanyModel();
+        $company = $companyModel->getById($companyId);
+    
+        if (!$company) {
+            $_SESSION['error'] = "Company profile not found.";
+            header("Location: ?path=error");
+            exit();
+        }
+    
+        require '../resources/views/company/edit-profile.php';
+    }
+
+    public function updateProfile() {
+        if ($_SERVER["REQUEST_METHOD"] != "POST") {
+            header("Location: ?path=company/profile");
+            exit();
+        }
+
+        $companyId = $_SESSION['company_id'] ?? 1;
+        
+        // Validate required fields
+        if (empty($_POST['company_name']) || empty($_POST['email'])) {
+            $_SESSION['error'] = "Company name and email are required.";
+            header("Location: ?path=company/edit-profile");
+            exit();
+        }
+
+        // Email validation
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['error'] = "Invalid email format.";
+            header("Location: ?path=company/edit-profile");
+            exit();
+        }
+
+        // Get current company data to preserve existing logo if no new one is uploaded
+        $currentCompany = $this->model->getById($companyId);
+        
+        $data = [
+            'company_name' => trim($_POST['company_name']),
+            'email' => trim($_POST['email']),
+            'industry' => trim($_POST['industry'] ?? ''),
+            'location' => trim($_POST['location'] ?? ''),
+            'company_size' => $_POST['company_size'] ?? '',
+            'description' => trim($_POST['description'] ?? ''),
+            'website_url' => trim($_POST['website_url'] ?? ''),
+            'linkedin_url' => trim($_POST['linkedin_url'] ?? ''),
+            'contact_person' => trim($_POST['contact_person'] ?? ''),
+            'phone_number' => trim($_POST['phone_number'] ?? ''),
+            'business_registration_number' => trim($_POST['business_registration_number'] ?? ''),
+            'logo_path' => $currentCompany['logo_path'] ?? null // Preserve existing logo
+        ];
+
+        // Handle logo upload
+        if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../../storage/uploads/company/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            
+            $fileName = uniqid('logo_') . '_' . basename($_FILES['logo']['name']);
+            $targetFile = $uploadDir . $fileName;
+            
+            if (move_uploaded_file($_FILES['logo']['tmp_name'], $targetFile)) {
+                $data['logo_path'] = 'storage/uploads/company/' . $fileName;
+            }
+        }
+
+        try {
+            $this->model->update($companyId, $data);
+            
+            // Update session with new logo path if logo was uploaded
+            if (isset($data['logo_path']) && $data['logo_path'] !== ($currentCompany['logo_path'] ?? null)) {
+                $_SESSION['logo_path'] = $data['logo_path'];
+                $_SESSION['company_logo'] = $data['logo_path']; // For navbar
+            }
+            
+            $_SESSION['success'] = "Company profile updated successfully!";
+            header("Location: ?path=company/profile");
+            exit();
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Error updating profile: " . $e->getMessage();
+            header("Location: ?path=company/edit-profile");
+            exit();
+        } catch (PDOException $e) {
+            $_SESSION['error'] = "Database error updating profile: " . $e->getMessage();
+            header("Location: ?path=company/edit-profile");
+            exit();
+        }
     }
 }
 ?>
+
