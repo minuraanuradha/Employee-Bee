@@ -134,6 +134,18 @@ module.exports = {
             fontSize: '0.8rem'
           }
         },
+        '.text-p-regular-new': {
+          fontSize: '0.8rem',
+          fontWeight: '400',
+          fontFamily: 'Roboto Flex, sans-serif',
+          letterSpacing: 'normal',
+          '@screen sm': {
+            fontSize: '0.8rem'
+          },
+          '@screen md': {
+            fontSize: '0.8rem'
+          }
+        },
         '.text-p-small': {
           fontSize: '0.7rem',
           fontWeight: '300',

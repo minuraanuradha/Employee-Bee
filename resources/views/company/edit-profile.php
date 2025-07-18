@@ -1,47 +1,49 @@
-<div class="mx-auto p-4">
+<!--Edit Company Profile-->
+
+<div class="mx-auto  p-2">
     <div class="mb-6">
-        <h2 class="text-h5 text-orange mb-2">Edit Company Profile</h2>
-        <p class="text-p-regular text-lightgray">Update your company information and preferences.</p>
+        <h2 class="text-h5 text-orange ">Edit Company Profile</h2>
+        <p class="text-p-regular-new text-lightgray">Update your company information and preferences.</p>
     </div>
 
-    <form method="POST" action="?path=company/updateProfile" enctype="multipart/form-data" class="space-y-6">
+    <form method="POST" action="?path=company/updateProfile" enctype="multipart/form-data" class="space-y-4">
         <!-- Company Information Card -->
         <div class="bg-black/40 rounded-lg p-6 shadow">
             <h3 class="text-h5 text-orange mb-4">Company Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-p-regular text-lightgray mb-2">Company Name *</label>
+                    <label class="block text-p-regular-new text-lightgray mb-2">Company Name *</label>
                     <input 
                         type="text" 
                         name="company_name" 
                         value="<?= htmlspecialchars($company['company_name'] ?? '') ?>" 
-                        class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
+                        class="w-full rounded-lg px-4 py-2 text-sm bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
                         required
                     >
                 </div>
                 <div>
-                    <label class="block text-p-regular text-lightgray mb-2">Industry</label>
+                    <label class="block text-p-regular-new text-lightgray mb-2">Industry</label>
                     <input 
                         type="text" 
                         name="industry" 
                         value="<?= htmlspecialchars($company['industry'] ?? '') ?>" 
-                        class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
+                        class="w-full rounded-lg px-4 py-2 text-sm bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
                     >
                 </div>
                 <div>
-                    <label class="block text-p-regular text-lightgray mb-2">Location</label>
+                    <label class="block text-p-regular-new text-lightgray mb-2">Location</label>
                     <input 
                         type="text" 
                         name="location" 
                         value="<?= htmlspecialchars($company['location'] ?? '') ?>" 
-                        class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
+                        class="w-full rounded-lg px-4 py-2 text-sm bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
                     >
                 </div>
                 <div>
-                    <label class="block text-p-regular text-lightgray mb-2">Company Size</label>
+                    <label class="block text-p-regular-new text-lightgray mb-2">Company Size</label>
                     <select 
                         name="company_size" 
-                        class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
+                        class="w-full rounded-lg px-4 py-2 text-sm bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
                     >
                         <option value="">Select Size</option>
                         <option value="1-10" <?= ($company['company_size'] ?? '') === '1-10' ? 'selected' : '' ?>>1-10 employees</option>
@@ -60,40 +62,40 @@
             <h3 class="text-h5 text-orange mb-4">Contact Information</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-p-regular text-lightgray mb-2">Contact Email *</label>
+                    <label class="block text-p-regular-new text-lightgray mb-2">Contact Email *</label>
                     <input 
                         type="email" 
                         name="email" 
                         value="<?= htmlspecialchars($company['email'] ?? '') ?>" 
-                        class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
+                        class="w-full rounded-lg px-4 py-2 text-sm bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
                         required
                     >
                 </div>
                 <div>
-                    <label class="block text-p-regular text-lightgray mb-2">Phone Number</label>
+                    <label class="block text-p-regular-new text-lightgray mb-2">Phone Number</label>
                     <input 
                         type="tel" 
                         name="phone_number" 
                         value="<?= htmlspecialchars($company['phone_number'] ?? '') ?>" 
-                        class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
+                        class="w-full rounded-lg px-4 py-2 text-sm bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
                     >
                 </div>
                 <div>
-                    <label class="block text-p-regular text-lightgray mb-2">Contact Person</label>
+                    <label class="block text-p-regular-new text-lightgray mb-2">Contact Person</label>
                     <input 
                         type="text" 
                         name="contact_person" 
                         value="<?= htmlspecialchars($company['contact_person'] ?? '') ?>" 
-                        class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
+                        class="w-full rounded-lg px-4 py-2 text-sm bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
                     >
                 </div>
                 <div>
-                    <label class="block text-p-regular text-lightgray mb-2">Business Registration Number</label>
+                    <label class="block text-p-regular-new text-lightgray mb-2">Business Registration Number</label>
                     <input 
                         type="text" 
                         name="business_registration_number" 
                         value="<?= htmlspecialchars($company['business_registration_number'] ?? '') ?>" 
-                        class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
+                        class="w-full rounded-lg px-4 py-2 text-sm bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
                     >
                 </div>
             </div>
@@ -104,23 +106,23 @@
             <h3 class="text-h5 text-orange mb-4">Online Presence</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-p-regular text-lightgray mb-2">Website URL</label>
+                    <label class="block text-p-regular-new text-lightgray mb-2">Website URL</label>
                     <input 
                         type="url" 
                         name="website_url" 
                         value="<?= htmlspecialchars($company['website_url'] ?? '') ?>" 
                         placeholder="https://example.com"
-                        class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
+                        class="w-full rounded-lg px-4 py-2 text-sm bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
                     >
                 </div>
                 <div>
-                    <label class="block text-p-regular text-lightgray mb-2">LinkedIn URL</label>
+                    <label class="block text-p-regular-new text-lightgray mb-2">LinkedIn URL</label>
                     <input 
                         type="url" 
                         name="linkedin_url" 
                         value="<?= htmlspecialchars($company['linkedin_url'] ?? '') ?>" 
                         placeholder="https://linkedin.com/company/example"
-                        class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
+                        class="w-full rounded-lg px-4 py-2 text-sm bg-black text-white border border-gray-700 focus:border-orange focus:outline-none"
                     >
                 </div>
             </div>
@@ -130,12 +132,12 @@
         <div class="bg-black/40 rounded-lg p-6 shadow">
             <h3 class="text-h5 text-orange mb-4">About Company</h3>
             <div>
-                <label class="block text-p-regular text-lightgray mb-2">Company Description</label>
+                <label class="block  text-p-regular-new text-lightgray mb-2">Company Description</label>
                 <textarea 
                     name="description" 
                     rows="6"
                     placeholder="Tell us about your company, mission, values, and what makes you unique..."
-                    class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none resize-none"
+                    class="w-full rounded-lg text-sm p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none resize-none"
                 ><?= htmlspecialchars($company['description'] ?? '') ?></textarea>
                 <p class="text-xs text-gray-500 mt-1">Maximum 1000 characters</p>
             </div>
@@ -149,16 +151,16 @@
                     <img 
                         src="<?= !empty($company['logo_path']) ? '/employee-bee/' . htmlspecialchars($company['logo_path']) : '/assets/images/Logo/Lgo.png' ?>" 
                         alt="Current Logo" 
-                        class="h-20 w-20 rounded-lg border-2 border-gray-700"
+                        class="h-20 w-20 rounded-lg border border-gray-700"
                     />
                 </div>
                 <div class="flex-1">
-                    <label class="block text-p-regular text-lightgray mb-2">Upload New Logo</label>
+                    <label class="block text-p-regular-new text-lightgray mb-2">Upload New Logo</label>
                     <input 
                         type="file" 
                         name="logo" 
                         accept="image/*"
-                        class="w-full rounded p-3 bg-black text-white border border-gray-700 focus:border-orange focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-orange file:text-white hover:file:bg-orange/80"
+                        class="w-full rounded-lg p-1 bg-black text-white text-sm border border-gray-700 focus:border-orange focus:outline-none file:mr-4 file:py-1 file:px-4 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-orange file:text-white hover:file:bg-orange/80"
                     >
                     <p class="text-xs text-gray-500 mt-1">Recommended size: 200x200px, Max size: 2MB</p>
                 </div>

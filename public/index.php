@@ -312,6 +312,26 @@ switch ($path) {
         }
         break;
 
+    // Employee resume download
+    case 'employee/download-resume':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $userController->downloadResume();
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    // Employee resume view
+    case 'employee/view-resume':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $userController->viewResume();
+        } else {
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
     // Logout route
     case 'logout':
         // Destroy session and redirect to login

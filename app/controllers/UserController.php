@@ -218,5 +218,101 @@ class UserController {
             exit();
         }
     }
+
+    public function downloadResume() {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employee') {
+            header("Location: ?path=login");
+            exit();
+        }
+
+        $employee = $this->model->getEmployeeById($_SESSION['user_id']);
+        
+        if (!$employee || empty($employee['resume_path'])) {
+            $_SESSION['error'] = "Resume not found.";
+            header("Location: ?path=employee/profile");
+            exit();
+        }
+
+        $filePath = __DIR__ . '/../../' . $employee['resume_path'];
+        
+        if (!file_exists($filePath)) {
+            $_SESSION['error'] = "Resume file not found on server.";
+            header("Location: ?path=employee/profile");
+            exit();
+        }
+
+        // Get file info
+        $fileName = basename($employee['resume_path']);
+        $fileSize = filesize($filePath);
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+        // Set appropriate content type
+        $contentTypes = [
+            'pdf' => 'application/pdf',
+            'doc' => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+
+        $contentType = $contentTypes[$fileExtension] ?? 'application/octet-stream';
+
+        // Set headers for download
+        header('Content-Type: ' . $contentType);
+        header('Content-Disposition: attachment; filename="' . $fileName . '"');
+        header('Content-Length: ' . $fileSize);
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Pragma: no-cache');
+
+        // Output file
+        readfile($filePath);
+        exit();
+    }
+
+    public function viewResume() {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employee') {
+            header("Location: ?path=login");
+            exit();
+        }
+
+        $employee = $this->model->getEmployeeById($_SESSION['user_id']);
+        
+        if (!$employee || empty($employee['resume_path'])) {
+            $_SESSION['error'] = "Resume not found.";
+            header("Location: ?path=employee/profile");
+            exit();
+        }
+
+        $filePath = __DIR__ . '/../../' . $employee['resume_path'];
+        
+        if (!file_exists($filePath)) {
+            $_SESSION['error'] = "Resume file not found on server.";
+            header("Location: ?path=employee/profile");
+            exit();
+        }
+
+        // Get file info
+        $fileName = basename($employee['resume_path']);
+        $fileSize = filesize($filePath);
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+        // Set appropriate content type
+        $contentTypes = [
+            'pdf' => 'application/pdf',
+            'doc' => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+
+        $contentType = $contentTypes[$fileExtension] ?? 'application/octet-stream';
+
+        // Set headers for viewing (inline)
+        header('Content-Type: ' . $contentType);
+        header('Content-Disposition: inline; filename="' . $fileName . '"');
+        header('Content-Length: ' . $fileSize);
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Pragma: no-cache');
+
+        // Output file
+        readfile($filePath);
+        exit();
+    }
 }
 ?>

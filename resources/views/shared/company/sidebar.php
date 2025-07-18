@@ -35,7 +35,7 @@ $isSettingsOpen = in_array($currentPath, $settingsSubPaths);
                 <!-- Company Profile -->
                 <li>
                     <a href="?path=company/profile" class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'company/profile' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/Dashboard.svg" class="h-3 w-3 mr-1 img">
+                        <img src="assets/icons/House.svg" class="h-4 w-4 mr-1 img">
                         <span class="sidebar-text">Company Profile</span>
                     </a>
                 </li>
