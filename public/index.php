@@ -1,4 +1,7 @@
 <?php
+   require_once __DIR__ . '/../vendor/autoload.php';
+   $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+   $dotenv->load();
 // Start the session to manage user authentication state
 session_start();
 
@@ -94,6 +97,20 @@ switch ($path) {
         $title = 'Help';
         // Static content for help
         $content = '<h1>Help</h1><p>Get support here...</p>';
+        break;
+
+    // Blockchain test page
+    case 'test/blockchain_test':
+        $title = 'Blockchain Integration Test';
+        $content = include_and_capture(__DIR__ . '/../resources/views/test/blockchain_test.php');
+        $layout = 'simple';
+        break;
+
+    // Simple blockchain test page
+    case 'test/simple_blockchain_test':
+        $title = 'Simple Blockchain Test';
+        $content = include_and_capture(__DIR__ . '/../resources/views/test/simple_blockchain_test.php');
+        $layout = 'simple';
         break;
 
     // Login page

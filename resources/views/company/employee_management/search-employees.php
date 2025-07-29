@@ -153,6 +153,10 @@ function addEmployee(form) {
         msg.className = 'add-employee-msg mt-2 text-center rounded p-2 ' + (data.success ? 'bg-green-700 text-white' : 'bg-red-700 text-white');
         msg.textContent = data.message;
         card.appendChild(msg);
+        // Blockchain toast/modal
+        if (data.blockchain) {
+            showBlockchainToast(data.blockchain, card);
+        }
         if (data.success) {
             // Collapse the form
             form.parentElement.style.display = 'none';
@@ -169,5 +173,42 @@ function addEmployee(form) {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Add to Company';
     });
+}
+
+// Show blockchain status as a toast/modal
+function showBlockchainToast(blockchain, card) {
+    // Remove any previous toast
+    let oldToast = document.getElementById('blockchain-toast');
+    if (oldToast) oldToast.remove();
+    // Create toast/modal
+    const toast = document.createElement('div');
+    toast.id = 'blockchain-toast';
+    toast.className = 'fixed top-8 right-8 z-50 bg-darkgray border border-orange text-white rounded-lg shadow-lg p-6 max-w-sm';
+    let html = '';
+    if (blockchain.success) {
+        html += `<div class='flex items-center gap-2 mb-2'><span class='text-green-400 text-xl'>✔️</span> <span class='font-semibold'>Blockchain Success</span></div>`;
+        html += `<div class='mb-2 text-sm'>Employee record added to blockchain.</div>`;
+        if (blockchain.transaction_hash) {
+            const etherscan = `https://sepolia.etherscan.io/tx/${blockchain.transaction_hash}`;
+            html += `<div class='mb-2 text-xs'>Tx Hash: <a href='${etherscan}' target='_blank' class='text-orange underline'>${blockchain.transaction_hash.slice(0, 16)}...</a></div>`;
+        }
+        // Add badge to card
+        const nameDiv = card.querySelector('.text-lg.font-semibold');
+        if (nameDiv && !card.querySelector('.blockchain-badge')) {
+            nameDiv.innerHTML += ` <span class='blockchain-badge inline-block px-2 py-1 rounded text-xs font-semibold bg-green-700 text-white ml-2'>Blockchain Verified</span>`;
+        }
+    } else {
+        html += `<div class='flex items-center gap-2 mb-2'><span class='text-red-400 text-xl'>❌</span> <span class='font-semibold'>Blockchain Error</span></div>`;
+        html += `<div class='mb-2 text-sm'>${blockchain.error || 'Blockchain transaction failed.'}</div>`;
+        if (blockchain.transaction_hash) {
+            const etherscan = `https://sepolia.etherscan.io/tx/${blockchain.transaction_hash}`;
+            html += `<div class='mb-2 text-xs'>Tx Hash: <a href='${etherscan}' target='_blank' class='text-orange underline'>${blockchain.transaction_hash.slice(0, 16)}...</a></div>`;
+        }
+    }
+    html += `<button onclick='this.parentElement.remove()' class='mt-2 px-4 py-1 bg-orange rounded text-white text-xs'>Close</button>`;
+    toast.innerHTML = html;
+    document.body.appendChild(toast);
+    // Auto-close after 8 seconds
+    setTimeout(() => { if (toast) toast.remove(); }, 8000);
 }
 </script>

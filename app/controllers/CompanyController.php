@@ -216,6 +216,20 @@ class CompanyController {
         // Add employee to company (prevent duplicates)
         $userModel = new UserModel();
         $result = $userModel->addEmployeeToCompany($company_id, $unique_id, $role_title, $skills_on_hire, $start_date);
+
+        // Blockchain integration
+        require_once __DIR__ . '/BlockchainController.php';
+        $blockchainController = new BlockchainController();
+        $blockchainResult = $blockchainController->hireEmployee(
+            $unique_id, // employeeId
+            $company_id, // companyId
+            $role_title, // roleTitle
+            $skills_on_hire, // skillsOnHire
+            $start_date // startDate
+        );
+        // Merge blockchain status into response
+        $result['blockchain'] = $blockchainResult;
+
         echo json_encode($result);
         exit();
     }
