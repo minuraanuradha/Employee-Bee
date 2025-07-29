@@ -1,4 +1,5 @@
-# Employee-Bee Application Configuration
+# Employee-Bee Application Configuration Template
+# Copy this file to .env and update the values for your environment
 
 # Application Settings
 APP_NAME="Employee-Bee"
@@ -20,7 +21,7 @@ BLOCKCHAIN_RPC_URL=http://127.0.0.1:8545
 BLOCKCHAIN_PRIVATE_KEY=your_private_key_here
 EMPLOYMENT_RECORD_CONTRACT_ADDRESS=
 
-# AI Service Configuration
+# AI Service Configuration (Optional)
 AI_SERVICE_ENABLED=true
 AI_API_KEY=your_ai_api_key_here
 AI_SERVICE_URL=https://api.openai.com/v1
@@ -36,3 +37,10 @@ ALLOWED_FILE_TYPES=jpg,jpeg,png,pdf,doc,docx
 # Logging Configuration
 LOG_LEVEL=debug
 LOG_CHANNEL=file
+
+# IMPORTANT NOTES:
+# - Change APP_KEY to a secure random string in production
+# - Set APP_DEBUG=false in production
+# - Configure your database credentials
+# - Add your blockchain private key for smart contract interactions
+# - Add AI API key if using AI features
