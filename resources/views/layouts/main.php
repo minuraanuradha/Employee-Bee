@@ -10,11 +10,11 @@
 <body class="min-h-screen flex flex-col justify-between sm:mx-10 lg:mx-28 font-roboto bg-black max-h-screen overflow-hidden">
 
   <!-- Navbar -->
-  <header class="flex justify-between items-center px-6 py-4 border-b border-orange sm:border-none">
+  <header class="flex justify-between items-center px-6 py-4 border-b border-orange sm:border-none ">
     <!-- Logo -->
-    <div class="text-orange font-bold border border-orange px-4 py-1 rounded-full">
-      LOGO
-    </div>
+                    <div class="px-4 py-2 border-orange rounded-lg bg-black ">
+                        <img src="assets/images/Logo/Lgo.png" alt="EmployeeBee Logo" class="h-8 w-auto object-contain" />
+                    </div>
 
     <!-- Hamburger Menu (Mobile Only) -->
     <div class="sm:hidden">
@@ -34,7 +34,7 @@
     </div>
 
     <!-- Desktop Navigation -->
-    <nav class="hidden sm:flex space-x-10 border border-orange px-16 py-2 rounded-xl items-center">
+    <nav class="hidden sm:flex space-x-10 border border-orange/70 px-16 py-2 rounded-xl items-center bg-orange/5">
       <a href="<?php echo $baseURL; ?>/home" class="text-p-regular text-white hover:text-orange">Home</a>
       <a href="<?php echo $baseURL; ?>/companies" class="text-p-regular text-white hover:text-orange">Companies</a>
       <a href="<?php echo $baseURL; ?>/about-us" class="text-p-regular text-white hover:text-orange">About</a>
@@ -87,4 +87,32 @@
 
   <script src="<?php echo $baseURL; ?>/js/app.js"></script>
 </body>
+<style>
+@keyframes fade-in {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 1.2s ease-out forwards;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255,63,0,0.1);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255,63,0,0.5);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,63,0,0.7);
+}
+</style>
 </html>

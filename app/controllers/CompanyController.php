@@ -1,5 +1,5 @@
 <?php
-require_once '../app/models/CompanyModel.php';
+require_once __DIR__ . '/../models/CompanyModel.php';
 
 class CompanyController {
     private $model;
@@ -233,6 +233,55 @@ class CompanyController {
         echo json_encode($result);
         exit();
     }
+
+public function fetchActiveEmployees() {
+    session_start();
+
+    header('Content-Type: application/json');
+
+    if (!isset($_SESSION['company_id'])) {
+        echo json_encode(['error' => 'Company not logged in']);
+        exit();
+    }
+
+    $company_id = $_SESSION['company_id'];
+    $userModel = new UserModel();
+
+    try {
+        $employees = $userModel->getActiveEmployees($company_id);
+        echo json_encode($employees);
+    } catch (Exception $e) {
+        echo json_encode(['error' => $e->getMessage()]);
+    }
+
+    exit();
+}
+
+// In app/controllers/CompanyController.php
+
+public function fetchInactiveEmployees() {
+    session_start();
+    header('Content-Type: application/json');
+
+    if (!isset($_SESSION['company_id'])) {
+        echo json_encode(['error' => 'Company not logged in']);
+        exit();
+    }
+
+    $company_id = $_SESSION['company_id'];
+    $userModel = new UserModel();
+
+    try {
+        $employees = $userModel->getInactiveEmployees($company_id);
+        echo json_encode($employees);
+    } catch (Exception $e) {
+        echo json_encode(['error' => $e->getMessage()]);
+    }
+
+    exit();
+}
+
+    
 }
 ?>
 

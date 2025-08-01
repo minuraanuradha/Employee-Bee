@@ -88,15 +88,17 @@ switch ($path) {
     // About Us page
     case 'about-us':
         $title = 'About Us';
-        // Static content for about us
-        $content = '<h1>About Us</h1><p>Learn more about Employee Bee...</p>';
+        // Load About view or display error if file is missing
+        $homePath = __DIR__ . '/../resources/views/pages/about.php';
+        $content = file_exists($homePath) ? include_and_capture($homePath) : '<h1>About Us file not found</h1>';
         break;
 
     // Help page
     case 'help':
         $title = 'Help';
-        // Static content for help
-        $content = '<h1>Help</h1><p>Get support here...</p>';
+        // Load help view or display error if file is missing
+        $homePath = __DIR__ . '/../resources/views/pages/help.php';
+        $content = file_exists($homePath) ? include_and_capture($homePath) : '<h1>Help page file not found</h1>';
         break;
 
     // Blockchain test page

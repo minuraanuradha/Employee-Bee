@@ -62,7 +62,7 @@ $isSettingsOpen = in_array($currentPath, $settingsSubPaths);
                 <li>
                     <button class="flex items-center justify-between p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 toggle-btn">
                         <div class="flex items-center space-x-2">
-                            <img src="assets/icons/ClipboardText.svg" alt="Records Icon" class="h-3.5 w-3.5 mr-1 img">
+                            <img src="assets/icons/Books.svg" alt="Records Icon" class="h-4 w-4 mr-1 img">
                             <span class="sidebar-text">Records</span>
                         </div>
                         <svg class="w-4 h-4 transition-transform duration-200 arrow <?= $isRecordOpen ? 'rotate-180' : '' ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24">

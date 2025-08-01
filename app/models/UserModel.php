@@ -1,5 +1,5 @@
 <?php
-require_once '../app/config/database.php';
+require_once __DIR__ . '/../config/database.php';
 
 class UserModel {
     private $pdo;
@@ -265,5 +265,40 @@ class UserModel {
         $stmt->execute([$company_id, $unique_id, $role_title, $skills_on_hire, $start_date, 'active']);
         return ['success' => true, 'message' => 'Employee added successfully!'];
     }
+
+    public function getActiveEmployees($company_id) {
+        $sql = "
+            SELECT ep.full_name, ep.email, ep.profile_picture,
+                ce.role_title, ce.start_date, ce.end_date, ce.status
+            FROM company_employees ce
+            LEFT JOIN employee_auth ea ON ce.employee_unique_id = ea.unique_id
+            LEFT JOIN employee_profile ep ON ep.employee_id = ea.id
+            WHERE ce.company_id = :company_id AND ce.status = 'active'
+            ORDER BY ce.start_date DESC
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':company_id' => $company_id]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getInactiveEmployees($company_id) {
+    $sql = "
+        SELECT ep.full_name, ep.email, ep.profile_picture,
+               ce.role_title, ce.start_date, ce.end_date, ce.status
+        FROM company_employees ce
+        LEFT JOIN employee_auth ea ON ce.employee_unique_id = ea.unique_id
+        LEFT JOIN employee_profile ep ON ep.employee_id = ea.id
+        WHERE ce.company_id = :company_id AND ce.status = 'inactive'
+        ORDER BY ce.end_date DESC
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([':company_id' => $company_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>

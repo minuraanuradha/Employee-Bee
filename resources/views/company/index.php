@@ -17,30 +17,30 @@
 
     <!-- KEY METRICS ROW -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-        <div class="bg-gradient-to-r from-orange/30 to-orange/50 rounded-lg shadow-xl p-5 flex flex-col items-">
+        <div class="bg-gradient-to-r from-orange/30 to-orange/50 rounded-lg shadow-xl p-5 flex flex-col border border-orange">
             <div class="text-4xl font-bold text-white">128</div>
             <div class="text-lightgray text-xs">Total Employees</div>
         </div>
-        <div class="bg-black rounded-lg shadow-xl p-5 flex flex-col items-">
+        <div class="bg-black/40 rounded-lg shadow-xl p-5 flex flex-col border border-orange/40">
             <div class="text-4xl font-bold text-white">7</div>
             <div class="text-lightgray text-xs">New Hires This Month</div>
         </div>
-        <div class="bg-black rounded-lg shadow-xl p-5 flex flex-col items-">
+        <div class="bg-black/40 rounded-lg shadow-xl p-5 flex flex-col border border-orange/40">
             <div class="text-4xl font-bold text-white">3</div>
             <div class="text-lightgray text-xs">Open Positions</div>
         </div>
-        <div class="bg-black rounded-lg shadow-xl p-5 flex flex-col items-">
+        <div class="bg-black/40 rounded-lg shadow-xl p-5 flex flex-col border border-orange/40">
             <div class="text-4xl font-bold text-white">94%</div>
             <div class="text-lightgray text-xs">Retention Rate</div>
         </div>
     </div>
 
     <!-- TRENDS & INSIGHTS + MOST COMMON ROLES -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 ">
         <!-- Trends/Insights Chart Placeholder -->
-        <div class="bg-black rounded-lg shadow-xl p-6 col-span-1 lg:col-span-2 flex flex-col">
+        <div class="bg-black/40 rounded-lg shadow-xl p-6 col-span-1 lg:col-span-2 flex flex-col border border-white/10">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-xl text-white ange mb-2">Employee Growth Trend</h3>
+                <h3 class="text-h5 mb-4">Employee Growth Trend</h3>
                 <button class="text-xs text-gray-400 hover:text-orange">View Details</button>
             </div>
             <div class="flex-1 flex items-center justify-center">
@@ -48,8 +48,8 @@
             </div>
         </div>
         <!-- Most Common Roles -->
-        <div class="bg-black rounded-lg shadow-xl p-6 flex flex-col justify-between">
-            <h3 class="text-xl text-white ange mb-2">Most Common Roles</h3>
+        <div class="bg-black/40 rounded-lg shadow-xl p-6 flex flex-col justify-between border border-white/10">
+            <h3 class="text-h5 mb-2">Most Common Roles</h3>
             <ul class="space-y-3 text-sm">
                 <li class="flex items-center justify-between">
                     <span class="text-lightgray">Frontend Developer</span>
@@ -87,10 +87,10 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
         <!-- Export & Notification Card -->
-        <div class="bg-black rounded-lg shadow-xl p-6 flex flex-col gap-6">
+        <div class="bg-black/40 rounded-lg shadow-xl p-6 flex flex-col gap-6 border border-white/10">
 
             <div>
-                <h3 class="text-xl text-white ange mb-4">Send Notification</h3>
+                <h3 class="text-h5 mb-4">Send Notification</h3>
                 <form class="flex flex-col gap-2">
                     <textarea class="rounded p-2 bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none" rows="2" placeholder="Type your message..."></textarea>
                     <button class="btn-1 w-32 self-end">Send</button>
@@ -100,9 +100,9 @@
         </div>
     </div>
             <!-- Recent Activity Feed -->
-            <div class="bg-black rounded-lg shadow-xl p-6 flex flex-col col-span-1 lg:col-span-2 mt-4">
-            <h3 class="text-xl text-white ange mb-4">Recent Activity</h3>
-            <ul class="space-y-3 text-sm text-lightgray">
+            <div class="bg-black/40 rounded-lg shadow-xl p-6 flex flex-col col-span-1 lg:col-span-2 mt-4 border border-white/10">
+            <h3 class="text-h5 mb-4">Recent Activity</h3>
+            <ul class="space-y-1 text-xs text-lightgray">
                 <li class="flex items-center gap-2"><span class="text-orange font-bold">+ John Doe</span> <span>was hired as Backend Developer</span></li>
                 <li class="flex items-center gap-2"><span class="text-orange font-bold">- Jane Smith</span> <span>left the company</span></li>
                 <li class="flex items-center gap-2"><span class="text-orange font-bold">+ New Policy</span> <span>uploaded by HR</span></li>

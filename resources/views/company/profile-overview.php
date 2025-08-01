@@ -6,7 +6,7 @@
         <p class="text-p-regular-new text-lightgray">View and manage your company profile and preferences.</p>
     </div>
     <!-- Profile Card -->
-    <div class="bg-gradient-to-r from-orange/70 to-orange/20 rounded-xl shadow-xl p-4 flex flex-col md:flex-row items-start gap-8">
+    <div class="bg-gradient-to-r from-orange/40 to-orange/20 rounded-lg shadow-xl p-4 flex flex-col md:flex-row items-start gap-8 backdrop-blur-md border-orange border">
         <!-- Logo -->
         <div class="flex-shrink-0 flex flex-col items-center ">
             <?php 
@@ -25,62 +25,62 @@
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         <!-- Company Information -->
-        <div class="bg-black/40 rounded-lg p-6 shadow">
-            <h3 class="text-h5 text-orange mb-4">Company Information</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-p-regular-new text-lightgray">Company Name:</span>
-                    <span class="text-p-regular-new text-white "><?= htmlspecialchars($company['company_name'] ?? 'N/A') ?></span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-p-regular-new text-lightgray">Industry:</span>
-                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['industry'] ?? 'N/A') ?></span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-p-regular-new text-lightgray">Location:</span>
-                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['location'] ?? 'N/A') ?></span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-p-regular-new text-lightgray">Contact Email:</span>
-                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['email'] ?? 'N/A') ?></span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-p-regular-new text-lightgray">Phone:</span>
-                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['phone_number'] ?? 'N/A') ?></span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-p-regular-new text-lightgray">Website:</span>
-                    <?php if (!empty($company['website_url'])): ?>
-                        <a href="<?= htmlspecialchars($company['website_url']) ?>" 
-                        class="text-p-regular-new text-orange/50 font-medium cursor-pointer hover:text-orange hover:underline"
-                        target="_blank" rel="noopener noreferrer">
-                            <?= htmlspecialchars($company['website_url']) ?>
-                        </a>
-                    <?php else: ?>
-                        <span class="text-p-regular-new text-orange/50 font-medium cursor-pointer">N/A</span>
-                    <?php endif; ?>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-p-regular-new text-lightgray">LinkedIn:</span>
-                    <?php if (!empty($company['linkedin_url'])): ?>
-                        <a href="<?= htmlspecialchars($company['linkedin_url']) ?>" 
-                        class="text-p-regular-new  text-orange/50 font-medium cursor-pointer hover:text-orange hover:underline" 
-                        target="_blank" rel="noopener noreferrer">
-                            <?= htmlspecialchars($company['linkedin_url']) ?>
-                        </a>
-                    <?php else: ?>
-                        <span class="text-p-regular text-orange font-medium cursor-pointer">N/A</span>
-                    <?php endif; ?>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-p-regular-new text-lightgray">Contact Person:</span>
-                    <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['contact_person'] ?? 'N/A') ?></span>
-                </div>
-            </div>
+<div class="bg-black/40 rounded-lg p-6 shadow border border-white/10">
+    <h3 class="text-h5 text-orange mb-4">Company Information</h3>
+    <div class="space-y-3">
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Company Name:</span>
+            <span class="text-p-regular-new text-white"><?= htmlspecialchars($company['company_name'] ?? 'N/A') ?></span>
         </div>
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Industry:</span>
+            <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['industry'] ?? 'N/A') ?></span>
+        </div>
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Location:</span>
+            <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['location'] ?? 'N/A') ?></span>
+        </div>
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Contact Email:</span>
+            <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['email'] ?? 'N/A') ?></span>
+        </div>
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Phone:</span>
+            <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['phone_number'] ?? 'N/A') ?></span>
+        </div>
+        <div class="flex justify-between items-center">
+            <span class="text-p-regular-new text-lightgray">Website:</span>
+            <?php if (!empty($company['website_url'])): ?>
+                <a href="<?= htmlspecialchars($company['website_url']) ?>" 
+                   class="text-p-regular-new text-orange/70  rounded-lg px-2 py-0.1  hover:text-orange transition-all duration-300"
+                   target="_blank" rel="noopener noreferrer">
+                    Link
+                </a>
+            <?php else: ?>
+                <span class="text-p-regular-new text-orange/50 font-medium">N/A</span>
+            <?php endif; ?>
+        </div>
+        <div class="flex justify-between items-center">
+            <span class="text-p-regular-new text-lightgray">LinkedIn:</span>
+            <?php if (!empty($company['linkedin_url'])): ?>
+                <a href="<?= htmlspecialchars($company['linkedin_url']) ?>" 
+                   class="text-p-regular-new text-orange/70  rounded-lg px-2 py-0.1  hover:text-orange transition-all duration-300"
+                   target="_blank" rel="noopener noreferrer">
+                    Link
+                </a>
+            <?php else: ?>
+                <span class="text-p-regular-new text-orange/50 font-medium">N/A</span>
+            <?php endif; ?>
+        </div>
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Contact Person:</span>
+            <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['contact_person'] ?? 'N/A') ?></span>
+        </div>
+    </div>
+</div>
         <!-- Registration & Verification -->
         <div class="space-y-4 flex flex-col">
-            <div class="bg-black/40 rounded-lg p-6 shadow">
+            <div class="bg-black/40 rounded-lg p-6 shadow  border border-white/10">
                 <h3 class="text-h5 text-orange mb-4">Registration & Verification</h3>
                 <div class="space-y-3">
                     <div class="flex justify-between">
@@ -98,6 +98,19 @@
                     <div class="flex justify-between">
                         <span class="text-p-regular-new text-lightgray">Blockchain Verified:</span>
                         <span class="text-green-400 font-medium">N/A</span>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="space-y-3">
+
+                    <div class="flex justify-between bg-black/40 rounded-lg px-6 p-4 shadow  border border-green-400/5 hover-glow-green glass-effect-green">
+                        <span class="text-p-regular-new text-lightgray">Active Members:</span>
+                        <span class="text-green-400  text-sm "><?= htmlspecialchars($company['company_size'] ?? 'N/A') ?></span>
+                    </div>
+                    <div class="flex justify-between bg-black/40 rounded-lg px-6 p-4 shadow  border border-red-600/5 hover-glow-red glass-effect-red">
+                        <span class="text-p-regular-new text-lightgray">Inactive Members:</span>
+                        <span class="text-red-600  text-sm ">N/A</span>
                     </div>
                 </div>
             </div>
@@ -131,12 +144,12 @@
             </div>
         </div>-->
     </div>
-    <div class="grid grid-cols-1 lg:grid-cols-1 gap-4 mt-4">
+    <div class="grid grid-cols-1 lg:grid-cols-1 gap-4 mt-4 ">
         <!-- Registration & Verification -->
         <div class="space-y-4 flex flex-col">
 
             <!-- About Company -->
-            <div class="bg-black/40 rounded-lg p-6 shadow lg:col-span-2">
+            <div class="bg-black/40 rounded-lg p-6 shadow lg:col-span-2  border border-white/10">
                 <h3 class="text-h5 text-orange mb-4">About Company</h3>
                 <div class="text-p-regular-new text-lightgray/80"><?= htmlspecialchars($company['description'] ?? 'No description') ?></div>
             </div>
@@ -175,3 +188,25 @@
         <a href="?path=company/edit-profile" class="btn-1">Edit Profile</a>
     </div>
 </div>
+<style>
+        .glass-effect-red {
+        background: rgba(186, 9, 0, 0.01);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(186, 9, 0, 0.4);
+    }
+        .glass-effect-green {
+        background: rgba(0, 186, 19, 0.01);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 186, 19, 0.4);
+    }
+        .hover-glow-red:hover {
+        box-shadow: 0 0 8px rgba(186, 9, 0, 0.1);
+        transform: translateY(-1px);
+        transition: all 0.3s ease;
+    }
+        .hover-glow-green:hover {
+        box-shadow: 0 0 8px rgba(0, 186, 19, 0.1);
+        transform: translateY(-1px);
+        transition: all 0.3s ease;
+    }
+</style>
