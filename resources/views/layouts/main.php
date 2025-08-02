@@ -13,7 +13,7 @@
   <header class="flex justify-between items-center px-6 py-4 border-b border-orange sm:border-none ">
     <!-- Logo -->
                     <div class="px-4 py-2 border-orange rounded-lg bg-black ">
-                        <img src="assets/images/Logo/Lgo.png" alt="EmployeeBee Logo" class="h-8 w-auto object-contain" />
+                        <img src="assets/images/Logo/minura-04.png" alt="EmployeeBee Logo" class="h-8 w-auto object-contain" />
                     </div>
 
     <!-- Hamburger Menu (Mobile Only) -->

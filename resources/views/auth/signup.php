@@ -1,8 +1,8 @@
-<div class="h-full w-full  flex flex-col justify-between px-6 lg:px-0">
+<div class="h-[calc(100vh-16px)] w-full  flex flex-col justify-between px-6 lg:px-0">
         <div class="flex-1 flex flex-col justify-center items-center w-full h-full">
             <!-- Back Button -->
             <div class="absolute top-8 left-8">
-                <button onclick="history.back()" class="btn-3 transition-colors duration-300 cursor-pointer">
+                <button onclick="history.back()" class="btn-3 bg-white/10 transition-colors duration-300 cursor-pointer">
                     Back
                 </button>
             </div>
@@ -12,7 +12,7 @@
                 <!-- Logo -->
                 <div class="  flex flex-col items-center ">
                     <div class="px-4 py-2 border-orange rounded-lg bg-black ">
-                        <img src="assets/images/Logo/Lgo.png" alt="EmployeeBee Logo" class="h-20 w-auto object-contain" />
+                        <img src="assets/images/Logo/Asset 2.png" alt="EmployeeBee Logo" class="h-20 w-auto object-contain" />
                     </div>
                 </div>
                 

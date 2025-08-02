@@ -176,6 +176,21 @@ module.exports = {
             backgroundColor: '#CC3300' // Darker orange
           }
         },
+        '.btn-12': {
+          backgroundColor: 'rgba(128, 32, 0, 0.22)', // orange
+          border: '1px solid #FF3F00', // orange
+          color: '#DCDCDC', // white
+          fontSize: '0.8rem', // text-sm
+          fontWeight: '500',
+          padding: '0.4rem 2.25rem', // py-1.5 px-9
+          borderRadius: '0.6rem', // rounded
+          letterSpacing: '0.02em', // tracking-bit
+          transition: 'all 0.3s ease', // transition-all
+          fontFamily: 'Roboto Flex, sans-serif',
+          '&:hover': {
+            backgroundColor: '#CC3300' // Darker orange
+          }
+        },
         '.btn-2': {
           backgroundColor: '#DCDCDC', // white
           color: '#FF3F00', // orange

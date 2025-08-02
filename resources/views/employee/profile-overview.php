@@ -6,7 +6,7 @@
         <p class="text-p-regular-new text-lightgray">View and manage your personal information and preferences.</p>
     </div>
     <!-- Profile Card -->
-    <div class="bg-gradient-to-r from-orange/70 to-orange/20 rounded-xl shadow-xl p-4 flex flex-col md:flex-row items-start gap-8">
+    <div class="bg-gradient-to-r from-orange/40 to-orange/20 rounded-xl shadow-xl p-4 flex flex-col md:flex-row items-start gap-8 backdrop-blur-md border-orange border">
         <!-- Profile Picture -->
         <div class="flex-shrink-0 flex flex-col items-center ">
             <?php 
@@ -25,7 +25,7 @@
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
         <!-- Personal Information -->
-        <div class="bg-black/40 rounded-lg p-6 shadow">
+        <div class="bg-black/40 rounded-lg p-6 shadow border border-white/10">
             <h3 class="text-h5 text-orange mb-4">Personal Information</h3>
             <div class="space-y-3">
                 <div class="flex justify-between">
@@ -59,7 +59,7 @@
             </div>
         </div>
         <!-- Professional Information -->
-        <div class="bg-black/40 rounded-lg p-6 shadow space-y-3 flex flex-col">
+        <div class="bg-black/40 rounded-lg p-6 shadow border border-white/10 space-y-3 flex flex-col">
             <h3 class="text-h5 text-orange mb-4">Professional Information</h3>
             <div class="flex justify-between">
                 <span class="text-p-regular-new text-lightgray">Employee ID:</span>
@@ -118,7 +118,7 @@
             </div>
         </div>
         <!-- Skills & Education -->
-        <div class="bg-black/40 rounded-lg p-6 shadow">
+        <div class="bg-black/40 rounded-lg p-6 shadow border border-white/10">
             <h3 class="text-h5 text-orange mb-4">Skills & Education</h3>
             <div class="space-y-3">
                 <div>

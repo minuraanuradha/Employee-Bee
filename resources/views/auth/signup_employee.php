@@ -1,11 +1,11 @@
 <?php if (!isset($title)) $title = "Sign Up - Employee"; ?>
-<div class="h-full w-full flex flex-col justify-between px-4 lg:px-0">
+<div class="h-[calc(100vh-16px)] w-full flex flex-col justify-between px-4 lg:px-0">
   <div class="flex-1 flex flex-col justify-center items-center w-full">
     <!-- Back Button -->
     <div class="absolute top-8 left-8 fixed ">
-      <button onclick="history.back()" class="btn-3 transition-colors duration-300 cursor-pointer">
-        Back
-      </button>
+    <button onclick="history.back()" class="btn-3 bg-white/10 transition-colors duration-300 cursor-pointer">
+                    Back
+                </button>
     </div>
     
     <!-- Centered Signup Form Container -->
@@ -13,7 +13,7 @@
       <!-- Logo -->
       <div class="flex flex-col items-center mb-6">
         <div class="px-4 py-2 border-orange rounded-lg bg-black">
-          <img src="assets/images/Logo/Lgo.png" alt="EmployeeBee Logo" class="h-20 w-auto object-contain" />
+          <img src="assets/images/Logo/Asset 2.png" alt="EmployeeBee Logo" class="h-20 w-auto object-contain" />
         </div>
       </div>
       
@@ -152,7 +152,7 @@
       
       <!-- Button -->
       <button type="submit" form="signup-form"
-        class="w-full py-2 rounded-lg bg-orange text-white text-sm font-semibold hover:bg-orange/90 transition-colors duration-300 mt-6">
+        class="w-full py-2 rounded-lg bg-orange/70 border border-orange text-white text-sm font-semibold hover:bg-orange/90 transition-colors duration-300 mt-6">
         Create My Account →
       </button>
       
@@ -162,17 +162,17 @@
 
   <!-- Footer -->
   <footer class="hidden sm:block text-center text-p-small text-white py-2">
-    © 2025 Employee Bee. All rights reserved.  | 
-    <a href="#" class="hover:underline">Privacy</a>  | 
-    <a href="#" class="hover:underline">Legal</a>  | 
+    © 2025 Employee Bee. All rights reserved.  | 
+    <a href="#" class="hover:underline">Privacy</a>  | 
+    <a href="#" class="hover:underline">Legal</a>  | 
     <a href="#" class="hover:underline">Terms of Service</a>
   </footer>
-  
+
   <!-- Mobile Footer -->
   <footer class="sm:hidden text-center text-p-small text-white py-2">
     © 2025 Employee Bee. All rights reserved. <br>
-    <a href="#" class="hover:underline">Privacy</a>  | 
-    <a href="#" class="hover:underline">Legal</a>  | 
+    <a href="#" class="hover:underline">Privacy</a>  | 
+    <a href="#" class="hover:underline">Legal</a>  | 
     <a href="#" class="hover:underline">Terms of Service</a>
   </footer>
 </div>

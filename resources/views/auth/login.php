@@ -1,9 +1,9 @@
 <?php if (!isset($title)) $title = "Login"; ?>
-<div class="h-full w-full  flex flex-col justify-between px-6 lg:px-0">
+<div class="h-[calc(100vh-16px)] w-full  flex flex-col justify-between items-center px-6 lg:px-0">
         <div class="flex-1 flex flex-col justify-center items-center w-full h-full">
             <!-- Back Button -->
             <div class="absolute top-8 left-8">
-                <button onclick="history.back()" class="btn-3 transition-colors duration-300 cursor-pointer">
+                <button onclick="history.back()" class="btn-3 bg-white/10 transition-colors duration-300 cursor-pointer">
                     Back
                 </button>
             </div>
@@ -17,11 +17,11 @@
             <!-- <?php endif; ?> -->
             
             <!-- Centered Login Form -->
-            <form method="POST" action="?path=login" class="flex flex-col items-center w-full max-w-sm">
+            <form method="POST" action="?path=login" class="flex flex-col items-center justify-center w-full max-w-sm h-full">
                 <!-- Logo -->
                 <div class="  flex flex-col items-center ">
                     <div class="px-4 py-2 border-orange rounded-lg bg-black ">
-                        <img src="assets/images/Logo/Lgo.png" alt="EmployeeBee Logo" class="h-20 w-auto object-contain" />
+                        <img src="assets/images/Logo/Asset 2.png" alt="EmployeeBee Logo" class="h-20 w-auto object-contain " />
                     </div>
                 </div>
                 
@@ -58,7 +58,7 @@
                 <!-- Button -->
                 <button 
                     type="submit" 
-                    class="w-full py-2 rounded-lg bg-orange text-white text-sm font-semibold hover:bg-orange/90 transition-colors duration-300"
+                    class="w-full py-2 rounded-lg bg-orange/80 border border-orange text-white text-sm font-semibold hover:bg-orange/90 transition-colors duration-300"
                 >
                     Sign In
                 </button>

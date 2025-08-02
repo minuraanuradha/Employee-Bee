@@ -1,5 +1,5 @@
 <?php if (!isset($title)) $title = "Sign Up - Company"; ?>
-<div class="h-full w-full flex flex-col justify-between px-4 lg:px-0">
+<div class="h-[calc(100vh-16px)] w-full flex flex-col justify-between px-4 lg:px-0">
   <style>
     /* Custom styling for select dropdown options to match the dark theme */
     select#industry option {
@@ -19,9 +19,9 @@
   <div class="flex-1 flex flex-col justify-center items-center w-full">
     <!-- Back Button -->
     <div class="absolute top-8 left-8 fixed">
-      <button onclick="history.back()" class="btn-3 transition-colors duration-300 cursor-pointer">
-        Back
-      </button>
+    <button onclick="history.back()" class="btn-3 bg-white/10 transition-colors duration-300 cursor-pointer">
+                    Back
+                </button>
     </div>
     
     <!-- Centered Signup Form Container -->
@@ -29,7 +29,7 @@
       <!-- Logo -->
       <div class="flex flex-col items-center mb-6">
         <div class="px-4 py-2 border-orange rounded-lg bg-black">
-          <img src="assets/images/Logo/Lgo.png" alt="EmployeeBee Logo" class="h-20 w-auto object-contain" />
+          <img src="assets/images/Logo/Asset 2.png" alt="EmployeeBee Logo" class="h-20 w-auto object-contain" />
         </div>
       </div>
       
@@ -37,9 +37,9 @@
       <h1 class="text-h2 font-bold text-white tracking-widest mb-2 text-center">COMPANY</h1>
       <p class="text-gray-300 text-sm text-center">Start building your company profile today.</p>
       
-      <p class="text-center text-p-small text-lightgray mt-0 mb-4">
+      <p class="text-gray-300 mb-4 text-sm">
         Already have an account?
-        <a href="?path=login" class="text-orange underline hover:text-orange-300">Log in</a>
+        <a href="?path=login" class="text-orange hover:underline font-semibold text-center w-full">Log in</a>
       </p>
       
       <!-- Scrollable Form Container -->
@@ -180,15 +180,18 @@
             <label for="logo_path" class="block text-xs text-white mb-1">
               Company Logo <span class="text-gray-400">(optional)</span>
             </label>
-            <input type="file" id="logo_path" name="logo_path"
-              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
+            <input 
+            type="file" 
+            id="logo_path" 
+            name="logo_path"
+            class="w-full rounded-lg p-1 bg-black text-white text-sm border border-gray-700 focus:border-orange focus:outline-none file:mr-4 file:py-1 file:px-4 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-orange file:text-white hover:file:bg-orange/80" />
           </div>
         </form>
       </div>
       
       <!-- Button -->
       <button type="submit" form="signup-form"
-        class="w-full py-2 rounded-lg bg-orange text-white text-sm font-semibold hover:bg-orange/90 transition-colors duration-300 mt-6">
+        class="w-full py-2 rounded-lg bg-orange/80 border border-orange text-white text-sm font-semibold hover:bg-orange/90 transition-colors duration-300 mt-6">
         Register Company →
       </button>
       
@@ -197,17 +200,17 @@
   
   <!-- Footer -->
   <footer class="hidden sm:block text-center text-p-small text-white py-2">
-    © 2025 Employee Bee. All rights reserved. | 
-    <a href="#" class="hover:underline">Privacy</a> | 
-    <a href="#" class="hover:underline">Legal</a> | 
+    © 2025 Employee Bee. All rights reserved.  | 
+    <a href="#" class="hover:underline">Privacy</a>  | 
+    <a href="#" class="hover:underline">Legal</a>  | 
     <a href="#" class="hover:underline">Terms of Service</a>
   </footer>
-  
+
   <!-- Mobile Footer -->
   <footer class="sm:hidden text-center text-p-small text-white py-2">
     © 2025 Employee Bee. All rights reserved. <br>
-    <a href="#" class="hover:underline">Privacy</a> | 
-    <a href="#" class="hover:underline">Legal</a> | 
+    <a href="#" class="hover:underline">Privacy</a>  | 
+    <a href="#" class="hover:underline">Legal</a>  | 
     <a href="#" class="hover:underline">Terms of Service</a>
   </footer>
 </div>
