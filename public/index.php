@@ -220,10 +220,56 @@ switch ($path) {
         // Restrict access to logged-in employees
         if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
             $title = 'Employee History';
+            // Get employee data for the view
+            $userModel = new UserModel();
+            $employee = $userModel->getEmployeeById($_SESSION['user_id']);
+            if ($employee) {
+                $employmentHistory = $userModel->getEmployeeHistory($employee['unique_id']);
+                $careerStats = $userModel->getEmployeeCareerStats($employee['unique_id']);
+                $achievements = $userModel->getEmployeeAchievements($employee['unique_id']);
+                $blockchainTransactions = $userModel->getEmployeeBlockchainTransactions($employee['unique_id']);
+                
+                // Get blockchain records
+                require_once __DIR__ . '/../app/controllers/BlockchainController.php';
+                $blockchainController = new BlockchainController();
+                $blockchainRecords = $blockchainController->verifyEmploymentHistory($employee['unique_id']);
+            }
             $content = include_and_capture(__DIR__ . '/../resources/views/employee/history.php');
             $layout = 'profile_dashboard';
         } else {
             // Redirect to login if not authorized
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    // Employee history AJAX data
+    case 'employee/history-data':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $userController->getEmployeeHistoryAjax();
+        } else {
+            header('HTTP/1.1 403 Forbidden');
+            echo json_encode(['success' => false, 'message' => 'Not authorized.']);
+            exit();
+        }
+        break;
+
+    // Employee blockchain verification AJAX
+    case 'employee/blockchain-verification':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $userController->getBlockchainVerificationAjax();
+        } else {
+            header('HTTP/1.1 403 Forbidden');
+            echo json_encode(['success' => false, 'message' => 'Not authorized.']);
+            exit();
+        }
+        break;
+
+    // Employee history export
+    case 'employee/export-history':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
+            $userController->exportEmployeeHistory();
+        } else {
             header("Location: ?path=login");
             exit();
         }

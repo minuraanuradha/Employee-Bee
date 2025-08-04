@@ -314,5 +314,145 @@ class UserController {
         readfile($filePath);
         exit();
     }
+
+    // Get employee history data
+    public function getEmployeeHistory() {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employee') {
+            header("Location: ?path=login");
+            exit();
+        }
+
+        $employee = $this->model->getEmployeeById($_SESSION['user_id']);
+        if (!$employee) {
+            $_SESSION['error'] = "Employee profile not found.";
+            header("Location: ?path=error");
+            exit();
+        }
+
+        // Get employment history
+        $employmentHistory = $this->model->getEmployeeHistory($employee['unique_id']);
+        $careerStats = $this->model->getEmployeeCareerStats($employee['unique_id']);
+        $achievements = $this->model->getEmployeeAchievements($employee['unique_id']);
+        $blockchainTransactions = $this->model->getEmployeeBlockchainTransactions($employee['unique_id']);
+
+        // Get blockchain records
+        require_once __DIR__ . '/BlockchainController.php';
+        $blockchainController = new BlockchainController();
+        $blockchainRecords = $blockchainController->verifyEmploymentHistory($employee['unique_id']);
+
+        // Pass data to view
+        include '../resources/views/employee/history.php';
+    }
+
+    // AJAX endpoint to get employee history data
+    public function getEmployeeHistoryAjax() {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employee') {
+            echo json_encode(['success' => false, 'message' => 'Not authorized']);
+            exit();
+        }
+
+        header('Content-Type: application/json');
+
+        $employee = $this->model->getEmployeeById($_SESSION['user_id']);
+        if (!$employee) {
+            echo json_encode(['success' => false, 'message' => 'Employee not found']);
+            exit();
+        }
+
+        try {
+            $employmentHistory = $this->model->getEmployeeHistory($employee['unique_id']);
+            $careerStats = $this->model->getEmployeeCareerStats($employee['unique_id']);
+            $achievements = $this->model->getEmployeeAchievements($employee['unique_id']);
+            $blockchainTransactions = $this->model->getEmployeeBlockchainTransactions($employee['unique_id']);
+
+            echo json_encode([
+                'success' => true,
+                'data' => [
+                    'employment_history' => $employmentHistory,
+                    'career_stats' => $careerStats,
+                    'achievements' => $achievements,
+                    'blockchain_transactions' => $blockchainTransactions
+                ]
+            ]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Error fetching history: ' . $e->getMessage()]);
+        }
+        exit();
+    }
+
+    // AJAX endpoint to get blockchain verification
+    public function getBlockchainVerificationAjax() {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employee') {
+            echo json_encode(['success' => false, 'message' => 'Not authorized']);
+            exit();
+        }
+
+        header('Content-Type: application/json');
+
+        $employee = $this->model->getEmployeeById($_SESSION['user_id']);
+        if (!$employee) {
+            echo json_encode(['success' => false, 'message' => 'Employee not found']);
+            exit();
+        }
+
+        try {
+            require_once __DIR__ . '/BlockchainController.php';
+            $blockchainController = new BlockchainController();
+            $blockchainRecords = $blockchainController->verifyEmploymentHistory($employee['unique_id']);
+
+            echo json_encode([
+                'success' => true,
+                'blockchain_data' => $blockchainRecords
+            ]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Error fetching blockchain data: ' . $e->getMessage()]);
+        }
+        exit();
+    }
+
+    // Export employee history as JSON/PDF
+    public function exportEmployeeHistory() {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employee') {
+            header("Location: ?path=login");
+            exit();
+        }
+
+        $format = $_GET['format'] ?? 'json';
+        $employee = $this->model->getEmployeeById($_SESSION['user_id']);
+        
+        if (!$employee) {
+            $_SESSION['error'] = "Employee profile not found.";
+            header("Location: ?path=history");
+            exit();
+        }
+
+        $employmentHistory = $this->model->getEmployeeHistory($employee['unique_id']);
+        $careerStats = $this->model->getEmployeeCareerStats($employee['unique_id']);
+        $achievements = $this->model->getEmployeeAchievements($employee['unique_id']);
+
+        $exportData = [
+            'employee_info' => [
+                'name' => $employee['full_name'],
+                'email' => $employee['email'],
+                'unique_id' => $employee['unique_id'],
+                'export_date' => date('Y-m-d H:i:s')
+            ],
+            'career_stats' => $careerStats,
+            'employment_history' => $employmentHistory,
+            'achievements' => $achievements
+        ];
+
+        if ($format === 'json') {
+            header('Content-Type: application/json');
+            header('Content-Disposition: attachment; filename="employment_history_' . $employee['unique_id'] . '.json"');
+            echo json_encode($exportData, JSON_PRETTY_PRINT);
+        } else {
+            // For now, fallback to JSON. PDF export can be implemented later
+            header('Content-Type: application/json');
+            header('Content-Disposition: attachment; filename="employment_history_' . $employee['unique_id'] . '.json"');
+            echo json_encode($exportData, JSON_PRETTY_PRINT);
+        }
+        exit();
+    }
 }
 ?>

@@ -398,6 +398,105 @@ class UserModel {
         ]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-}
-?>
+    
+        // Get employee's complete employment history
+        public function getEmployeeHistory($employee_unique_id) {
+            $stmt = $this->pdo->prepare("
+                SELECT ce.*, cp.company_name, cp.industry, cp.logo_path,
+                       ef.feedback_text, ef.new_skills, ef.feedback_type, ef.date_recorded
+                FROM company_employees ce
+                LEFT JOIN company_profile cp ON ce.company_id = cp.id
+                LEFT JOIN employee_feedback ef ON ce.id = ef.company_employee_id
+                WHERE ce.employee_unique_id = :employee_unique_id
+                ORDER BY ce.start_date DESC, ef.date_recorded DESC
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
+        // Get employee career statistics
+        public function getEmployeeCareerStats($employee_unique_id) {
+            // Get basic employment stats
+            $stmt = $this->pdo->prepare("
+                SELECT
+                    COUNT(DISTINCT ce.company_id) as companies_worked,
+                    COUNT(DISTINCT ce.id) as total_positions,
+                    MIN(ce.start_date) as career_start,
+                    MAX(CASE WHEN ce.status = 'active' THEN ce.start_date ELSE ce.end_date END) as last_activity
+                FROM company_employees ce
+                WHERE ce.employee_unique_id = :employee_unique_id
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            $basicStats = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            // Calculate total experience in days
+            $totalExperience = 0;
+            $stmt = $this->pdo->prepare("
+                SELECT start_date, end_date, status
+                FROM company_employees
+                WHERE employee_unique_id = :employee_unique_id
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            $positions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach ($positions as $position) {
+                $startDate = new DateTime($position['start_date']);
+                $endDate = $position['end_date'] ? new DateTime($position['end_date']) : new DateTime();
+                $diff = $startDate->diff($endDate);
+                $totalExperience += $diff->days;
+            }
+            
+            // Get unique skills count
+            $stmt = $this->pdo->prepare("
+                SELECT GROUP_CONCAT(DISTINCT ef.new_skills) as all_skills
+                FROM employee_feedback ef
+                JOIN company_employees ce ON ef.company_employee_id = ce.id
+                WHERE ce.employee_unique_id = :employee_unique_id AND ef.new_skills IS NOT NULL
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            $skillsData = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            $uniqueSkills = 0;
+            if ($skillsData['all_skills']) {
+                $allSkills = explode(',', $skillsData['all_skills']);
+                $uniqueSkills = count(array_unique(array_map('trim', $allSkills)));
+            }
+            
+            return [
+                'companies_worked' => $basicStats['companies_worked'] ?? 0,
+                'total_positions' => $basicStats['total_positions'] ?? 0,
+                'career_start' => $basicStats['career_start'],
+                'total_experience_days' => $totalExperience,
+                'total_experience_years' => round($totalExperience / 365, 1),
+                'skills_acquired' => $uniqueSkills,
+                'last_activity' => $basicStats['last_activity']
+            ];
+        }
+        
+        // Get employee feedback and achievements
+        public function getEmployeeAchievements($employee_unique_id) {
+            $stmt = $this->pdo->prepare("
+                SELECT ef.*, ce.role_title, cp.company_name
+                FROM employee_feedback ef
+                JOIN company_employees ce ON ef.company_employee_id = ce.id
+                JOIN company_profile cp ON ce.company_id = cp.id
+                WHERE ce.employee_unique_id = :employee_unique_id
+                ORDER BY ef.date_recorded DESC
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
+        // Get blockchain transaction history for employee
+        public function getEmployeeBlockchainTransactions($employee_unique_id) {
+            $stmt = $this->pdo->prepare("
+                SELECT * FROM blockchain_transactions
+                WHERE employee_id = :employee_unique_id
+                ORDER BY created_at DESC
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+    
+    }
+    ?>
