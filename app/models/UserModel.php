@@ -300,5 +300,104 @@ class UserModel {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+    // Update employee status and add feedback/skills
+    public function updateEmployeeStatus($company_id, $employee_unique_id, $data) {
+        try {
+            $this->pdo->beginTransaction();
+            
+            // Update company_employees table
+            $updateFields = [];
+            $updateParams = [':company_id' => $company_id, ':employee_unique_id' => $employee_unique_id];
+            
+            if (isset($data['status'])) {
+                $updateFields[] = 'status = :status';
+                $updateParams[':status'] = $data['status'];
+            }
+            
+            if (isset($data['role_title'])) {
+                $updateFields[] = 'role_title = :role_title';
+                $updateParams[':role_title'] = $data['role_title'];
+            }
+            
+            if (isset($data['end_date']) && $data['end_date']) {
+                $updateFields[] = 'end_date = :end_date';
+                $updateParams[':end_date'] = $data['end_date'];
+            }
+            
+            if (!empty($updateFields)) {
+                $stmt = $this->pdo->prepare("UPDATE company_employees SET " . implode(', ', $updateFields) . " WHERE company_id = :company_id AND employee_unique_id = :employee_unique_id");
+                $stmt->execute($updateParams);
+            }
+            
+            // Get the company_employee record ID for feedback
+            $stmt = $this->pdo->prepare("SELECT id FROM company_employees WHERE company_id = :company_id AND employee_unique_id = :employee_unique_id");
+            $stmt->execute([':company_id' => $company_id, ':employee_unique_id' => $employee_unique_id]);
+            $companyEmployeeId = $stmt->fetchColumn();
+            
+            // Add feedback record if provided
+            if ($companyEmployeeId && (isset($data['feedback_text']) || isset($data['new_skills']))) {
+                $feedbackType = 'comment';
+                if (isset($data['role_title']) && $data['role_title']) {
+                    $feedbackType = 'promotion';
+                }
+                
+                $stmt = $this->pdo->prepare("INSERT INTO employee_feedback (
+                    company_employee_id, feedback_type, feedback_text, updated_role, new_skills
+                ) VALUES (
+                    :company_employee_id, :feedback_type, :feedback_text, :updated_role, :new_skills
+                )");
+                
+                $stmt->execute([
+                    ':company_employee_id' => $companyEmployeeId,
+                    ':feedback_type' => $feedbackType,
+                    ':feedback_text' => $data['feedback_text'] ?? '',
+                    ':updated_role' => $data['role_title'] ?? null,
+                    ':new_skills' => $data['new_skills'] ?? null
+                ]);
+            }
+            
+            $this->pdo->commit();
+            return ['success' => true, 'message' => 'Employee updated successfully!'];
+            
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return ['success' => false, 'message' => 'Error updating employee: ' . $e->getMessage()];
+        }
+    }
+    
+    // Get employee details for update form
+    public function getEmployeeForUpdate($company_id, $employee_unique_id) {
+        $stmt = $this->pdo->prepare("
+            SELECT ce.*, ea.unique_id, ep.full_name, ep.email, ep.profile_picture,
+                   ecd.skills, ecd.education
+            FROM company_employees ce
+            LEFT JOIN employee_auth ea ON ce.employee_unique_id = ea.unique_id
+            LEFT JOIN employee_profile ep ON ea.id = ep.employee_id
+            LEFT JOIN employee_career_data ecd ON ea.id = ecd.employee_id
+            WHERE ce.company_id = :company_id AND ce.employee_unique_id = :employee_unique_id
+        ");
+        $stmt->execute([
+            ':company_id' => $company_id,
+            ':employee_unique_id' => $employee_unique_id
+        ]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    // Get employee feedback history
+    public function getEmployeeFeedback($company_id, $employee_unique_id) {
+        $stmt = $this->pdo->prepare("
+            SELECT ef.*, ce.role_title as current_role
+            FROM employee_feedback ef
+            JOIN company_employees ce ON ef.company_employee_id = ce.id
+            WHERE ce.company_id = :company_id AND ce.employee_unique_id = :employee_unique_id
+            ORDER BY ef.date_recorded DESC
+        ");
+        $stmt->execute([
+            ':company_id' => $company_id,
+            ':employee_unique_id' => $employee_unique_id
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>

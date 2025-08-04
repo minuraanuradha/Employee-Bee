@@ -281,7 +281,109 @@ public function fetchInactiveEmployees() {
     exit();
 }
 
+    // Update employee AJAX endpoint
+    public function updateEmployeeAjax() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+            exit();
+        }
+        
+        header('Content-Type: application/json');
+        $company_id = $_SESSION['company_id'] ?? null;
+        
+        if (!$company_id) {
+            echo json_encode(['success' => false, 'message' => 'Not authorized.']);
+            exit();
+        }
+        
+        $employee_unique_id = $_POST['employee_unique_id'] ?? '';
+        $status = $_POST['status'] ?? '';
+        $role_title = trim($_POST['role_title'] ?? '');
+        $feedback_text = trim($_POST['feedback_text'] ?? '');
+        $new_skills = trim($_POST['new_skills'] ?? '');
+        $end_date = $_POST['end_date'] ?? null;
+        
+        if (!$employee_unique_id) {
+            echo json_encode(['success' => false, 'message' => 'Employee ID is required.']);
+            exit();
+        }
+        
+        // Prepare update data
+        $updateData = [];
+        if ($status) $updateData['status'] = $status;
+        if ($role_title) $updateData['role_title'] = $role_title;
+        if ($feedback_text) $updateData['feedback_text'] = $feedback_text;
+        if ($new_skills) $updateData['new_skills'] = $new_skills;
+        if ($end_date) $updateData['end_date'] = $end_date;
+        
+        // Update employee in database
+        $userModel = new UserModel();
+        $result = $userModel->updateEmployeeStatus($company_id, $employee_unique_id, $updateData);
+        
+        // Blockchain integration for update
+        if ($result['success']) {
+            require_once __DIR__ . '/BlockchainController.php';
+            $blockchainController = new BlockchainController();
+            
+            // Determine blockchain action
+            if ($status === 'inactive' || $status === 'resigned' || $status === 'terminated') {
+                // Exit employee on blockchain
+                $blockchainResult = $blockchainController->endEmployment(
+                    $employee_unique_id,
+                    0, // record index - you might want to track this
+                    $end_date ? strtotime($end_date) : time(),
+                    $status,
+                    $feedback_text,
+                    $new_skills
+                );
+            } else {
+                // Update employee on blockchain
+                $blockchainResult = $blockchainController->updateEmployeeRecord(
+                    $employee_unique_id,
+                    0, // record index - you might want to track this
+                    $role_title ?: '',
+                    $new_skills ?: '',
+                    $status,
+                    $feedback_text
+                );
+            }
+            
+            // Merge blockchain status into response
+            $result['blockchain'] = $blockchainResult;
+        }
+        
+        echo json_encode($result);
+        exit();
+    }
     
+    // Get employee details for update form
+    public function getEmployeeForUpdate() {
+        header('Content-Type: application/json');
+        $company_id = $_SESSION['company_id'] ?? null;
+        $employee_unique_id = $_GET['employee_id'] ?? '';
+        
+        if (!$company_id || !$employee_unique_id) {
+            echo json_encode(['success' => false, 'message' => 'Missing parameters']);
+            exit();
+        }
+        
+        $userModel = new UserModel();
+        $employee = $userModel->getEmployeeForUpdate($company_id, $employee_unique_id);
+        $feedback = $userModel->getEmployeeFeedback($company_id, $employee_unique_id);
+        
+        if ($employee) {
+            echo json_encode([
+                'success' => true,
+                'employee' => $employee,
+                'feedback_history' => $feedback
+            ]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Employee not found']);
+        }
+        exit();
+    }
+
 }
 ?>
 

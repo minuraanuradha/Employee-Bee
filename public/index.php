@@ -565,6 +565,42 @@ switch ($path) {
         }
         break;
 
+    // Company: Update employees
+    case 'company/update-employees':
+        // Restrict access to logged-in companies
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $title = 'Update Employees';
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/employee_management/update-employees.php');
+            $layout = 'company_dashboard';
+        } else {
+            // Redirect to login if not authorized
+            header("Location: ?path=login");
+            exit();
+        }
+        break;
+
+    // Company: Update employee (AJAX)
+    case 'company/update-employee':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $companyController->updateEmployeeAjax();
+        } else {
+            header('HTTP/1.1 403 Forbidden');
+            echo json_encode(['success' => false, 'message' => 'Not authorized.']);
+            exit();
+        }
+        break;
+
+    // Company: Get employee for update (AJAX)
+    case 'company/get-employee-for-update':
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
+            $companyController->getEmployeeForUpdate();
+        } else {
+            header('HTTP/1.1 403 Forbidden');
+            echo json_encode(['success' => false, 'message' => 'Not authorized.']);
+            exit();
+        }
+        break;
+
     // Handle unknown routes with 404 page
     default:
         $title = '404 - Not Found';
