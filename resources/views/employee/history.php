@@ -235,74 +235,124 @@ function populateTimeline(history) {
         return;
     }
     
-    // Group by company and position
+    // Group by company
     const groupedHistory = {};
     history.forEach(item => {
-        const key = `${item.company_id}_${item.role_title}`;
-        if (!groupedHistory[key]) {
-            groupedHistory[key] = item;
-            groupedHistory[key].feedback = [];
+        const companyId = item.company_id;
+        if (!groupedHistory[companyId]) {
+            groupedHistory[companyId] = {
+                company_name: item.company_name,
+                positions: []
+            };
         }
-        if (item.feedback_text) {
-            groupedHistory[key].feedback.push({
-                text: item.feedback_text,
-                type: item.feedback_type,
-                date: item.date_recorded,
-                skills: item.new_skills
-            });
-        }
+        groupedHistory[companyId].positions.push(item);
     });
     
-    Object.values(groupedHistory).forEach((item, index) => {
-        const isActive = item.status === 'active';
-        const statusColor = isActive ? 'bg-green-700' : 'bg-gray-700';
-        const statusText = isActive ? 'Current' : 'Completed';
-        const dotColor = isActive ? 'bg-orange' : 'bg-gray-600';
-        
-        const timelineItem = document.createElement('div');
-        timelineItem.className = 'relative flex items-start';
-        timelineItem.innerHTML = `
-            <div class="absolute left-2 w-4 h-4 ${dotColor} rounded-full border-4 border-darkgray shadow-md"></div>
-            <div class="ml-8 bg-black/40 rounded-lg p-4 flex-1 shadow">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-h5 text-white font-semibold">${item.role_title || 'Unknown Position'}</h3>
-                    <span class="${statusColor} text-white px-2 py-1 rounded-full text-xs">${statusText}</span>
-                </div>
-                <p class="text-p-regular text-lightgray mb-2">${item.company_name || 'Unknown Company'}</p>
-                <p class="text-p-small text-gray-400">${formatDate(item.start_date)} - ${item.end_date ? formatDate(item.end_date) : 'Present'}</p>
-                
-                ${item.skills_on_hire ? `
-                <div class="mt-3">
-                    <h4 class="text-p-regular text-orange font-medium mb-2">Skills Required:</h4>
-                    <div class="flex flex-wrap gap-2">
-                        ${item.skills_on_hire.split(',').map(skill => 
-                            `<span class="bg-orange text-white px-2 py-1 rounded text-xs">${skill.trim()}</span>`
-                        ).join('')}
-                    </div>
-                </div>
-                ` : ''}
-                
-                ${item.feedback.length > 0 ? `
-                <div class="mt-3">
-                    <h4 class="text-p-regular text-orange font-medium mb-2">Feedback & Updates:</h4>
-                    <div class="space-y-2">
-                        ${item.feedback.map(feedback => `
-                            <div class="bg-darkgray/50 rounded p-2">
-                                <div class="flex justify-between items-start mb-1">
-                                    <span class="text-xs text-orange capitalize">${feedback.type}</span>
-                                    <span class="text-xs text-gray-400">${formatDate(feedback.date)}</span>
-                                </div>
-                                ${feedback.text ? `<p class="text-sm text-lightgray">${feedback.text}</p>` : ''}
-                                ${feedback.skills ? `<p class="text-xs text-gray-400 mt-1">New Skills: ${feedback.skills}</p>` : ''}
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                ` : ''}
+    // Create timeline items for each company
+    Object.values(groupedHistory).forEach((company, companyIndex) => {
+        // Company header
+        const companyHeader = document.createElement('div');
+        companyHeader.className = 'relative flex items-start mb-4';
+        companyHeader.innerHTML = `
+            <div class="absolute left-2 w-4 h-4 bg-blue-500 rounded-full border-4 border-darkgray shadow-md"></div>
+            <div class="ml-8 bg-gradient-to-r from-blue-900 to-blue-700 rounded-lg p-4 flex-1 shadow">
+                <h3 class="text-h4 text-white font-semibold">${company.company_name || 'Unknown Company'}</h3>
             </div>
         `;
-        timelineItems.appendChild(timelineItem);
+        timelineItems.appendChild(companyHeader);
+        
+        // Positions within company
+        company.positions.forEach((position, positionIndex) => {
+            const isActive = position.status === 'active';
+            const statusColor = isActive ? 'bg-green-700' : 'bg-gray-700';
+            const statusText = isActive ? 'Current' : 'Completed';
+            const dotColor = isActive ? 'bg-orange' : 'bg-gray-600';
+            
+            const timelineItem = document.createElement('div');
+            timelineItem.className = 'relative flex items-start ml-6';
+            timelineItem.innerHTML = `
+                <div class="absolute left-2 w-3 h-3 ${dotColor} rounded-full border-4 border-darkgray shadow-md"></div>
+                <div class="ml-8 bg-black/40 rounded-lg p-4 flex-1 shadow mb-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="text-h5 text-white font-semibold">${position.role_title || 'Unknown Position'}</h4>
+                        <span class="${statusColor} text-white px-2 py-1 rounded-full text-xs">${statusText}</span>
+                    </div>
+                    <p class="text-p-small text-gray-400 mb-2">${formatDate(position.start_date)} - ${position.end_date ? formatDate(position.end_date) : 'Present'}</p>
+                    
+                    ${position.positions && position.positions.length > 1 ? `
+                    <div class="mt-3">
+                        <h5 class="text-p-regular text-lightgray font-medium mb-2">Role History:</h5>
+                        <div class="space-y-1">
+                            ${position.positions.map(pos => `
+                                <div class="flex justify-between text-xs text-gray-400">
+                                    <span>${formatDate(pos.start_date)} - ${pos.end_date ? formatDate(pos.end_date) : 'Present'}</span>
+                                    <span class="${pos.status === 'active' ? 'text-green-400' : 'text-gray-500'}">${pos.status}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${position.current_skills ? `
+                    <div class="mt-3">
+                        <h5 class="text-p-regular text-orange font-medium mb-2">Current Skills:</h5>
+                        <div class="flex flex-wrap gap-2">
+                            ${position.current_skills.split(',').map(skill =>
+                                `<span class="bg-orange text-white px-2 py-1 rounded text-xs">${skill.trim()}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${position.skills_on_hire ? `
+                    <div class="mt-3">
+                        <h5 class="text-p-regular text-lightgray font-medium mb-2">Skills on Hire:</h5>
+                        <div class="flex flex-wrap gap-2">
+                            ${position.skills_on_hire.split(',').map(skill =>
+                                `<span class="bg-darkgray text-gray-300 px-2 py-1 rounded text-xs">${skill.trim()}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${position.feedback_history && position.feedback_history.length > 0 ? `
+                    <div class="mt-3">
+                        <h5 class="text-p-regular text-orange font-medium mb-2">Role Updates & Feedback:</h5>
+                        <div class="space-y-2">
+                            ${position.feedback_history.map(feedback => `
+                                <div class="bg-darkgray/50 rounded p-2 border-l-2 border-orange">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="text-xs text-orange capitalize">${formatFeedbackType(feedback.feedback_type)}</span>
+                                        <span class="text-xs text-gray-400">${formatDate(feedback.date_recorded)}</span>
+                                    </div>
+                                    ${feedback.feedback_text ? `<p class="text-sm text-lightgray mb-1">${feedback.feedback_text}</p>` : ''}
+                                    ${feedback.new_skills ? `<p class="text-xs text-gray-400">New Skills: ${feedback.new_skills}</p>` : ''}
+                                    ${feedback.updated_role ? `<p class="text-xs text-gray-400">Role: ${feedback.updated_role}</p>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            timelineItems.appendChild(timelineItem);
+        });
     });
+}
+
+function formatFeedbackType(type) {
+    switch(type) {
+        case 'promotion':
+            return 'Role Update';
+        case 'skill_update':
+            return 'Skill Update';
+        case 'resignation':
+            return 'Resignation';
+        case 'comment':
+            return 'Comment';
+        default:
+            return type;
+    }
 }
 
 function populateAchievements(achievements) {
@@ -319,7 +369,7 @@ function populateAchievements(achievements) {
         achievementItem.className = 'bg-black/40 rounded-lg p-4';
         achievementItem.innerHTML = `
             <div class="flex justify-between items-start mb-2">
-                <h4 class="text-white font-semibold capitalize">${achievement.feedback_type}</h4>
+                <h4 class="text-white font-semibold capitalize">${formatFeedbackType(achievement.feedback_type)}</h4>
                 <span class="text-xs text-gray-400">${formatDate(achievement.date_recorded)}</span>
             </div>
             <p class="text-lightgray text-sm mb-2">${achievement.company_name} • ${achievement.role_title}</p>

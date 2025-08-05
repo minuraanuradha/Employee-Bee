@@ -457,17 +457,86 @@ class UserModel {
     
         // Get employee's complete employment history
         public function getEmployeeHistory($employee_unique_id) {
+            // First, get all company positions for this employee
             $stmt = $this->pdo->prepare("
-                SELECT ce.*, cp.company_name, cp.industry, cp.logo_path,
-                       ef.feedback_text, ef.new_skills, ef.feedback_type, ef.date_recorded
+                SELECT ce.*, cp.company_name, cp.industry, cp.logo_path
                 FROM company_employees ce
                 LEFT JOIN company_profile cp ON ce.company_id = cp.id
-                LEFT JOIN employee_feedback ef ON ce.id = ef.company_employee_id
                 WHERE ce.employee_unique_id = :employee_unique_id
-                ORDER BY ce.start_date DESC, ef.date_recorded DESC
+                ORDER BY ce.company_id, ce.start_date ASC
             ");
             $stmt->execute([':employee_unique_id' => $employee_unique_id]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $positions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Group positions by company and role to show role history
+            $groupedPositions = [];
+            foreach ($positions as $position) {
+                $companyId = $position['company_id'];
+                $roleTitle = $position['role_title'];
+                $key = $companyId . '_' . $roleTitle;
+                
+                if (!isset($groupedPositions[$key])) {
+                    $groupedPositions[$key] = [
+                        'company_id' => $companyId,
+                        'company_name' => $position['company_name'],
+                        'role_title' => $roleTitle,
+                        'status' => $position['status'],
+                        'skills_on_hire' => $position['skills_on_hire'],
+                        'start_date' => $position['start_date'],
+                        'end_date' => $position['end_date'],
+                        'positions' => [],
+                        'feedback_history' => []
+                    ];
+                }
+                
+                // Add this position to the positions array
+                $groupedPositions[$key]['positions'][] = [
+                    'start_date' => $position['start_date'],
+                    'end_date' => $position['end_date'],
+                    'status' => $position['status']
+                ];
+                
+                // Update the overall start and end dates
+                if ($position['start_date'] < $groupedPositions[$key]['start_date']) {
+                    $groupedPositions[$key]['start_date'] = $position['start_date'];
+                }
+                if ($position['end_date'] > $groupedPositions[$key]['end_date'] || $position['end_date'] === null) {
+                    $groupedPositions[$key]['end_date'] = $position['end_date'];
+                }
+                
+                // If this is the current position (last one for this role), get feedback history
+                if (count($groupedPositions[$key]['positions']) === 1 ||
+                    $position['start_date'] >= end($groupedPositions[$key]['positions'])['start_date']) {
+                    $stmt = $this->pdo->prepare("
+                        SELECT ef.*, ce.role_title as current_role
+                        FROM employee_feedback ef
+                        JOIN company_employees ce ON ef.company_employee_id = ce.id
+                        WHERE ef.company_employee_id = :company_employee_id
+                        ORDER BY ef.date_recorded ASC
+                    ");
+                    $stmt->execute([':company_employee_id' => $position['id']]);
+                    $groupedPositions[$key]['feedback_history'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    
+                    // Get current skills for this role by combining skills_on_hire with all new_skills from feedback
+                    $currentSkills = [];
+                    if ($position['skills_on_hire']) {
+                        $currentSkills = array_merge($currentSkills, array_map('trim', explode(',', $position['skills_on_hire'])));
+                    }
+                    
+                    foreach ($groupedPositions[$key]['feedback_history'] as $feedback) {
+                        if ($feedback['new_skills']) {
+                            $currentSkills = array_merge($currentSkills, array_map('trim', explode(',', $feedback['new_skills'])));
+                        }
+                    }
+                    
+                    // Remove duplicates and empty values
+                    $currentSkills = array_filter(array_unique($currentSkills));
+                    $groupedPositions[$key]['current_skills'] = implode(', ', $currentSkills);
+                }
+            }
+            
+            // Convert associative array to indexed array
+            return array_values($groupedPositions);
         }
         
         // Get employee career statistics
