@@ -187,8 +187,8 @@ switch ($path) {
             }
             break;
 
-    // Profile page
-    case 'profile':
+    // Navigation after login
+    case 'profile': 
         // Log session details for debugging
         // REMOVE: console_log("Checking session for profile: role=" . ($_SESSION['role'] ?? 'none') . ", user_id=" . ($_SESSION['user_id'] ?? 'none') . ", company_id=" . ($_SESSION['company_id'] ?? 'none'), 'debug');
         // Check if user is logged in
@@ -507,7 +507,7 @@ switch ($path) {
         // Restrict access to logged-in companies
         if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
             $title = 'Active Employees';
-            $content = include_and_capture(__DIR__ . '/../resources/views/company/employee_management/active-employees.php');
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/records/active-employees.php');
             $layout = 'company_dashboard';
         } else {
             // Redirect to login if not authorized
@@ -521,7 +521,7 @@ switch ($path) {
         // Restrict access to logged-in companies
         if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
             $title = 'Inactive Employees';
-            $content = include_and_capture(__DIR__ . '/../resources/views/company/employee_management/inactive-employees.php');
+            $content = include_and_capture(__DIR__ . '/../resources/views/company/records/inactive-employees.php');
             $layout = 'company_dashboard';
         } else {
             // Redirect to login if not authorized

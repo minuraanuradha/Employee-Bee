@@ -2,10 +2,10 @@
 $currentPath = $_GET['path'] ?? 'dashboard';
 
 // Menu state flags
-$employeeSubPaths = ['company/search-employees', 'company/active-employees', 'company/inactive-employees', 'company/update-employees'];
+$employeeSubPaths = ['company/search-employees', 'company/update-employees'];
 $isEmployeeOpen = in_array($currentPath, $employeeSubPaths);
 
-$recordSubPaths = ['company/add-update-records', 'company/achievements', 'company/skills'];
+$recordSubPaths = ['company/add-update-records', 'company/achievements', 'company/skills', 'company/active-employees', 'company/inactive-employees'];
 $isRecordOpen = in_array($currentPath, $recordSubPaths);
 
 $settingsSubPaths = ['company/account-settings', 'company/export-data'];
@@ -53,9 +53,7 @@ $isSettingsOpen = in_array($currentPath, $settingsSubPaths);
                     </button>
                     <ul class="pl-6 mt-1 space-y-1 submenu <?= $isEmployeeOpen ? 'block' : 'hidden' ?>">
                         <li><a href="?path=company/search-employees" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/search-employees' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/Search.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Search</span></a></li>
-                        <li><a href="?path=company/active-employees" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/active-employees' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/Check.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Active</span></a></li>
-                        <li><a href="?path=company/inactive-employees" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/inactive-employees' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/Folder.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Inactive</span></a></li>
-                        <li><a href="?path=company/update-employees" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/update-employees' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/GearSix.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Update</span></a></li>
+                        <li><a href="?path=company/update-employees" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/update-employees' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/Search.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Update</span></a></li>
                     </ul>
                 </li>
 
@@ -71,9 +69,8 @@ $isSettingsOpen = in_array($currentPath, $settingsSubPaths);
                         </svg>
                     </button>
                     <ul class="pl-6 mt-1 space-y-1 submenu <?= $isRecordOpen ? 'block' : 'hidden' ?>">
-                        <li><a href="?path=company/add-update-records" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/add-update-records' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/Pencil.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Update</span></a></li>
-                        <li><a href="?path=company/achievements" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/achievements' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/Trophy.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Achievements</span></a></li>
-                        <li><a href="?path=company/skills" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/skills' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/Brain.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Skills</span></a></li>
+                        <li><a href="?path=company/active-employees" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/active-employees' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/Check.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Active</span></a></li>
+                        <li><a href="?path=company/inactive-employees" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/inactive-employees' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/Folder.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Inactive</span></a></li>
                     </ul>
                 </li>
 

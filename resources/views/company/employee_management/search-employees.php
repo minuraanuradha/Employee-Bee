@@ -5,55 +5,24 @@ if (!$company_id) {
     exit();
 }
 ?>
-<div class="mx-auto  p-2">
-    <div class="mb-6 pt-0 ">
-        <h2 class="text-h5 text-orange flex  items-center">Employee Management <span class="text-orange text-xs font-medium bg-orange/10 px-4 py-1  rounded-full ml-2">Search & Add Employee</span></h2>
+<div class="mx-auto p-2">
+    <div class="mb-6 pt-0">
+        <h2 class="text-h5 text-orange flex items-center">Employee Management <span class="text-orange text-xs font-medium bg-orange/10 px-4 py-1 rounded-full ml-2">Add Employee</span></h2>
         <p class="text-p-regular text-lightgray">Onboard a new employee by searching their unique Employee ID (e.g., BEE-SL1452).</p>
     </div>
-    <!-- Search by Unique ID -->
-    <div class="mb-4 flex flex-col sm:flex-row gap-2 items-center justify-between">
-        <div class="w-1/2 gap-2 flex">
-            <input type="text" id="searchInput" class="rounded-lg bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 w-full  text-sm" placeholder="Search employees by name or role, ...">
+    <!-- Search Employee to Add -->
+    <div class="mb-6 bg-black/40 rounded-lg shadow-lg p-6">
+        <div class="flex gap-2 items-center">
+            <input type="text" id="searchInput" class="rounded-lg bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 flex-1 text-sm" placeholder="Search by employee name, email, or ID...">
             <button class="btn-1 px-6 py-2" id="searchBtn">Search</button>
         </div>
-
-        <div>
-            <div class="flex">
-                <div class="glass-effect-green rounded-lg px-4 py-1 flex items-center justify-between gap-2 hover-glow-green">
-                    <div class="text-green-400 text-sm font-bold" id="search-results-count">0</div>
-                    <div class="text-lightgray text-xs">Results Found</div>
-                </div>
-
-            </div>
+        
+        <!-- Search Results -->
+        <div id="resultsContainer" class="mt-4">
+            <!-- Results will be populated here -->
         </div>
     </div>
-    <!-- Quick Search Filters 
-    <div class="flex flex-wrap gap-2 mb-4">
-        <span class="text-lightgray text-sm">Quick filters:</span>
-        <button class="filter-btn bg-gray-800 hover:bg-orange/20 text-lightgray hover:text-orange px-3 py-1 rounded-full text-xs transition-all duration-300" data-filter="BEE-">
-            Employee IDs
-        </button>
-        <button class="filter-btn bg-gray-800 hover:bg-orange/20 text-lightgray hover:text-orange px-3 py-1 rounded-full text-xs transition-all duration-300" data-filter="@">
-            Email addresses
-        </button>
-        <button class="clear-btn bg-red-900/20 hover:bg-red-900/40 text-red-400 px-3 py-1 rounded-full text-xs transition-all duration-300">
-            Clear search
-        </button>
-    </div>-->
-
-    <!-- Results Container -->
-    <div id="resultsContainer" class="fade-in-up" style="animation-delay: 0.2s">
-        <!-- Initial state -->
-        <div class="text-center py-12">
-            <div class="w-24 h-24 mx-auto mb-6 bg-darkgray/50 rounded-full flex items-center justify-center">
-                <svg class="w-12 h-12 text-lightgray" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0118 0z" />
-                </svg>
-            </div>
-            <h3 class="text-xl font-semibold text-white mb-2">Ready to search</h3>
-            <p class="text-lightgray">Enter an Employee ID, name, or email to get started</p>
-        </div>
-    </div>
+    
     <!-- Search Tips -->
     <div class="glass-effect rounded-lg p-4 mb-6">
         <div class="flex items-start gap-2">
@@ -70,6 +39,14 @@ if (!$company_id) {
             </div>
         </div>
     </div>
+    
+    <script>
+        // Initialize with empty results message
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.innerHTML = '<div class="text-gray-400 text-center py-4">Enter a search term</div>';
+        });
+    </script>
 
 </div>
 
@@ -80,26 +57,13 @@ if (!$company_id) {
     let openFormUniqueId = null;
 
     function renderResults(results) {
-    // ✅ Update result count
-    const resultCountEl = document.getElementById('search-results-count');
-    resultCountEl.textContent = results.length;
+        if (!results.length) {
+            resultsContainer.innerHTML = '<div class="text-gray-400 text-center py-4">No employees found</div>';
+            return;
+        }
 
-    if (!results.length) {
-        resultsContainer.innerHTML = `<div class='bg-black/40 rounded-lg shadow-lg p-6 text-center text-gray-400'>
-            <span>No employee found with that ID.</span>
-        </div>`;
-        return;
-    }
-        let html = '';
+        let html = '<div class="space-y-3">';
         for (const emp of results) {
-            // Use profile picture or initial
-            let profileHtml = '';
-            if (emp.profile_picture && emp.profile_picture !== '/public/images/default-user.png') {
-                profileHtml = `<img src="${emp.profile_picture}" class="w-16 h-16 rounded-full object-cover bg-darkgray" alt="Profile">`;
-            } else {
-                const initial = emp.full_name ? emp.full_name.charAt(0).toUpperCase() : 'E';
-                profileHtml = `<div class="w-16 h-16 rounded-full bg-darkgray flex items-center justify-center text-2xl font-bold text-orange">${initial}</div>`;
-            }
             // Status badge
             let statusHtml = '';
             if (emp.status) {
@@ -109,43 +73,50 @@ if (!$company_id) {
                 else if (emp.status === 'inactive') color = 'bg-gray-700';
                 else if (emp.status === 'resigned') color = 'bg-orange-600';
                 else if (emp.status === 'terminated') color = 'bg-red-700';
-                statusHtml = `<span class="inline-block px-3 py-1 rounded text-xs font-semibold text-white ml-2 ${color}">Already added: ${label}</span>`;
+                statusHtml = `<span class="text-xs ${emp.status === 'active' ? 'text-green-400' : 'text-gray-400'}"> ${label}</span>`;
             } else {
-                statusHtml = `<span class="inline-block px-3 py-1 rounded text-xs font-semibold text-gray-400 bg-gray-800 ml-2">Not added</span>`;
+                statusHtml = `<span class="text-xs text-gray-400">Not added</span>`;
             }
+            
             html += `
-        <div class="bg-black/40 rounded-lg shadow-lg p-6 mb-6" data-employee-card>
-            <div class="flex items-center gap-4 mb-4">
-                ${profileHtml}
-                <div>
-                    <div class="text-lg font-semibold text-white">${emp.full_name || '-'} ${statusHtml}</div>
-                    <div class="text-sm text-gray-400">${emp.email || '-'}</div>
-                    <div class="text-xs text-lightgray">Unique ID: <span class="text-white">${emp.unique_id || '-'}</span></div>
+                <div class="flex items-center justify-between p-3 bg-black border border-white/20 rounded-lg" data-employee-card data-unique_id="${emp.unique_id}">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-orange/20 flex items-center justify-center text-orange font-bold">
+                            ${emp.full_name ? emp.full_name.charAt(0).toUpperCase() : 'E'}
+                        </div>
+                        <div>
+                            <div class="text-white font-medium flex items-center gap-2">${emp.full_name || 'N/A'} ${statusHtml}</div>
+                            <div class="text-sm text-gray-400">${emp.email} • ${emp.unique_id}</div>
+                        </div>
+                    </div>
+                    <button class="btn-1 add-btn" data-unique_id="${emp.unique_id}">Add</button>
                 </div>
-            </div>
-            <button class="btn-1 add-btn w-full mb-2" data-unique_id="${emp.unique_id}">Add</button>
-            <div class="add-form-container" id="add-form-${emp.unique_id}" style="display:none;">
-                <form class="space-y-4 add-employee-form" data-unique_id="${emp.unique_id}">
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Assign Role / Job Title</label>
-                        <input type="text" name="role_title" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 w-full" placeholder="e.g., Data Analyst" required text-xs>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Required Skills</label>
-                        <input type="text" name="skills_on_hire" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 w-full" placeholder="e.g., SQL, Python, Excel " text-xs>
-                        <div class="text-xs text-gray-500 mt-1">(Comma-separated or use tags in future)</div>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Date of Joining</label>
-                        <input type="date" name="start_date" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 w-full" required text-xs>
-                    </div>
-                    <button type="submit" class="btn-1 w-full mt-2">Add to Company</button>
-                </form>
-            </div>
-        </div>
-        `;
+                <div class="add-form-container bg-black/40 rounded-lg shadow-lg p-6" id="add-form-${emp.unique_id}" style="display:none;">
+                    <form class="space-y-4 add-employee-form" data-unique_id="${emp.unique_id}">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Assign Role / Job Title</label>
+                            <input type="text" name="role_title" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 text-sm w-full" placeholder="e.g., Data Analyst" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Required Skills</label>
+                            <input type="text" name="skills_on_hire" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 text-sm w-full" placeholder="e.g., SQL, Python, Excel">
+                            <div class="text-xs text-gray-500 mt-1">(Comma-separated or use tags in future)</div>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Date of Joining</label>
+                            <input type="date" name="start_date" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 text-sm w-full" required>
+                        </div>
+                        <div class="flex gap-4">
+                            <button type="submit" class="btn-1 flex-1">Add to Company</button>
+                            <button type="button" class="btn-3 cancel-add px-6" data-unique_id="${emp.unique_id}">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            `;
         }
+        html += '</div>';
         resultsContainer.innerHTML = html;
+        
         // Attach click event to each Add button
         document.querySelectorAll('.add-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -158,6 +129,17 @@ if (!$company_id) {
                 openFormUniqueId = uniqueId;
             });
         });
+        
+        // Attach click event to each Cancel button
+        document.querySelectorAll('.cancel-add').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const uniqueId = this.dataset.unique_id;
+                const formDiv = document.getElementById('add-form-' + uniqueId);
+                if (formDiv) formDiv.style.display = 'none';
+                openFormUniqueId = null;
+            });
+        });
+        
         // Attach submit event to each add-employee form
         document.querySelectorAll('.add-employee-form').forEach(form => {
             form.addEventListener('submit', function(e) {
@@ -170,15 +152,15 @@ if (!$company_id) {
     function doSearch() {
         const q = searchInput.value.trim();
         if (!q) {
-            resultsContainer.innerHTML = '<div class="bg-black/40 rounded-lg shadow-lg p-6 text-center text-gray-400">Enter a search term.</div>';
+            resultsContainer.innerHTML = '<div class="text-gray-400 text-center py-4">Enter a search term</div>';
             return;
         }
-        resultsContainer.innerHTML = '<div class="bg-black/40 rounded-lg shadow-lg p-6 text-center text-gray-400">Searching...</div>';
+        resultsContainer.innerHTML = '<div class="text-gray-400 text-center py-4">Searching...</div>';
         fetch('/employee-bee/public/?path=company/search-employees-ajax&q=' + encodeURIComponent(q))
             .then(res => res.json())
             .then(data => renderResults(data))
             .catch(() => {
-                resultsContainer.innerHTML = '<div class="bg-black/40 rounded-lg shadow-lg p-6 text-center text-red-500">Error fetching results.</div>';
+                resultsContainer.innerHTML = '<div class="text-red-400 text-center py-4">Error searching employees</div>';
             });
     }
 
@@ -192,7 +174,7 @@ if (!$company_id) {
         const unique_id = form.dataset.unique_id;
         const formData = new FormData(form);
         formData.append('unique_id', unique_id);
-        const card = form.closest('[data-employee-card]');
+        const card = document.querySelector(`[data-employee-card][data-unique_id="${unique_id}"]`);
         // Show loading state
         const submitBtn = form.querySelector('button[type="submit"]');
         submitBtn.disabled = true;
@@ -251,7 +233,7 @@ if (!$company_id) {
                 html += `<div class='mb-2 text-xs'>Tx Hash: <a href='${etherscan}' target='_blank' class='text-orange underline'>${blockchain.transaction_hash.slice(0, 16)}...</a></div>`;
             }
             // Add badge to card
-            const nameDiv = card.querySelector('.text-lg.font-semibold');
+            const nameDiv = card.querySelector('.text-white.font-medium');
             if (nameDiv && !card.querySelector('.blockchain-badge')) {
                 nameDiv.innerHTML += ` <span class='blockchain-badge inline-block px-2 py-1 rounded text-xs font-semibold bg-green-700 text-white ml-2'>Blockchain Verified</span>`;
             }

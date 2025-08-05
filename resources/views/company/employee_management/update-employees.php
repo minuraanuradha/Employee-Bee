@@ -13,9 +13,9 @@ if (!$company_id) {
 
     <!-- Search Employee to Update -->
     <div class="mb-6 bg-black/40 rounded-lg shadow-lg p-6">
-        <h3 class="text-lg font-semibold text-white mb-4">Select Employee to Update</h3>
+
         <div class="flex gap-2 items-center">
-            <input type="text" id="employeeSearchInput" class="rounded-lg bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-2 flex-1 text-sm" placeholder="Search by employee name, email, or ID...">
+            <input type="text" id="employeeSearchInput" class="rounded-lg bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 flex-1 text-sm" placeholder="Search by employee name, email, or ID...">
             <button class="btn-1 px-6 py-2" id="searchEmployeeBtn">Search</button>
         </div>
         
@@ -27,8 +27,8 @@ if (!$company_id) {
 
     <!-- Update Form (Initially Hidden) -->
     <div id="updateEmployeeForm" class="bg-black/40 rounded-lg shadow-lg p-6" style="display: none;">
-        <div class="flex items-center justify-between mb-6">
-            <h3 class="text-lg font-semibold text-white">Update Employee</h3>
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-h5 text-orange mb-4">Employee Data Update Form</h3>
             <button id="closeUpdateForm" class="text-gray-400 hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -37,7 +37,7 @@ if (!$company_id) {
         </div>
 
         <!-- Employee Info Display -->
-        <div id="employeeInfo" class="mb-6 p-4 bg-darkgray rounded-lg">
+        <div id="employeeInfo" class="mb-6 p-4 bg-black  rounded-lg border border-orange/40">
             <!-- Employee info will be populated here -->
         </div>
 
@@ -48,8 +48,8 @@ if (!$company_id) {
             <!-- Status Update -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm text-gray-400 mb-2">Employment Status</label>
-                    <select name="status" id="employeeStatus" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-2 w-full">
+                    <label class="block text-xs text-gray-400 mb-2">Employment Status</label>
+                    <select name="status" id="employeeStatus" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 text-sm w-full">
                         <option value="">Keep Current Status</option>
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
@@ -59,29 +59,29 @@ if (!$company_id) {
                 </div>
                 
                 <div>
-                    <label class="block text-sm text-gray-400 mb-2">End Date (if changing to inactive)</label>
-                    <input type="date" name="end_date" id="endDate" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-2 w-full">
+                    <label class="block text-xs text-gray-400 mb-2">End Date (if changing to inactive)</label>
+                    <input type="date" name="end_date" id="endDate" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 text-sm w-full">
                 </div>
             </div>
 
             <!-- Role Update -->
             <div>
-                <label class="block text-sm text-gray-400 mb-2">Update Role/Position</label>
-                <input type="text" name="role_title" id="roleTitle" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-2 w-full" placeholder="e.g., Senior Developer, Team Lead">
+                <label class="block text-xs text-gray-400 mb-2">Update Role/Position</label>
+                <input type="text" name="role_title" id="roleTitle" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 text-sm w-full" placeholder="e.g., Senior Developer, Team Lead">
                 <div class="text-xs text-gray-500 mt-1">Leave empty to keep current role</div>
             </div>
 
             <!-- New Skills -->
             <div>
-                <label class="block text-sm text-gray-400 mb-2">New Skills Acquired</label>
-                <input type="text" name="new_skills" id="newSkills" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-2 w-full" placeholder="e.g., React, Node.js, AWS">
+                <label class="block text-xs text-gray-400 mb-2">New Skills Acquired</label>
+                <input type="text" name="new_skills" id="newSkills" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 text-sm w-full" placeholder="e.g., React, Node.js, AWS">
                 <div class="text-xs text-gray-500 mt-1">Skills gained during employment period</div>
             </div>
 
             <!-- Feedback -->
             <div>
-                <label class="block text-sm text-gray-400 mb-2">Feedback/Comments</label>
-                <textarea name="feedback_text" id="feedbackText" rows="4" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-2 w-full" placeholder="Performance feedback, achievements, recommendations..."></textarea>
+                <label class="block text-xs text-gray-400 mb-2">Feedback/Comments</label>
+                <textarea name="feedback_text" id="feedbackText" rows="4" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 text-sm w-full" placeholder="Performance feedback, achievements, recommendations..."></textarea>
             </div>
 
             <!-- Action Buttons -->
@@ -141,15 +141,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (emp.status) { // Only show employees that are already added to company
                         const statusColor = emp.status === 'active' ? 'text-green-400' : 'text-gray-400';
                         html += `
-                            <div class="flex items-center justify-between p-3 bg-darkgray rounded-lg">
+                            <div class="flex items-center justify-between p-3 bg-black border border-white/20 rounded-lg">
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-full bg-orange/20 flex items-center justify-center text-orange font-bold">
                                         ${emp.full_name ? emp.full_name.charAt(0).toUpperCase() : 'E'}
                                     </div>
                                     <div>
-                                        <div class="text-white font-medium">${emp.full_name || 'N/A'}</div>
+                                        <div class="text-white font-medium flex items-center gap-2">${emp.full_name || 'N/A'} <span>
+                                        <div class="text-xs ${statusColor}"> ${emp.status}</div></span></div>
                                         <div class="text-sm text-gray-400">${emp.email} • ${emp.unique_id}</div>
-                                        <div class="text-xs ${statusColor}">Status: ${emp.status}</div>
                                     </div>
                                 </div>
                                 <button class="btn-2 select-employee-btn" data-employee-id="${emp.unique_id}">
@@ -206,13 +206,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show employee info
         const employeeInfo = document.getElementById('employeeInfo');
         employeeInfo.innerHTML = `
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4 ">
                 <div class="w-16 h-16 rounded-full bg-orange/20 flex items-center justify-center text-orange font-bold text-xl">
                     ${employee.full_name ? employee.full_name.charAt(0).toUpperCase() : 'E'}
                 </div>
                 <div>
                     <h4 class="text-lg font-semibold text-white">${employee.full_name || 'N/A'}</h4>
-                    <p class="text-gray-400">${employee.email} • ${employee.unique_id}</p>
+                    <p class="text-gray-400 text-sm">${employee.email} • ${employee.unique_id}</p>
                     <p class="text-sm text-gray-400">Current Role: ${employee.role_title} • Status: <span class="text-${employee.status === 'active' ? 'green' : 'gray'}-400">${employee.status}</span></p>
                     <p class="text-sm text-gray-400">Start Date: ${employee.start_date}</p>
                 </div>
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let historyHtml = '<div class="space-y-3">';
             feedbackHistory.forEach(feedback => {
                 historyHtml += `
-                    <div class="p-3 bg-darkgray rounded-lg">
+                    <div class="p-3 bg-darkgray/50 rounded-lg">
                         <div class="flex justify-between items-start mb-2">
                             <span class="text-orange font-medium capitalize">${feedback.feedback_type}</span>
                             <span class="text-xs text-gray-400">${feedback.date_recorded}</span>

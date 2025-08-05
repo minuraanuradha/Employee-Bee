@@ -48,7 +48,7 @@ class AuthController {
                 $_SESSION['role'] = 'company';
                 $_SESSION['company_name'] = $company['company_name'] ?? 'Company';
                 $_SESSION['company_logo'] = $company['logo_path'] ?? 'assets/images/Logo.png';
-                header("Location: ?path=company/profile");
+                header("Location: ?path=profile");
                 exit();
             } else {
                 echo "Invalid email or password";
