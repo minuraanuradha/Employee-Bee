@@ -391,7 +391,67 @@ public function fetchInactiveEmployees() {
         }
         exit();
     }
+    
+    // AJAX endpoint to get all companies with search
+    public function getAllCompaniesAjax() {
+        header('Content-Type: application/json');
+        
+        try {
+            $search = $_GET['search'] ?? null;
+            $companies = $this->model->getAllCompanies($search);
+            
+            echo json_encode([
+                'success' => true,
+                'companies' => $companies
+            ]);
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error fetching companies: ' . $e->getMessage()
+            ]);
+        }
+        exit();
+    }
+    
+    // AJAX endpoint to get company details and stats
+    public function getCompanyDetailsAjax() {
+        header('Content-Type: application/json');
+        
+        try {
+            $companyId = $_GET['company_id'] ?? null;
+            
+            if (!$companyId) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Company ID is required'
+                ]);
+                exit();
+            }
+            
+            $company = $this->model->getById($companyId);
+            $stats = $this->model->getCompanyStats($companyId);
+            
+            if (!$company) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Company not found'
+                ]);
+                exit();
+            }
+            
+            echo json_encode([
+                'success' => true,
+                'company' => $company,
+                'stats' => $stats
+            ]);
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error fetching company details: ' . $e->getMessage()
+            ]);
+        }
+        exit();
+    }
 
 }
 ?>
-

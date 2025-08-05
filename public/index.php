@@ -646,6 +646,16 @@ switch ($path) {
             exit();
         }
         break;
+        
+    // Companies: Get all companies (AJAX)
+    case 'companies-ajax':
+        $companyController->getAllCompaniesAjax();
+        break;
+
+    // Companies: Get company details (AJAX)
+    case 'company-details-ajax':
+        $companyController->getCompanyDetailsAjax();
+        break;
 
     // Handle unknown routes with 404 page
     default:

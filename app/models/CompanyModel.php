@@ -77,5 +77,35 @@ class CompanyModel {
             ':id' => $id
         ]);
     }
+    
+    // Get all companies with optional search
+    public function getAllCompanies($search = null) {
+        $sql = "SELECT * FROM company_profile";
+        $params = [];
+        
+        if ($search) {
+            $sql .= " WHERE company_name LIKE :search OR industry LIKE :search OR location LIKE :search";
+            $params[':search'] = '%' . $search . '%';
+        }
+        
+        $sql .= " ORDER BY company_name ASC";
+        
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    // Get company statistics (active/inactive members count)
+    public function getCompanyStats($companyId) {
+        $stmt = $this->pdo->prepare("
+            SELECT 
+                COUNT(CASE WHEN status = 'active' THEN 1 END) as active_members,
+                COUNT(CASE WHEN status IN ('inactive', 'resigned', 'terminated') THEN 1 END) as inactive_members
+            FROM company_employees 
+            WHERE company_id = :company_id
+        ");
+        $stmt->execute([':company_id' => $companyId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>
