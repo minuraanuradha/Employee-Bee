@@ -1342,6 +1342,10 @@ video {
   border-right-width: 1px;
 }
 
+.border-l-4 {
+  border-left-width: 4px;
+}
+
 .border-darkgray {
   --tw-border-opacity: 1;
   border-color: rgb(82 85 90 / var(--tw-border-opacity, 1));
@@ -1403,6 +1407,16 @@ video {
 
 .border-white\/20 {
   border-color: rgb(220 220 220 / 0.2);
+}
+
+.border-gray-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(107 114 128 / var(--tw-border-opacity, 1));
+}
+
+.border-red-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(239 68 68 / var(--tw-border-opacity, 1));
 }
 
 .bg-black {

@@ -56,6 +56,13 @@ class BlockchainController {
         if ($result['success']) {
             // Log the transaction
             $this->logBlockchainTransaction($employeeId, 'hire', $result['transaction_hash']);
+            
+            // Get the record index (assuming it's the last record for this employee)
+            $records = $this->getEmployeeRecords($employeeId);
+            if ($records['success'] && !empty($records['records'])) {
+                $recordIndex = count($records['records']) - 1;
+                $this->logBlockchainVerification($employeeId, $companyId, $recordIndex);
+            }
         }
 
         return $result;
@@ -235,4 +242,33 @@ class BlockchainController {
             ];
         }
     }
-} 
+    
+    /**
+     * Log blockchain verification record
+     */
+    private function logBlockchainVerification($employeeId, $companyId, $recordIndex) {
+        try {
+            $database = new Database();
+            $pdo = $database->getConnection();
+            
+            $stmt = $pdo->prepare("INSERT INTO blockchain_verification (
+                employee_id, company_id, record_index, is_verified, verification_date
+            ) VALUES (
+                :employee_id, :company_id, :record_index, 1, NOW()
+            ) ON DUPLICATE KEY UPDATE
+                is_verified = 1,
+                verification_date = NOW(),
+                last_updated = NOW()");
+            
+            $stmt->execute([
+                ':employee_id' => $employeeId,
+                ':company_id' => $companyId,
+                ':record_index' => $recordIndex
+            ]);
+            
+        } catch (Exception $e) {
+            // Log error but don't fail the main operation
+            error_log("Failed to log blockchain verification: " . $e->getMessage());
+        }
+    }
+}

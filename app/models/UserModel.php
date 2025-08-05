@@ -305,6 +305,38 @@ class UserModel {
         try {
             $this->pdo->beginTransaction();
             
+            // Get employee auth ID for career data updates
+            $stmt = $this->pdo->prepare("SELECT id FROM employee_auth WHERE unique_id = :unique_id");
+            $stmt->execute([':unique_id' => $employee_unique_id]);
+            $employee_id = $stmt->fetchColumn();
+            
+            if (!$employee_id) {
+                throw new Exception("Employee not found");
+            }
+            
+            // Get current company employee record for record index
+            $stmt = $this->pdo->prepare("SELECT id, role_title FROM company_employees WHERE company_id = :company_id AND employee_unique_id = :employee_unique_id");
+            $stmt->execute([':company_id' => $company_id, ':employee_unique_id' => $employee_unique_id]);
+            $companyEmployee = $stmt->fetch(PDO::FETCH_ASSOC);
+            $companyEmployeeId = $companyEmployee['id'] ?? null;
+            $currentRole = $companyEmployee['role_title'] ?? '';
+            
+            if (!$companyEmployeeId) {
+                throw new Exception("Employee not found in company");
+            }
+            
+            // Get record index from blockchain_verification table
+            $stmt = $this->pdo->prepare("SELECT record_index FROM blockchain_verification WHERE employee_id = :employee_id AND company_id = :company_id ORDER BY record_index DESC LIMIT 1");
+            $stmt->execute([':employee_id' => $employee_unique_id, ':company_id' => $company_id]);
+            $recordIndex = $stmt->fetchColumn() ?: 0;
+            
+            // Handle different update types
+            $update_type = $data['update_type'] ?? '';
+            $new_skills = $data['new_skills'] ?? '';
+            $current_skills = $data['current_skills'] ?? '';
+            $role_title = $data['role_title'] ?? '';
+            $current_role = $data['current_role'] ?? '';
+            
             // Update company_employees table
             $updateFields = [];
             $updateParams = [':company_id' => $company_id, ':employee_unique_id' => $employee_unique_id];
@@ -314,9 +346,10 @@ class UserModel {
                 $updateParams[':status'] = $data['status'];
             }
             
-            if (isset($data['role_title'])) {
+            // Only update role if it's a role update or role title is provided
+            if (($update_type === 'role' && $role_title) || ($update_type !== 'role' && $role_title)) {
                 $updateFields[] = 'role_title = :role_title';
-                $updateParams[':role_title'] = $data['role_title'];
+                $updateParams[':role_title'] = $role_title;
             }
             
             if (isset($data['end_date']) && $data['end_date']) {
@@ -329,16 +362,35 @@ class UserModel {
                 $stmt->execute($updateParams);
             }
             
-            // Get the company_employee record ID for feedback
-            $stmt = $this->pdo->prepare("SELECT id FROM company_employees WHERE company_id = :company_id AND employee_unique_id = :employee_unique_id");
-            $stmt->execute([':company_id' => $company_id, ':employee_unique_id' => $employee_unique_id]);
-            $companyEmployeeId = $stmt->fetchColumn();
+            // Update employee career data if skills have changed
+            if ($new_skills) {
+                // Combine current skills with new skills
+                $all_skills = $current_skills;
+                if ($all_skills) {
+                    $all_skills .= ', ' . $new_skills;
+                } else {
+                    $all_skills = $new_skills;
+                }
+                
+                // Update employee_career_data table
+                $stmt = $this->pdo->prepare("UPDATE employee_career_data SET skills = :skills WHERE employee_id = :employee_id");
+                $stmt->execute([
+                    ':skills' => $all_skills,
+                    ':employee_id' => $employee_id
+                ]);
+            }
             
             // Add feedback record if provided
             if ($companyEmployeeId && (isset($data['feedback_text']) || isset($data['new_skills']))) {
                 $feedbackType = 'comment';
-                if (isset($data['role_title']) && $data['role_title']) {
+                
+                // Determine feedback type based on update type
+                if ($update_type === 'resignation') {
+                    $feedbackType = 'resignation';
+                } elseif ($update_type === 'role' || (isset($data['role_title']) && $data['role_title'] && $data['role_title'] !== $current_role)) {
                     $feedbackType = 'promotion';
+                } elseif ($new_skills) {
+                    $feedbackType = 'skill_update';
                 }
                 
                 $stmt = $this->pdo->prepare("INSERT INTO employee_feedback (
@@ -351,13 +403,17 @@ class UserModel {
                     ':company_employee_id' => $companyEmployeeId,
                     ':feedback_type' => $feedbackType,
                     ':feedback_text' => $data['feedback_text'] ?? '',
-                    ':updated_role' => $data['role_title'] ?? null,
-                    ':new_skills' => $data['new_skills'] ?? null
+                    ':updated_role' => ($update_type === 'role' || $role_title) ? $role_title : null,
+                    ':new_skills' => $new_skills ?: null
                 ]);
             }
             
             $this->pdo->commit();
-            return ['success' => true, 'message' => 'Employee updated successfully!'];
+            return [
+                'success' => true,
+                'message' => 'Employee updated successfully!',
+                'record_index' => $recordIndex
+            ];
             
         } catch (Exception $e) {
             $this->pdo->rollBack();

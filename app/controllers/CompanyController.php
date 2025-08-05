@@ -309,6 +309,11 @@ public function fetchInactiveEmployees() {
             exit();
         }
         
+        // Get update type
+        $update_type = $_POST['update_type'] ?? '';
+        $current_role = $_POST['current_role'] ?? '';
+        $current_skills = $_POST['current_skills'] ?? '';
+        
         // Prepare update data
         $updateData = [];
         if ($status) $updateData['status'] = $status;
@@ -316,22 +321,25 @@ public function fetchInactiveEmployees() {
         if ($feedback_text) $updateData['feedback_text'] = $feedback_text;
         if ($new_skills) $updateData['new_skills'] = $new_skills;
         if ($end_date) $updateData['end_date'] = $end_date;
+        $updateData['update_type'] = $update_type;
+        $updateData['current_role'] = $current_role;
+        $updateData['current_skills'] = $current_skills;
         
         // Update employee in database
         $userModel = new UserModel();
         $result = $userModel->updateEmployeeStatus($company_id, $employee_unique_id, $updateData);
         
         // Blockchain integration for update
-        if ($result['success']) {
+        if ($result['success'] && isset($result['record_index'])) {
             require_once __DIR__ . '/BlockchainController.php';
             $blockchainController = new BlockchainController();
             
-            // Determine blockchain action
+            // Determine blockchain action based on update type and status
             if ($status === 'inactive' || $status === 'resigned' || $status === 'terminated') {
                 // Exit employee on blockchain
                 $blockchainResult = $blockchainController->endEmployment(
                     $employee_unique_id,
-                    0, // record index - you might want to track this
+                    $result['record_index'],
                     $end_date ? strtotime($end_date) : time(),
                     $status,
                     $feedback_text,
@@ -341,10 +349,10 @@ public function fetchInactiveEmployees() {
                 // Update employee on blockchain
                 $blockchainResult = $blockchainController->updateEmployeeRecord(
                     $employee_unique_id,
-                    0, // record index - you might want to track this
-                    $role_title ?: '',
+                    $result['record_index'],
+                    $role_title ?: $current_role,
                     $new_skills ?: '',
-                    $status,
+                    $status ?: 'active',
                     $feedback_text
                 );
             }

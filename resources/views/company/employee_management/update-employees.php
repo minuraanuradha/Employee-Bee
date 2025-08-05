@@ -44,7 +44,26 @@ if (!$company_id) {
         <!-- Update Form -->
         <form id="employeeUpdateForm" class="space-y-6">
             <input type="hidden" id="employeeUniqueId" name="employee_unique_id">
+            <input type="hidden" id="currentRole" name="current_role">
+            <input type="hidden" id="currentSkills" name="current_skills">
             
+            <!-- Update Type Selection -->
+            <div>
+                <label class="block text-xs text-gray-400 mb-2">Update Type</label>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <button type="button" class="update-type-btn px-4 py-2 bg-darkgray border border-gray-700 rounded text-sm text-gray-300 hover:border-orange hover:text-white transition" data-type="skills">
+                        Skill Update Only
+                    </button>
+                    <button type="button" class="update-type-btn px-4 py-2 bg-darkgray border border-gray-700 rounded text-sm text-gray-300 hover:border-orange hover:text-white transition" data-type="resignation">
+                        Resignation
+                    </button>
+                    <button type="button" class="update-type-btn px-4 py-2 bg-darkgray border border-gray-700 rounded text-sm text-gray-300 hover:border-orange hover:text-white transition" data-type="role">
+                        Role & Skills Update
+                    </button>
+                </div>
+                <input type="hidden" id="updateType" name="update_type" value="">
+            </div>
+
             <!-- Status Update -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -65,10 +84,10 @@ if (!$company_id) {
             </div>
 
             <!-- Role Update -->
-            <div>
+            <div id="roleUpdateSection" style="display: none;">
                 <label class="block text-xs text-gray-400 mb-2">Update Role/Position</label>
                 <input type="text" name="role_title" id="roleTitle" class="rounded bg-black text-lightgray border border-gray-700 focus:border-orange focus:outline-none px-4 py-1 text-sm w-full" placeholder="e.g., Senior Developer, Team Lead">
-                <div class="text-xs text-gray-500 mt-1">Leave empty to keep current role</div>
+                <div class="text-xs text-gray-500 mt-1">Enter new role title</div>
             </div>
 
             <!-- New Skills -->
@@ -218,21 +237,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         `;
+        
+        // Set current role and skills in hidden fields
+        document.getElementById('currentRole').value = employee.role_title || '';
+        document.getElementById('currentSkills').value = employee.skills || '';
 
         // Show feedback history
         const historyContent = document.getElementById('feedbackHistoryContent');
         if (feedbackHistory && feedbackHistory.length > 0) {
             let historyHtml = '<div class="space-y-3">';
             feedbackHistory.forEach(feedback => {
+                // Format feedback type for display
+                let feedbackTypeDisplay = feedback.feedback_type;
+                switch(feedback.feedback_type) {
+                    case 'promotion':
+                        feedbackTypeDisplay = 'Role Update';
+                        break;
+                    case 'skill_update':
+                        feedbackTypeDisplay = 'Skill Update';
+                        break;
+                    case 'resignation':
+                        feedbackTypeDisplay = 'Resignation';
+                        break;
+                    case 'comment':
+                        feedbackTypeDisplay = 'General Comment';
+                        break;
+                }
+                
                 historyHtml += `
-                    <div class="p-3 bg-darkgray/50 rounded-lg">
+                    <div class="p-3 bg-darkgray/50 rounded-lg border-l-4 ${feedback.feedback_type === 'promotion' ? 'border-orange' : feedback.feedback_type === 'skill_update' ? 'border-green-500' : feedback.feedback_type === 'resignation' ? 'border-red-500' : 'border-gray-500'}">
                         <div class="flex justify-between items-start mb-2">
-                            <span class="text-orange font-medium capitalize">${feedback.feedback_type}</span>
-                            <span class="text-xs text-gray-400">${feedback.date_recorded}</span>
+                            <span class="text-orange font-medium capitalize">${feedbackTypeDisplay}</span>
+                            <span class="text-xs text-gray-400">${new Date(feedback.date_recorded).toLocaleDateString()}</span>
                         </div>
                         ${feedback.feedback_text ? `<p class="text-gray-300 text-sm mb-2">${feedback.feedback_text}</p>` : ''}
-                        ${feedback.updated_role ? `<p class="text-sm text-gray-400">Role: ${feedback.updated_role}</p>` : ''}
-                        ${feedback.new_skills ? `<p class="text-sm text-gray-400">Skills: ${feedback.new_skills}</p>` : ''}
+                        ${feedback.updated_role ? `<p class="text-sm text-gray-400 mb-1"><span class="font-medium">Role:</span> ${feedback.updated_role}</p>` : ''}
+                        ${feedback.new_skills ? `<p class="text-sm text-gray-400"><span class="font-medium">Skills:</span> ${feedback.new_skills}</p>` : ''}
                     </div>
                 `;
             });
@@ -242,6 +282,48 @@ document.addEventListener('DOMContentLoaded', function() {
             historyContent.innerHTML = '<div class="text-gray-400 text-center py-4">No previous updates</div>';
         }
     }
+
+    // Handle update type selection
+    function selectUpdateType(type) {
+        // Reset all buttons
+        document.querySelectorAll('.update-type-btn').forEach(btn => {
+            btn.classList.remove('border-orange', 'text-white');
+            btn.classList.add('border-gray-700', 'text-gray-300');
+        });
+        
+        // Highlight selected button
+        const selectedBtn = document.querySelector(`.update-type-btn[data-type="${type}"]`);
+        if (selectedBtn) {
+            selectedBtn.classList.remove('border-gray-700', 'text-gray-300');
+            selectedBtn.classList.add('border-orange', 'text-white');
+        }
+        
+        // Set hidden input value
+        document.getElementById('updateType').value = type;
+        
+        // Show/hide role update section based on type
+        const roleSection = document.getElementById('roleUpdateSection');
+        if (type === 'role') {
+            roleSection.style.display = 'block';
+        } else {
+            roleSection.style.display = 'none';
+            document.getElementById('roleTitle').value = '';
+        }
+        
+        // Handle status changes for resignation
+        if (type === 'resignation') {
+            statusSelect.value = 'resigned';
+            endDateInput.style.display = 'block';
+            endDateInput.required = true;
+        }
+    }
+
+    // Add event listeners to update type buttons
+    document.querySelectorAll('.update-type-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            selectUpdateType(this.dataset.type);
+        });
+    });
 
     // Handle status change to show/hide end date
     statusSelect.addEventListener('change', function() {
