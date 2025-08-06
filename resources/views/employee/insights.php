@@ -7,6 +7,8 @@ $user_id = $_SESSION['user_id'] ?? null;
     <div class="mb-6">
         <h1 class="text-h3 text-white mb-2">Career Insights</h1>
         <p class="text-p-regular text-lightgray">Analytics and recommendations for your career growth</p>
+        <button id="generate-insights" class="btn-1 mt-4">Generate New Insights</button>
+        <div id="loading" class="hidden text-orange mt-2">Generating insights...</div>
     </div>
 
     <!-- Key Metrics -->
@@ -152,7 +154,8 @@ $user_id = $_SESSION['user_id'] ?? null;
     <!-- AI Recommendations -->
     <div class="mb-8">
         <h2 class="text-h4 text-orange mb-4">AI Career Recommendations</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div id="ai-recommendations" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- AI recommendations will be loaded here -->
             <div class="bg-gradient-to-r from-blue-600 to-blue-900 rounded-lg p-6 text-white shadow-lg">
                 <div class="flex items-center mb-4">
                     <div class="text-3xl mr-3">🤖</div>
@@ -270,4 +273,137 @@ $user_id = $_SESSION['user_id'] ?? null;
         </div>
         <button class="btn-2 mt-4">Create Action Plan</button>
     </div>
-</div> 
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const generateButton = document.getElementById('generate-insights');
+    const loadingIndicator = document.getElementById('loading');
+    const aiRecommendations = document.getElementById('ai-recommendations');
+    
+    // Load initial insights
+    loadInsights();
+    
+    // Generate new insights when button is clicked
+    generateButton.addEventListener('click', function() {
+        generateButton.disabled = true;
+        loadingIndicator.classList.remove('hidden');
+        
+        fetch('/public/api/ai.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error:', data.error);
+                alert('Error generating insights: ' + data.error);
+            } else {
+                updateInsights(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error generating insights. Please try again.');
+        })
+        .finally(() => {
+            generateButton.disabled = false;
+            loadingIndicator.classList.add('hidden');
+        });
+    });
+    
+    function loadInsights() {
+        fetch('/public/api/ai.php')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.error) {
+                updateInsights(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error loading insights:', error);
+        });
+    }
+    
+    function updateInsights(data) {
+        // Update AI recommendations section
+        if (data.suggested_role || data.skills_to_learn || data.action_plan) {
+            aiRecommendations.innerHTML = '';
+            
+            // Suggested Role card
+            if (data.suggested_role) {
+                const roleCard = document.createElement('div');
+                roleCard.className = 'bg-gradient-to-r from-green-600 to-green-900 rounded-lg p-6 text-white shadow-lg';
+                roleCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="text-3xl mr-3">💼</div>
+                        <h3 class="text-h5 font-semibold">Suggested Role</h3>
+                    </div>
+                    <p class="text-p-regular mb-4">Based on your career path:</p>
+                    <ul class="text-p-regular space-y-2">
+                        <li>• ${data.suggested_role}</li>
+                    </ul>
+                    <button class="btn-2 mt-4 w-full">Explore This Role</button>
+                `;
+                aiRecommendations.appendChild(roleCard);
+            }
+            
+            // Skills to Learn card
+            if (data.skills_to_learn) {
+                const skillsCard = document.createElement('div');
+                skillsCard.className = 'bg-gradient-to-r from-blue-600 to-blue-900 rounded-lg p-6 text-white shadow-lg';
+                skillsCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="text-3xl mr-3">📚</div>
+                        <h3 class="text-h5 font-semibold">Skills to Learn</h3>
+                    </div>
+                    <p class="text-p-regular mb-4">To advance your career:</p>
+                    <ul class="text-p-regular space-y-2">
+                        <li>• ${data.skills_to_learn}</li>
+                    </ul>
+                    <button class="btn-2 mt-4 w-full">Find Courses</button>
+                `;
+                aiRecommendations.appendChild(skillsCard);
+            }
+            
+            // Action Plan card
+            if (data.action_plan) {
+                const actionCard = document.createElement('div');
+                actionCard.className = 'bg-gradient-to-r from-purple-600 to-purple-900 rounded-lg p-6 text-white shadow-lg';
+                actionCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="text-3xl mr-3">📋</div>
+                        <h3 class="text-h5 font-semibold">Action Plan</h3>
+                    </div>
+                    <p class="text-p-regular mb-4">Next steps for growth:</p>
+                    <ul class="text-p-regular space-y-2">
+                        <li>• ${data.action_plan}</li>
+                    </ul>
+                    <button class="btn-2 mt-4 w-full">Create Plan</button>
+                `;
+                aiRecommendations.appendChild(actionCard);
+            }
+            
+            // Career Insight card
+            if (data.career_insight) {
+                const insightCard = document.createElement('div');
+                insightCard.className = 'bg-gradient-to-r from-orange to-orange/80 rounded-lg p-6 text-white shadow-lg';
+                insightCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="text-3xl mr-3">💡</div>
+                        <h3 class="text-h5 font-semibold">Career Insight</h3>
+                    </div>
+                    <p class="text-p-regular mb-4">Based on your profile:</p>
+                    <ul class="text-p-regular space-y-2">
+                        <li>• ${data.career_insight}</li>
+                    </ul>
+                    <button class="btn-2 mt-4 w-full">Learn More</button>
+                `;
+                aiRecommendations.appendChild(insightCard);
+            }
+        }
+    }
+});
+</script>
