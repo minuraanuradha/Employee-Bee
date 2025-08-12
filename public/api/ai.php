@@ -1,27 +1,23 @@
 <?php
+// API proxy: your frontend calls this; it calls the HF Space
 
-require_once __DIR__ . '/../../app/controllers/AiController.php';
+$projectRoot = dirname(__DIR__, 2);
+require_once $projectRoot . '/vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
+$dotenv->load();
+
+require_once $projectRoot . '/app/services/AiService.php';
 
 header('Content-Type: application/json');
 
-// Get the request method
-$method = $_SERVER['REQUEST_METHOD'];
+$skills = $_POST['skills'] ?? '';
+$education = $_POST['education'] ?? '';
+$current_role = $_POST['current_role'] ?? '';
+$experience_years = isset($_POST['experience_years']) ? floatval($_POST['experience_years']) : 0;
+$company_comment = $_POST['company_comment'] ?? '';
 
-// Create AI controller instance
-$aiController = new AiController();
+$svc = new AiService();
+$res = $svc->callHuggingFaceModel($skills, $education, $current_role, $experience_years, $company_comment);
 
-// Route based on method
-switch ($method) {
-    case 'POST':
-        // Generate new insights
-        $aiController->generateInsights();
-        break;
-    case 'GET':
-        // Get saved insights
-        $aiController->getInsights();
-        break;
-    default:
-        http_response_code(405);
-        echo json_encode(['error' => 'Method not allowed']);
-        break;
-}
+http_response_code($res['ok'] ? 200 : 502);
+echo json_encode($res, JSON_PRETTY_PRINT);

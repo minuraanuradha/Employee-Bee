@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
-
+ 
+use DateTime;
+ 
 class UserModel {
     private $pdo;
 
@@ -622,6 +624,75 @@ class UserModel {
             $stmt->execute([':employee_unique_id' => $employee_unique_id]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
-    
+        
+        /**
+         * Get current role for an employee
+         *
+         * @param string $employee_unique_id
+         * @return array
+         */
+        public function getCurrentRole($employee_unique_id) {
+            try {
+                $stmt = $this->pdo->prepare("
+                    SELECT role_title
+                    FROM company_employees
+                    WHERE employee_unique_id = :employee_unique_id
+                    AND status = 'active'
+                    ORDER BY start_date DESC
+                    LIMIT 1
+                ");
+                $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            } catch (Exception $e) {
+                return null;
+            }
+        }
+        
+        /**
+         * Calculate years of experience for an employee
+         *
+         * @param string $employee_unique_id
+         * @return int
+         */
+        public function calculateYearsOfExperience($employee_unique_id) {
+            try {
+                // Get all positions for this employee
+                $stmt = $this->pdo->prepare("
+                    SELECT start_date, end_date
+                    FROM company_employees
+                    WHERE employee_unique_id = :employee_unique_id
+                ");
+                $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+                $positions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                $totalExperienceDays = 0;
+                foreach ($positions as $position) {
+                    $startDate = new DateTime($position['start_date']);
+                    $endDate = $position['end_date'] ? new DateTime($position['end_date']) : new DateTime();
+                    $diff = $startDate->diff($endDate);
+                    $totalExperienceDays += $diff->days;
+                }
+                
+                // Convert days to years
+                return (int)($totalExperienceDays / 365);
+            } catch (Exception $e) {
+                return 0;
+            }
+        }
+        
+/**
+     * Get a list of employees for testing
+     *
+     * @return array
+     */
+    public function getAllEmployees() {
+        try {
+            $stmt = $this->pdo->prepare("SELECT unique_id, email FROM employee_auth LIMIT 10");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
     }
     ?>

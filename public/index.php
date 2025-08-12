@@ -115,6 +115,20 @@ switch ($path) {
         $layout = 'simple';
         break;
 
+    // AI test page
+    case 'test/ai_test':
+        $title = 'AI Service Test';
+        $content = include_and_capture(__DIR__ . '/../resources/views/test/ai_test.php');
+        $layout = 'simple';
+        break;
+
+    // Test local AI model service
+    case 'test/local_ai_service':
+        $title = 'Test Local AI Model Service';
+        $content = include_and_capture(__DIR__ . '/../test_local_ai_service.php');
+        $layout = 'simple';
+        break;
+
     // Login page
     case 'login':
         $title = 'Login';

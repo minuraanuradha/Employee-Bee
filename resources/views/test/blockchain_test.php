@@ -1,5 +1,5 @@
 <?php
-//require_once __DIR__ . '/../../../app/config/database.php';
+// Blockchain Integration Test
 require_once __DIR__ . '/../../../app/controllers/BlockchainController.php';
 
 $blockchainController = new BlockchainController();
@@ -19,7 +19,7 @@ $transactionHistory = $blockchainController->getTransactionHistory(null, 10);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blockchain Integration Test - Employee Bee</title>
+    <title>🔗 Blockchain Integration Test - Employee Bee</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -320,4 +320,4 @@ $transactionHistory = $blockchainController->getTransactionHistory(null, 10);
         }
     </script>
 </body>
-</html> 
+</html>

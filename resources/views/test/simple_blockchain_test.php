@@ -8,7 +8,7 @@ $config = require_once __DIR__ . '/../../../app/config/environment.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Blockchain Test - Employee Bee</title>
+    <title>🔗 Simple Blockchain Test - Employee Bee</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -264,4 +264,4 @@ $config = require_once __DIR__ . '/../../../app/config/environment.php';
         };
     </script>
 </body>
-</html> 
+</html>

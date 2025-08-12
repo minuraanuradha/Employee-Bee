@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
         generateButton.disabled = true;
         loadingIndicator.classList.remove('hidden');
         
-        fetch('/public/api/ai.php', {
+        fetch('/api/ai.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     function loadInsights() {
-        fetch('/public/api/ai.php')
+        fetch('/api/ai.php')
         .then(response => response.json())
         .then(data => {
             if (!data.error) {

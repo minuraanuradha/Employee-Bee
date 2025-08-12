@@ -35,8 +35,9 @@ return [
     // AI Service Configuration
     'ai' => [
         'enabled' => $_ENV['AI_SERVICE_ENABLED'] ?? true,
-        'api_key' => $_ENV['AI_API_KEY'] ?? 'your_ai_api_key_here',
-        'service_url' => $_ENV['AI_SERVICE_URL'] ?? 'https://api.openai.com/v1',
+        'api_key' => $_ENV['AI_API_KEY'] ?? 'your_huggingface_api_key_here',
+        // Optional: path to CA bundle for SSL verification
+        'ca_cert'    => __DIR__ . '/certs/cacert.pem', // Using downloaded cacert.pem for SSL verification
     ],
 
     // Security Configuration
