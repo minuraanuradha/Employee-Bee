@@ -19,7 +19,7 @@
   <div class="flex-1 flex flex-col justify-center items-center w-full">
     <!-- Back Button -->
     <div class="absolute top-8 left-8 fixed">
-    <button onclick="history.back()" class="btn-3 bg-white/10 transition-colors duration-300 cursor-pointer">
+    <button onclick="history.back()" class="border border-white bg-white/10 transition-colors duration-300 cursor-pointer rounded-full px-6 text-sm p-1 hover:bg-white hover:text-black">
                     Back
                 </button>
     </div>
