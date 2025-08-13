@@ -11,23 +11,23 @@
     <!-- Centered Signup Form Container -->
     <div class="w-full max-w-md px-4 overflow-y-auto max-h-[75vh]">
       <!-- Logo -->
-      <div class="flex flex-col items-center mb-6">
-        <div class="px-4 py-2 border-orange rounded-lg bg-black">
-          <img src="assets/images/Logo/Asset 2.png" alt="EmployeeBee Logo" class="h-20 w-auto object-contain" />
+      <div class="flex flex-col items-center mb-2">
+        <div class="px-4 py-2 border-orange rounded-lg ">
+          <img src="assets/images/Logo/Asset 2.png" alt="EmployeeBee Logo" class="h-16 w-auto object-contain" />
         </div>
       </div>
       
       <!-- Heading -->
-      <h1 class="text-h2 font-bold text-white tracking-widest mb-2 text-center">SIGN UP</h1>
-      <p class="text-gray-300  text-sm text-center">Start building your verified career profile today.</p>
+      <h1 class="text-4xl font-bold text-white tracking-widest text-center ">EMPLOYEE</h1>
+      <p class="text-gray-300  text-sm text-center mb-6">Start building your verified career profile today.</p>
         
-  <p class="text-center text-p-small text-lightgray mt-0 mb-4">
+  <!--<p class="text-center text-p-small text-lightgray mt-0 mb-4">
         Already have an account?
         <a href="?path=login" class="text-orange underline hover:text-orange-300">Log in</a>
-      </p>
+      </p>-->
       
       <!-- Scrollable Form Container -->
-      <div class=" overflow-y-auto pr-2 ">
+      <div class=" overflow-y-auto ">
         <form id="signup-form" method="POST" action="?path=signup/employee" class="space-y-4">
           <!-- Full Name -->
           <div>
@@ -35,7 +35,7 @@
               Full Name <span class="text-orange">*</span>
             </label>
             <input type="text" id="full_name" name="full_name" required placeholder="Enter your full name"
-              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
+              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
           </div>
           
           <!-- Email -->
@@ -44,7 +44,7 @@
               Email <span class="text-orange">*</span>
             </label>
             <input type="email" id="email" name="email" required placeholder="Enter your email address"
-              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
+              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
           </div>
           
           <!-- Password -->
@@ -53,7 +53,7 @@
               Password <span class="text-orange">*</span>
             </label>
             <input type="password" id="password" name="password" required placeholder="Create a strong password"
-              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
+              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
           </div>
           
           <!-- NIC/National ID -->
@@ -62,7 +62,7 @@
               NIC/National ID <span class="text-orange">*</span>
             </label>
             <input type="text" id="nic_or_national_id" name="nic_or_national_id" required placeholder="Enter your national ID"
-              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
+              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
           </div>
           
           <!-- Country and Birthdate Row -->
@@ -72,7 +72,7 @@
                 Country <span class="text-orange">*</span>
               </label>
               <select id="country" name="country"
-                class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm focus:outline-none focus:border-orange transition-colors duration-300">
+                class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm focus:outline-none focus:border-orange transition-colors duration-300">
                 <option value="SL" selected>Sri Lanka</option>
                 <option value="US">United States</option>
                 <option value="UK">United Kingdom</option>
@@ -90,7 +90,7 @@
                 Birth Date <span class="text-orange">*</span>
               </label>
               <input type="date" id="birthdate" name="birthdate"
-                class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm focus:outline-none focus:border-orange transition-colors duration-300" />
+                class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm focus:outline-none focus:border-orange transition-colors duration-300" />
             </div>
           </div>
           
@@ -100,7 +100,7 @@
               Phone Number <span class="text-gray-400">(optional)</span>
             </label>
             <input type="text" id="phone_number" name="phone_number" placeholder="Enter your phone number"
-              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
+              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
           </div>
           
           <!-- Location -->
@@ -109,7 +109,7 @@
               Location <span class="text-gray-400">(optional)</span>
             </label>
             <input type="text" id="location" name="location" placeholder="Enter your city/location"
-              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
+              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
           </div>
           
           <!-- LinkedIn URL -->
@@ -118,7 +118,7 @@
               LinkedIn URL <span class="text-gray-400">(optional)</span>
             </label>
             <input type="url" id="linkedin_url" name="linkedin_url" placeholder="https://linkedin.com/in/yourprofile"
-              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
+              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
           </div>
           
           <!-- Portfolio URL -->
@@ -127,7 +127,7 @@
               Portfolio URL <span class="text-gray-400">(optional)</span>
             </label>
             <input type="url" id="portfolio_url" name="portfolio_url" placeholder="https://yourportfolio.com"
-              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
+              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300" />
           </div>
           
           <!-- Skills -->
@@ -136,7 +136,7 @@
               Skills <span class="text-gray-400">(optional)</span>
             </label>
             <textarea id="skills" name="skills" rows="3" placeholder="e.g., JavaScript, Python, React, UI/UX Design"
-              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300"></textarea>
+              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300"></textarea>
           </div>
           
           <!-- Education -->
@@ -145,14 +145,48 @@
               Education <span class="text-gray-400">(optional)</span>
             </label>
             <textarea id="education" name="education" rows="3" placeholder="e.g., Bachelor's in Computer Science, University of XYZ"
-              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-transparent text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300"></textarea>
+              class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300"></textarea>
           </div>
         </form>
       </div>
       
+      <!-- Error Message -->
+      <?php if (isset($_SESSION['signup_error'])): ?>
+      <div id="errorPopup" class="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50">
+        <div class="bg-black rounded-xl p-6 w-11/12 max-w-md border border-orange/20 shadow-2xl shadow-orange/10">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-h5 text-white font-medium">Signup Error</h3>
+            <button id="closeErrorPopup" class="text-gray-400 hover:text-white text-xl">&times;</button>
+          </div>
+          <p class="text-p-regular text-gray-300 mb-4"><?php echo htmlspecialchars($_SESSION['signup_error']); ?></p>
+          <button id="closeErrorButton" class="w-full py-2 rounded-lg bg-orange/50 border border-orange text-white text-sm font-semibold hover:bg-orange/90 transition-colors duration-300">
+            OK
+          </button>
+        </div>
+      </div>
+      <?php unset($_SESSION['signup_error']); ?>
+      <?php endif; ?>
+      
+      <!-- Success Message -->
+      <?php if (isset($_SESSION['signup_success'])): ?>
+      <div id="successPopup" class="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50">
+        <div class="bg-black rounded-xl p-6 w-11/12 max-w-md border border-orange/20 shadow-2xl shadow-orange/10">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-h5 text-white font-medium">Success</h3>
+            <button id="closeSuccessPopup" class="text-gray-400 hover:text-white text-xl">&times;</button>
+          </div>
+          <p class="text-p-regular text-gray-300 mb-4"><?php echo htmlspecialchars($_SESSION['signup_success']); ?></p>
+          <button id="closeSuccessButton" class="w-full py-2 rounded-lg bg-orange/50 border border-orange text-white text-sm font-semibold hover:bg-orange/90 transition-colors duration-300">
+            OK
+          </button>
+        </div>
+      </div>
+      <?php unset($_SESSION['signup_success']); ?>
+      <?php endif; ?>
+      
       <!-- Button -->
       <button type="submit" form="signup-form"
-        class="w-full py-2 rounded-lg bg-orange/70 border border-orange text-white text-sm font-semibold hover:bg-orange/90 transition-colors duration-300 mt-6">
+        class="w-full py-2 mb-4 rounded-lg bg-orange/50 border border-orange text-white text-sm font-semibold hover:bg-orange/90 transition-colors duration-300 mt-6">
         Create My Account →
       </button>
       
@@ -171,8 +205,46 @@
   <!-- Mobile Footer -->
   <footer class="sm:hidden text-center text-p-small text-white py-2">
     © 2025 Employee Bee. All rights reserved. <br>
-    <a href="#" class="hover:underline">Privacy</a>  | 
-    <a href="#" class="hover:underline">Legal</a>  | 
+    <a href="#" class="hover:underline">Privacy</a>  |
+    <a href="#" class="hover:underline">Legal</a>  |
     <a href="#" class="hover:underline">Terms of Service</a>
   </footer>
+  
+  <script>
+    // Handle error popup closing
+    document.addEventListener('DOMContentLoaded', function() {
+      const errorPopup = document.getElementById('errorPopup');
+      const closeErrorPopup = document.getElementById('closeErrorPopup');
+      const closeErrorButton = document.getElementById('closeErrorButton');
+      
+      if (closeErrorPopup) {
+        closeErrorPopup.addEventListener('click', function() {
+          errorPopup.classList.add('hidden');
+        });
+      }
+      
+      if (closeErrorButton) {
+        closeErrorButton.addEventListener('click', function() {
+          errorPopup.classList.add('hidden');
+        });
+      }
+      
+      // Handle success popup closing
+      const successPopup = document.getElementById('successPopup');
+      const closeSuccessPopup = document.getElementById('closeSuccessPopup');
+      const closeSuccessButton = document.getElementById('closeSuccessButton');
+      
+      if (closeSuccessPopup) {
+        closeSuccessPopup.addEventListener('click', function() {
+          successPopup.classList.add('hidden');
+        });
+      }
+      
+      if (closeSuccessButton) {
+        closeSuccessButton.addEventListener('click', function() {
+          successPopup.classList.add('hidden');
+        });
+      }
+    });
+  </script>
 </div>

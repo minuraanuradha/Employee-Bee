@@ -7,13 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="<?php echo $baseURL; ?>/css/app.css" rel="stylesheet"> <!-- Relative to /public -->
 </head>
-<body class="min-h-screen flex flex-col justify-between sm:mx-10 lg:mx-28 font-roboto bg-black max-h-screen overflow-hidden">
+<body class="min-h-screen flex flex-col justify-between sm:mx-10 lg:mx-28 font-roboto bg-orange max-h-screen overflow-hidden bg-gradient-to-r from-black via-black/95 to-black">
 
   <!-- Navbar -->
   <header class="flex justify-between items-center px-6 py-4 border-b border-orange sm:border-none ">
     <!-- Logo -->
-                    <div class="px-4 py-2 border-orange rounded-lg bg-black ">
-                        <img src="assets/images/Logo/minura-04.png" alt="EmployeeBee Logo" class="h-8 w-auto object-contain" />
+                    <div class="px-4 py-2 border-orange rounded-lg ">
+                        <img src="assets/images/Logo/9999.png" alt="EmployeeBee Logo" class="h-7 w-auto object-contain" />
                     </div>
 
     <!-- Hamburger Menu (Mobile Only) -->
@@ -34,11 +34,18 @@
     </div>
 
     <!-- Desktop Navigation -->
-    <nav class="hidden sm:flex space-x-10 border border-orange/70 px-16 py-2 rounded-xl items-center bg-orange/5">
-      <a href="<?php echo $baseURL; ?>/home" class="text-p-regular text-white hover:text-orange">Home</a>
-      <a href="<?php echo $baseURL; ?>/companies" class="text-p-regular text-white hover:text-orange">Companies</a>
-      <a href="<?php echo $baseURL; ?>/about-us" class="text-p-regular text-white hover:text-orange">About</a>
-      <a href="<?php echo $baseURL; ?>/help" class="text-p-regular text-white hover:text-orange">Help</a>
+    <nav class="hidden sm:flex space-x-10 border border-orange/70 px-16 py-2 rounded-xl items-center bg-orange/5 shadow-md shadow-black">
+      <?php
+        $currentPage = $_SERVER['REQUEST_URI'];
+        $homeActive = (strpos($currentPage, '/home') !== false || $currentPage === '/') ? 'text-orange' : 'text-white';
+        $companiesActive = strpos($currentPage, '/companies') !== false ? 'text-orange' : 'text-white';
+        $aboutActive = strpos($currentPage, '/about-us') !== false ? 'text-orange' : 'text-white';
+        $helpActive = strpos($currentPage, '/help') !== false ? 'text-orange' : 'text-white';
+      ?>
+      <a href="<?php echo $baseURL; ?>/home" class="text-p-regular hover:text-orange <?php echo $homeActive; ?>">Home</a>
+      <a href="<?php echo $baseURL; ?>/companies" class="text-p-regular hover:text-orange <?php echo $companiesActive; ?>">Companies</a>
+      <a href="<?php echo $baseURL; ?>/about-us" class="text-p-regular hover:text-orange <?php echo $aboutActive; ?>">About</a>
+      <a href="<?php echo $baseURL; ?>/help" class="text-p-regular hover:text-orange <?php echo $helpActive; ?>">Help</a>
     </nav>
 
     <!-- Profile Button -->
@@ -46,7 +53,7 @@
     $isLoggedIn = isset($_SESSION['role']) && (isset($_SESSION['user_id']) || isset($_SESSION['company_id']));
     $profileUrl = $isLoggedIn ? "?path=profile" : "?path=login";
     ?>
-    <button class="hidden sm:flex btn-3" onclick="window.location.href='<?php echo $profileUrl; ?>'">
+    <button class="hidden sm:flex btn-3 shadow-md shadow-black" onclick="window.location.href='<?php echo $profileUrl; ?>'">
       Profile
     </button>
   </header>
@@ -54,10 +61,17 @@
   <!-- Mobile Menu -->
   <div id="mobile-menu" class="space-y-4 py-6 sm:hidden hidden">
     <div class="flex flex-col space-y-4 items-center text-center">
-      <a href="<?php echo $baseURL; ?>/home" class="text-p-regular text-white hover:text-orange">Home</a>
-      <a href="<?php echo $baseURL; ?>/companies" class="text-p-regular text-white hover:text-orange">Companies</a>
-      <a href="<?php echo $baseURL; ?>/about-us" class="text-p-regular text-white hover:text-orange">About</a>
-      <a href="<?php echo $baseURL; ?>/help" class="text-p-regular text-white hover:text-orange">Help</a>
+      <?php
+        $currentPage = $_SERVER['REQUEST_URI'];
+        $homeActive = (strpos($currentPage, '/home') !== false || $currentPage === '/') ? 'text-orange' : 'text-white';
+        $companiesActive = strpos($currentPage, '/companies') !== false ? 'text-orange' : 'text-white';
+        $aboutActive = strpos($currentPage, '/about-us') !== false ? 'text-orange' : 'text-white';
+        $helpActive = strpos($currentPage, '/help') !== false ? 'text-orange' : 'text-white';
+      ?>
+      <a href="<?php echo $baseURL; ?>/home" class="text-p-regular hover:text-orange <?php echo $homeActive; ?>">Home</a>
+      <a href="<?php echo $baseURL; ?>/companies" class="text-p-regular hover:text-orange <?php echo $companiesActive; ?>">Companies</a>
+      <a href="<?php echo $baseURL; ?>/about-us" class="text-p-regular hover:text-orange <?php echo $aboutActive; ?>">About</a>
+      <a href="<?php echo $baseURL; ?>/help" class="text-p-regular hover:text-orange <?php echo $helpActive; ?>">Help</a>
       <button class="btn-3" onclick="window.location.href='<?php echo $profileUrl; ?>'">
         Profile
       </button>

@@ -24,12 +24,16 @@ class UserController {
 
             // Check if email already exists
             if ($this->model->emailExists($_POST['email'])) {
-                die("Email already exists. Please use a different email.");
+                $_SESSION['signup_error'] = "Email already exists. Please use a different email.";
+                header("Location: ?path=signup/employee");
+                exit();
             }
 
             // Check if NIC already exists
             if ($this->model->nicExists($_POST['nic_or_national_id'])) {
-                die("NIC/National ID already exists. Please check your information.");
+                $_SESSION['signup_error'] = "NIC/National ID already exists. Please check your information.";
+                header("Location: ?path=signup/employee");
+                exit();
             }
 
             $data = [

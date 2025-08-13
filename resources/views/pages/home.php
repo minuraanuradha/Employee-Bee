@@ -22,9 +22,9 @@
     
     <div class="mt-20 sm:mt-14 relative group">
 
-      <button class="relative px-16 py-2 bg-darkgray text-p-regular rounded-full hover:bg-lightgray-hover transform hover:scale-105 transition-all duration-300 shadow-xs hover:shadow-orange/30 pt-2 border border-orange/20 hover:border-orange/40">
+      <button class="relative px-16 py-2 bg-black/80 text-p-regular rounded-full hover:bg-black-hover transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-black pt-2 border border-orange hover:border-orange" onclick="window.location.href='?path=login'">
         <span class="flex items-center justify-center">
-          Get Started 
+          Get Started
           <span class="ml-2 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
         </span>
       </button>

@@ -51,7 +51,9 @@ class AuthController {
                 header("Location: ?path=profile");
                 exit();
             } else {
-                echo "Invalid email or password";
+                $_SESSION['login_error'] = "Invalid email or password";
+                header("Location: ?path=login");
+                exit();
             }
         }
     }

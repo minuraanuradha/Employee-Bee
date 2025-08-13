@@ -207,6 +207,7 @@ module.exports = {
         },
         '.btn-3': {
           border: '1px solid #DCDCDC', // white
+          backgroundColor: '#DCDCDC1a',
           color: '#DCDCDC', // white
           fontSize: '0.8rem', // text-sm
           fontWeight: '500',

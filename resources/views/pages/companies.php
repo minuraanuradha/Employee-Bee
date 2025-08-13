@@ -1,5 +1,5 @@
 <main id="main-content" class="flex flex-col items-center justify-stretch text-center px-4 mt-8 mb-2 h-full w-full">
-  <div class="w-full flex flex-col items-center justify-start text-center bg-black h-full">
+  <div class="w-full flex flex-col items-center justify-start text-center h-full">
     <h1 class="text-h2 text-white mb-2 font-bold ">
       Discover Companies 
     </h1>
@@ -7,29 +7,29 @@
       Explore and connect with companies in various industries. Search for companies by name, industry, or location to find the perfect match for your career or business needs.
     </p>
     <!-- Search Bar -->
-    <div class="mt-6 flex justify-center rounded-full bg-darkgray w-2/3 sm:w-2/5">
+    <div class="mt-2 flex justify-center rounded-full bg-black w-2/3 sm:w-2/5 border-darkgray border p-1 focus:border-orange">
       <div class="flex justify-center items-center w-full max-w-lg rounded-full overflow-hidden">
-        <input type="text" id="companySearch" placeholder="Search by company name, industry, or location" class="flex-1 px-4 py-2 text-p-regular focus:outline-none bg-darkgray text-white">
-        <button id="searchButton" class="bg-orange rounded-full w-7 h-7 mr-1">
+        <input type="text" id="companySearch" placeholder="Search by company name, industry, or location" class="flex-1 px-4 py-2 text-p-regular focus:outline-none bg-black text-white">
+        <button id="searchButton" class="bg-orange/50 rounded-full w-7 h-7 mr-1">
           🔍
         </button>
       </div>
     </div>
     <!-- Company Cards -->
-    <div id="companyCardsContainer" class="bg-black overflow-y-scroll w-full flex flex-col items-center space-y-2 max-h-[45vh] mt-4">
+    <div id="companyCardsContainer" class=" overflow-y-scroll w-full flex flex-col items-center space-y-2 max-h-[45vh] mt-8  shadow-lg shadow-black">
       <!-- Company cards will be dynamically loaded here -->
     </div>
   </div>
 </main>
 
 <!-- Company Details Modal -->
-<div id="companyModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-  <div class="bg-darkgray rounded-lg p-6 w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-h4 text-white">Company Details</h2>
-      <button id="closeModal" class="text-white text-2xl">&times;</button>
+<div id="companyModal" class="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+  <div class="bg-black/95 rounded-xl p-6 w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto border border-orange/20 shadow-2xl shadow-orange/10">
+    <div class="flex justify-between items-center mb-6 pb-2 border-b border-orange/10">
+      <h2 class="text-h5 text-white font-light">Company Details</h2>
+      <button id="closeModal" class="text-gray-400 hover:text-white text-2xl transition-colors duration-200">&times;</button>
     </div>
-    <div id="companyModalContent">
+    <div id="companyModalContent" class="mt-2">
       <!-- Company details will be loaded here -->
     </div>
   </div>
@@ -99,7 +99,7 @@ function displayCompanies(companies) {
   let html = '';
   companies.forEach(company => {
     html += `
-      <div class="flex justify-between items-center px-4 py-3 border border-orange rounded-xl w-full md:w-2/3">
+      <div class="flex justify-between items-center px-4 py-3 border border-orange/50 rounded-xl w-full md:w-2/3 bg-black/80">
         <div class="flex items-center space-x-3">
           ${company.logo_path ? 
             `<img src="/employee-bee/${company.logo_path}" alt="${company.company_name}" class="w-10 h-10 rounded object-contain">` : 
@@ -110,7 +110,7 @@ function displayCompanies(companies) {
             <p class="text-p-regular text-gray-300">${company.industry || 'Industry not specified'}</p>
           </div>
         </div>
-        <button class="btn-1 ml-1" onclick="showCompanyDetails(${company.id})">View Profile</button>
+        <button class="bg-orange/50 border-orange border p-1 px-6 rounded-lg text-white text-sm ml-1 hover:bg-orange" onclick="showCompanyDetails(${company.id})">View Profile</button>
       </div>
     `;
   });
@@ -144,47 +144,95 @@ function displayCompanyDetails(company, stats) {
   const modalContent = document.getElementById('companyModalContent');
   
   modalContent.innerHTML = `
-    <div class="flex flex-col md:flex-row items-start mb-4">
-      ${company.logo_path ? 
-        `<img src="/employee-bee/${company.logo_path}" alt="${company.company_name}" class="w-16 h-16 rounded object-contain mr-4">` : 
-        `<div class="w-16 h-16 bg-orange rounded flex items-center justify-center text-white font-bold text-xl mr-4">${company.company_name.charAt(0)}</div>`
+    <!-- Company Header -->
+    <div class="flex items-start mb-4">
+      ${company.logo_path ?
+        `<img src="/employee-bee/${company.logo_path}" alt="${company.company_name}" class="w-16 h-16 rounded-lg object-contain mr-4 border border-orange/20">` :
+        `<div class="w-20 h-20 bg-gradient-to-r from-orange to-orange/80 rounded-lg flex items-center justify-center text-white font-bold text-xl mr-4">${company.company_name.charAt(0)}</div>`
       }
-      <div>
-        <h3 class="text-h3 text-white mb-2">${company.company_name}</h3>
-        <p class="text-p-regular text-gray-300">${company.industry || 'Industry not specified'}</p>
-        <p class="text-p-regular text-gray-300">${company.location || 'Location not specified'}</p>
+      <div class="">
+        <h3 class="text-2xl font-semibold text-white mb-1">${company.company_name}</h3>
+        <p class="text-gray-400 text-xs text-left">${company.industry || 'Industry not specified'}</p>
+        <p class="text-gray-400 text-xs text-left">${company.location || 'Location not specified'}</p>
       </div>
     </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-      <div class="bg-black/50 p-3 rounded">
-        <p class="text-p-regular text-gray-400">Company Size</p>
-        <p class="text-white">${company.company_size || 'Not specified'}</p>
-      </div>
-      <div class="bg-black/50 p-3 rounded">
-        <p class="text-p-regular text-gray-400">Active Members</p>
-        <p class="text-white">${stats.active_members || 0}</p>
-      </div>
-      <div class="bg-black/50 p-3 rounded">
-        <p class="text-p-regular text-gray-400">Inactive Members</p>
-        <p class="text-white">${stats.inactive_members || 0}</p>
-      </div>
-      <div class="bg-black/50 p-3 rounded">
-        <p class="text-p-regular text-gray-400">Contact Person</p>
-        <p class="text-white">${company.contact_person || 'Not specified'}</p>
-      </div>
-    </div>
-    
+
+    <!-- Member Statistics -->
     <div class="mb-4">
-      <h4 class="text-h5 text-white mb-2">About Company</h4>
-      <p class="text-p-regular text-gray-300">${company.description || 'No description available'}</p>
+      <div class="flex items-center gap-4 mb-3">
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/30">Active Members: ${stats.active_members || 0}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 bg-red-500/20 text-red-400 text-xs rounded-full border border-red-500/30">Inactive Members: ${stats.inactive_members || 0}</span>
+        </div>
+      </div>
     </div>
-    
-    <div class="flex flex-wrap gap-2">
-      ${company.website_url ? 
-        `<a href="${company.website_url}" target="_blank" class="btn-2 text-sm">Website</a>` : ''}
-      ${company.linkedin_url ? 
-        `<a href="${company.linkedin_url}" target="_blank" class="btn-2 text-sm">LinkedIn</a>` : ''}
+
+    <!-- Contact Information -->
+    <div class="mb-4 space-y-3">
+      <h4 class="text-white font-medium mb-3 text-left">Contact Information</h4>
+      
+      ${company.contact_person ? `
+        <div class="flex items-center gap-3 text-gray-300 ml-4">
+          <div class="w-4 h-4 flex items-center justify-center">
+            <span class="text-orange">👤</span>
+          </div>
+          <span class="text-xs">${company.contact_person}</span>
+        </div>
+      ` : ''}
+
+      ${company.phone_number ? `
+        <div class="flex items-center gap-3 text-gray-300 ml-4">
+          <div class="w-4 h-4 flex items-center justify-center">
+            <span class="text-orange">📞</span>
+          </div>
+          <span class="text-xs">${company.phone_number}</span>
+        </div>
+      ` : ''}
+
+      ${company.email_address ? `
+        <div class="flex items-center gap-3 text-gray-300 ml-4">
+          <div class="w-4 h-4 flex items-center justify-center">
+            <span class="text-orange">✉️</span>
+          </div>
+          <span class="text-xs">${company.email_address}</span>
+        </div>
+      ` : ''}
+
+      ${company.company_size ? `
+        <div class="flex items-center gap-3 text-gray-300 ml-4">
+          <div class="w-4 h-4 flex items-center justify-center">
+            <span class="text-orange">🏢</span>
+          </div>
+          <span class="text-xs">${company.company_size}</span>
+        </div>
+      ` : ''}
+    </div>
+
+    <!-- About Section -->
+    ${company.description ? `
+      <div class="mb-6">
+        <h4 class="text-white font-medium mb-3 text-left">About</h4>
+        <p class="text-gray-300 text-xs leading-relaxed text-left ml-4">${company.description}</p>
+      </div>
+    ` : ''}
+
+    <!-- Social Links -->
+    <div class="flex gap-3">
+      ${company.website_url ? `
+        <a href="${company.website_url}" target="_blank" class="flex items-center gap-2 px-3 py-0.5 bg-orange/10 text-orange hover:bg-orange/20 rounded-lg text-sm transition-colors duration-200 border border-orange/20">
+          <span class="text-xs">🌐</span>
+          <span>Website</span>
+        </a>
+      ` : ''}
+      
+      ${company.linkedin_url ? `
+        <a href="${company.linkedin_url}" target="_blank" class="flex items-center gap-2 px-3 py-0.5 bg-orange/10 text-orange hover:bg-orange/20 rounded-lg text-sm transition-colors duration-200 border border-orange/20">
+          <span class="text-xs">💼</span>
+          <span>LinkedIn</span>
+        </a>
+      ` : ''}
     </div>
   `;
 }
