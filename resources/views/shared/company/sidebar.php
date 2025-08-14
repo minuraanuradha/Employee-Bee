@@ -75,20 +75,20 @@ $isSettingsOpen = in_array($currentPath, $settingsSubPaths);
                 </li>
 
                 <!-- Settings -->
-                <li>
-                    <button class="flex items-center justify-between p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 toggle-btn">
-                        <div class="flex items-center space-x-2">
+                <li  >
+                    <button class="flex items-center justify-between p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 toggle-btn" >
+                        <a class="flex items-center space-x-2" href="?path=company/account-settings" >
                             <img src="assets/icons/GearSix.svg" alt="Settings Icon" class="h-4 w-4 mr-1 img">
                             <span class="sidebar-text">Settings</span>
-                        </div>
-                        <svg class="w-4 h-4 transition-transform duration-200 arrow <?= $isSettingsOpen ? 'rotate-180' : '' ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+</a>
+                        <!--<svg class="w-4 h-4 transition-transform duration-200 arrow <?= $isSettingsOpen ? 'rotate-180' : '' ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
+                        </svg>-->
                     </button>
-                    <ul class="pl-6 mt-1 space-y-1 submenu <?= $isSettingsOpen ? 'block' : 'hidden' ?>">
+                    <!--<ul class="pl-6 mt-1 space-y-1 submenu <?= $isSettingsOpen ? 'block' : 'hidden' ?>">
                         <li><a href="?path=company/account-settings" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/account-settings' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/Lock.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Account</span></a></li>
                         <li><a href="?path=company/export-data" class="flex items-center p-2 w-full rounded hover:bg-gray-700 <?= $currentPath == 'company/export-data' ? 'active bg-gray-700' : '' ?>"><img src="assets/icons/Export.svg" class="h-3 w-3 mr-1"> <span class="sidebar-text">Export</span></a></li>
-                    </ul>
+                    </ul>-->
                 </li>
 
             </ul>
