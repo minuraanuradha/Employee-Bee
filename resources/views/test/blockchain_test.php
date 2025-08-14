@@ -189,6 +189,8 @@ $transactionHistory = $blockchainController->getTransactionHistory(null, 10);
                 <p>Click a test button above to see results here.</p>
             </div>
         </div>
+        
+        <a href="test_home.php" class="btn">Back to Tests</a>
     </div>
 
     <script>

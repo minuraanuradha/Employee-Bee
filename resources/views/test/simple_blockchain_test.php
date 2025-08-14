@@ -125,6 +125,8 @@ $config = require_once __DIR__ . '/../../../app/config/environment.php';
                 <p>Click a test button above to see results here.</p>
             </div>
         </div>
+        
+        <a href="test_home.php" class="btn">Back to Tests</a>
     </div>
 
     <script>
