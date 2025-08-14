@@ -1,5 +1,5 @@
 <?php
-$currentPath = $_GET['path'] ?? 'dashboard';
+$currentPath = $_GET['path'] ?? 'company/dashboard';
 
 // Menu state flags
 $employeeSubPaths = ['company/search-employees', 'company/update-employees'];
@@ -12,16 +12,16 @@ $settingsSubPaths = ['company/account-settings', 'company/export-data'];
 $isSettingsOpen = in_array($currentPath, $settingsSubPaths);
 ?>
 
-<aside id="sidebar" class="w-52 m-2 transition-all duration-300 lg:block text-white rounded-lg shadow-xl hidden">
-    <div class="p-4 flex flex-col justify-between h-full">
-        <!-- Logo -->
+<aside id="sidebar" class="w-52  m-2 transition-all duration-300 lg:block text-white rounded-lg shadow-xl  hidden">
+    <div class="p-4 pt-2 flex flex-col justify-between h-full">
+        <!-- Logo Section -->
         <div class="pb-4 flex items-center justify-center">
-            <img src="assets/images/Logo.png" alt="Company Logo" class="h-8 w-24 rounded-full full-logo">
-            <img src="assets/images/SmallLogo.png" alt="Small Company Logo" class="h-8 w-8 rounded-full small-logo hidden">
+            <img src="assets/images/Logo/Group 19.png" alt="EMPLogo" class="w-24 full-logo">
+            <img src="assets/images/Logo/Asset 1.png" alt="Small EMP Logo" class="h-7 w-7 small-logo hidden">
         </div>
 
-        <!-- Navigation -->
-        <nav class="h-full overflow-hidden pt-0">
+        <!-- Sidebar Navigation -->
+        <nav class="h-full overflow-hidden pt-4">
             <ul class="space-y-2 content-start min-h-full overflow-hidden text-xs">
 
                 <!-- Dashboard -->
@@ -114,13 +114,26 @@ $isSettingsOpen = in_array($currentPath, $settingsSubPaths);
     #sidebar .small-logo { display: none; }
     #sidebar.w-20 .sidebar-text, #sidebar.w-20 .sidebar-arrow { display: none; }
     #sidebar.w-20 .flex.items-center { justify-content: center; }
+        #sidebar.w-20 .img{
+        margin: 0 !important;
+        display: block !important;
+        width: 15px !important;
+        max-width: 1.5rem !important;
+        max-height: 1.5rem !important;
+    }
+    .sidebar-toggle:hover{
+        background: #FF3F00;
+        background: linear-gradient(90deg,rgba(255, 63, 0, 0.84) 0%, rgba(201, 51, 2, 1) 18%, rgba(22, 22, 22, 1) 100%);
+    }
+    /* Active state */
     .active {
-        background-color: #FF3F00 !important;
+        background-color: #c93302 !important;
+        background: #FF3F00;
+        background: linear-gradient(90deg,rgba(255, 63, 0, 0.84) 0%, rgba(201, 51, 2, 1) 18%, rgba(22, 22, 22, 1) 100%);
+        /* Tailwind gray-800 */
         font-weight: 600;
     }
     .arrow.rotate-180 {
         transform: rotate(180deg);
     }
 </style>
-
-

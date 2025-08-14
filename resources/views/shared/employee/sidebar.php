@@ -4,15 +4,15 @@ $currentPath = $_GET['path'] ?? 'home';
 ?>
 
 <aside id="sidebar" class="w-52  m-2 transition-all duration-300 lg:block text-white rounded-lg shadow-xl  hidden">
-    <div class="p-4 flex flex-col justify-between h-full">
+    <div class="p-4 pt-2 flex flex-col justify-between h-full">
         <!-- Logo Section -->
         <div class="pb-4 flex items-center justify-center">
-            <img src="assets/images/Logo.png" alt="EMP Logo" class="h-8 w-24 rounded-full full-logo">
-            <img src="assets/images/SmallLogo.png" alt="Small EMP Logo" class="h-8 w-8 rounded-full small-logo hidden">
+            <img src="assets/images/Logo/Group 19.png" alt="EMPLogo" class="w-24 full-logo">
+            <img src="assets/images/Logo/Asset 1.png" alt="Small EMP Logo" class="h-7 w-7 small-logo hidden">
         </div>
 
         <!-- Sidebar Navigation -->
-        <nav class="h-full overflow-hidden pt-0">
+        <nav class="h-full overflow-hidden pt-4">
             <ul class="space-y-2 content-start min-h-full overflow-hidden text-xs">
 
                 <!-- Dashboard -->
@@ -55,12 +55,11 @@ $currentPath = $_GET['path'] ?? 'home';
                 <li>
                     <a href="?path=settings"
                         class="flex items-center p-2 px-4 w-full rounded-md hover:bg-gray-700 sidebar-toggle space-x-2 <?= $currentPath == 'settings' ? 'active bg-gray-700' : '' ?>">
-                        <img src="assets/icons/Gearsix.svg"" alt="Settings Icon" class="h-4 w-4 mr-1 img">
+                        <img src="assets/icons/Gearsix.svg" alt="Settings Icon" class="h-4 w-4 mr-1 img">
                         <span class="sidebar-text">Settings</span>
                     </a>
                 </li>
                 
-
 
                 <!-- Settings (submenu - still commented for later use) -->
                 <!--
@@ -144,10 +143,23 @@ $currentPath = $_GET['path'] ?? 'home';
         align-items: center;
     }
 
+    #sidebar.w-20 .img{
+        margin: 0 !important;
+        display: block !important;
+        width: 15px !important;
+        max-width: 1.5rem !important;
+        max-height: 1.5rem !important;
+    }
 
+    .sidebar-toggle:hover{
+        background: #FF3F00;
+        background: linear-gradient(90deg,rgba(255, 63, 0, 0.84) 0%, rgba(201, 51, 2, 1) 18%, rgba(22, 22, 22, 1) 100%);
+    }
     /* Active state */
     .active {
-        background-color: #FF3F00 !important;
+        background-color: #c93302 !important;
+        background: #FF3F00;
+        background: linear-gradient(90deg,rgba(255, 63, 0, 0.84) 0%, rgba(201, 51, 2, 1) 18%, rgba(22, 22, 22, 1) 100%);
         /* Tailwind gray-800 */
         font-weight: 600;
     }
