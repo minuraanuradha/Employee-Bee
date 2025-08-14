@@ -1,9 +1,12 @@
 <?php
 
+require_once __DIR__ . '/../models/UserModel.php';
+
 class AiService {
   private string $apiUrl;
   private string $apiKey;
   private ?string $caCert;
+  private $userModel;
 
   public function __construct() {
     $config = require __DIR__ . '/../config/environment.php';
@@ -11,6 +14,7 @@ class AiService {
     $this->apiUrl = 'http://localhost:7860/api/predict';
     $this->apiKey = $config['ai']['api_key'] ?? '';
     $this->caCert = $config['ai']['ca_cert'] ?? null;
+    $this->userModel = new UserModel();
   }
 
   /**
@@ -62,7 +66,7 @@ class AiService {
       $opts[CURLOPT_SSL_VERIFYHOST] = 2;
       $opts[CURLOPT_CAINFO] = $this->caCert;
     } else {
-      // DEV-ONLY fallback (don’t keep this in production)
+      // DEV-ONLY fallback (don't keep this in production)
       $opts[CURLOPT_SSL_VERIFYPEER] = false;
       $opts[CURLOPT_SSL_VERIFYHOST] = 0;
     }
@@ -91,5 +95,191 @@ class AiService {
     }
 
     return ['ok'=>true, 'data'=>$parsed, 'http'=>$http];
+  }
+
+  /**
+   * Calls the Hugging Face model (legacy method for backward compatibility)
+   */
+  public function callHuggingFaceModel(
+    string $skills,
+    string $education,
+    string $current_role,
+    float $experience_years,
+    string $company_comment
+  ): array {
+    // For backward compatibility, we'll use the same method
+    return $this->callAiModel($skills, $education, $current_role, $experience_years, $company_comment);
+  }
+
+  /**
+   * Generate career insights for an employee
+   * 
+   * @param string $unique_id Employee unique ID
+   * @return array Career insights or error
+   */
+  public function generateCareerInsights(string $unique_id): array {
+    // Get employee data
+    $employee = $this->userModel->getEmployeeByUniqueId($unique_id);
+    
+    if (!$employee) {
+      return ['error' => 'Employee not found'];
+    }
+    
+    // Get current role
+    $currentRole = $this->userModel->getCurrentRole($unique_id);
+    $current_role = $currentRole['role_title'] ?? 'Entry Level';
+    
+    // Calculate years of experience
+    $experience_years = $this->userModel->calculateYearsOfExperience($unique_id);
+    
+    // Get skills and education
+    $skills = $employee['skills'] ?? '';
+    $education = $employee['education'] ?? '';
+    
+    // Get employee feedback to create a more personalized company comment
+    $achievements = $this->userModel->getEmployeeAchievements($unique_id);
+    
+    // Create a personalized company comment based on employee achievements
+    if (!empty($achievements)) {
+        // Get the most recent achievement
+        $latestAchievement = $achievements[0];
+        $company_name = $latestAchievement['company_name'] ?? 'your company';
+        $role_title = $latestAchievement['role_title'] ?? 'your role';
+        
+        // Create a comment based on the feedback type
+        switch ($latestAchievement['feedback_type']) {
+            case 'promotion':
+                $company_comment = "Excellent work in {$role_title} at {$company_name}. Recently promoted        on outstanding performance.";
+                break;
+            case 'skill_update':
+                $new_skills = $latestAchievement['new_skills'] ?? 'new skills';
+                $company_comment = "Continuously developing {$new_skills} in {$role_title} at {$company_name}. Great commitment to learning.";
+                break;
+            case 'resignation':
+                $company_comment = "Valuable contributor in {$role_title} at {$company_name}. Willing to take on new challenges.";
+                break;
+            case 'comment':
+            default:
+                $feedback_text = $latestAchievement['feedback_text'] ?? 'Excellent work';
+                $company_comment = "{$feedback_text} in {$role_title} at {$company_name}.";
+                break;
+        }
+    } else {
+        // Default comment if no achievements found
+        $company_comment = 'Delivers clean, maintainable work. Excellent feedback from peers and clients.';
+    }
+    
+    // Call AI model
+    $result = $this->callAiModel(
+      $skills,
+      $education,
+      $current_role,
+      $experience_years,
+      $company_comment
+    );
+    
+    if (!$result['ok']) {
+      return ['error' => $result['error']];
+    }
+    
+    // Parse the result to match the expected format for the frontend
+    $data = $result['data'];
+    
+    // If data is a string (plain text response), we need to parse it
+    if (is_string($data)) {
+      // Try to parse as JSON first
+      $parsed = json_decode($data, true);
+      if (json_last_error() === JSON_ERROR_NONE) {
+        $data = $parsed;
+      } else {
+        // If it's not JSON, treat it as a plain text response
+        // We'll try to extract meaningful information from it
+        return [
+          'career_insight' => $data,
+          'suggested_role' => $this->extractSuggestedRole($data),
+          'skills_to_learn' => $this->extractSkillsToLearn($data),
+          'action_plan' => $this->extractActionPlan($data)
+        ];
+      }
+    }
+    
+    // If data is already an array (structured response)
+    if (is_array($data)) {
+      // Check if it's the format from our local model
+      if (isset($data['suggested_next_role'])) {
+        return [
+          'suggested_role' => $data['suggested_next_role'],
+          'skills_to_learn' => implode(', ', $data['learn'] ?? []),
+          'action_plan' => implode(', ', $data['action_plan'] ?? []),
+          'career_insight' => $data['insight'] ?? ''
+        ];
+      } else {
+        // Return as-is for other formats
+        return $data;
+      }
+    }
+    
+    return ['error' => 'Unexpected data format'];
+  }
+
+  /**
+   * Extract suggested role from plain text response
+   */
+  private function extractSuggestedRole(string $text): string {
+    // Simple pattern matching for suggested roles
+    if (preg_match('/(?:next role|suggested role|recommended role)[\s\S]*?:[\s\S]*?([A-Za-z\s]+)/i', $text, $matches)) {
+      return trim($matches[1]);
+    }
+    
+    // Fallback
+    return 'Senior Developer';
+  }
+
+  /**
+   * Extract skills to learn from plain text response
+   */
+  private function extractSkillsToLearn(string $text): string {
+    // Simple pattern matching for skills
+    if (preg_match('/(?:skills|learn)[\s\S]*?:[\s\S]*?([A-Za-z,\s]+)/i', $text, $matches)) {
+      return trim($matches[1]);
+    }
+    
+    // Fallback
+    return 'Machine Learning, Cloud Technologies';
+  }
+
+  /**
+   * Extract action plan from plain text response
+   */
+  private function extractActionPlan(string $text): string {
+    // Simple pattern matching for action plans
+    if (preg_match('/(?:action plan|steps|next steps)[\s\S]*?:[\s\S]*?([A-Za-z,\s]+)/i', $text, $matches)) {
+      return trim($matches[1]);
+    }
+    
+    // Fallback
+    return 'Complete relevant certifications, build portfolio projects';
+  }
+
+  /**
+   * Get saved insights for an employee (placeholder implementation)
+   * 
+   * @param string $unique_id Employee unique ID
+   * @return array Saved insights or empty array
+   */
+  public function getSavedInsights(string $unique_id): array {
+    // Placeholder implementation - in a real system, this would fetch from a database
+    return [];
+  }
+
+  /**
+   * Save insights for an employee (placeholder implementation)
+   * 
+   * @param array $insights Career insights to save
+   * @return bool Success status
+   */
+  public function saveInsights(array $insights): bool {
+    // Placeholder implementation - in a real system, this would save to a database
+    return true;
   }
 }

@@ -1,23 +1,35 @@
 <?php
-// API proxy: your frontend calls this; it calls the HF Space
+// API proxy: your frontend calls this; it calls the AI service
 
 $projectRoot = dirname(__DIR__, 2);
 require_once $projectRoot . '/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
 $dotenv->load();
 
-require_once $projectRoot . '/app/services/AiService.php';
+require_once $projectRoot . '/app/controllers/AiController.php';
 
 header('Content-Type: application/json');
 
-$skills = $_POST['skills'] ?? '';
-$education = $_POST['education'] ?? '';
-$current_role = $_POST['current_role'] ?? '';
-$experience_years = isset($_POST['experience_years']) ? floatval($_POST['experience_years']) : 0;
-$company_comment = $_POST['company_comment'] ?? '';
+// Handle GET requests to get saved insights
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Create AI controller
+    $aiController = new AiController();
+    
+    // Call the getInsights method
+    $aiController->getInsights();
+    exit();
+}
 
-$svc = new AiService();
-$res = $svc->callHuggingFaceModel($skills, $education, $current_role, $experience_years, $company_comment);
+// Handle POST requests to generate new insights
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Create AI controller
+    $aiController = new AiController();
+    
+    // Call the generateInsights method
+    $aiController->generateInsights();
+    exit();
+}
 
-http_response_code($res['ok'] ? 200 : 502);
-echo json_encode($res, JSON_PRETTY_PRINT);
+// If we reach here, it's an unsupported method
+http_response_code(405);
+echo json_encode(['error' => 'Method not allowed']);

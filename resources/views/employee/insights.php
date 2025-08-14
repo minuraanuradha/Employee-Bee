@@ -156,47 +156,6 @@ $user_id = $_SESSION['user_id'] ?? null;
         <h2 class="text-h5 text-orange mb-4">AI Career Recommendations</h2>
         <div id="ai-recommendations" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <!-- AI recommendations will be loaded here -->
-            <div class="bg-gradient-to-r from-blue-600/50 to-blue-900/10 border border-blue-500/80 rounded-lg p-6 text-white shadow-lg">
-                <div class="flex items-center mb-4">
-                    <div class="text-3xl mr-3">🤖</div>
-                    <h3 class="text-h5 font-semibold">Skill Development</h3>
-                </div>
-                <p class="text-p-regular mb-4">Based on market trends, consider learning:</p>
-                <ul class="text-p-regular space-y-1">
-                    <li>• Machine Learning</li>
-                    <li>• Blockchain Development</li>
-                    <li>• DevOps Practices</li>
-                </ul>
-                <button class="btn-2 mt-4 w-full">View Courses</button>
-            </div>
-
-            <div class="bg-gradient-to-r from-green-600/50 to-green-900/10 border border-green-500/80 rounded-lg p-6 text-white shadow-lg">
-                <div class="flex items-center mb-4">
-                    <div class="text-3xl mr-3">💼</div>
-                    <h3 class="text-h5 font-semibold">Career Path</h3>
-                </div>
-                <p class="text-p-regular mb-4">Recommended next steps:</p>
-                <ul class="text-p-regular space-y-1">
-                    <li>• Lead Developer Role</li>
-                    <li>• Technical Architect</li>
-                    <li>• Engineering Manager</li>
-                </ul>
-                <button class="btn-2 mt-4 w-full">Explore Roles</button>
-            </div>
-
-            <div class="bg-gradient-to-r from-purple-600/40 to-purple-900/10 border border-purple-500/80 rounded-lg p-6 text-white shadow-lg">
-                <div class="flex items-center mb-4">
-                    <div class="text-3xl mr-3">📊</div>
-                    <h3 class="text-h5 font-semibold">Market Analysis</h3>
-                </div>
-                <p class="text-p-regular mb-4">Current market insights:</p>
-                <ul class="text-p-regular space-y-1">
-                    <li>• High demand for React</li>
-                    <li>• Cloud skills +25% salary</li>
-                    <li>• Remote work opportunities</li>
-                </ul>
-                <button class="btn-2 mt-4 w-full">View Report</button>
-            </div>
         </div>
     </div>
 
@@ -289,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
         generateButton.disabled = true;
         loadingIndicator.classList.remove('hidden');
         
-        fetch('/api/ai.php', {
+        fetch('api/ai.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -315,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     function loadInsights() {
-        fetch('/api/ai.php')
+        fetch('api/ai.php')
         .then(response => response.json())
         .then(data => {
             if (!data.error) {
