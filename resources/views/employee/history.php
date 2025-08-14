@@ -11,10 +11,10 @@ $blockchainTransactions = $blockchainTransactions ?? [];
 $blockchainRecords = $blockchainRecords ?? [];
 ?>
 
-<div class="p-6 bg- min-h-screen rounded-lg shadow-md">
-    <div class="mb-6">
-        <h1 class="text-h3 text-white mb-2">Employee History</h1>
-        <p class="text-p-regular text-lightgray">View your complete employment history and project timeline</p>
+<div class="p-2 bg- min-h-screen rounded-lg shadow-md">
+    <div class="mb-4 pt-0">
+        <h2 class="text-h5 text-orange ">Employee History</h1>
+        <p class="text-p-regular-new text-lightgray">View your complete employment history and project timeline</p>
     </div>
 
     <!-- Loading State -->
@@ -27,7 +27,7 @@ $blockchainRecords = $blockchainRecords ?? [];
     <div id="historyContent" style="display: none;">
         <!-- Statistics Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div class="bg-gradient-to-r from-orange to-orange/80 rounded-lg p-4 text-white shadow-lg">
+            <div class="bg-gradient-to-r from-orange/50 to-orange/10 border border-orange/80 rounded-lg p-4 text-white shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm opacity-80">Total Experience</p>
@@ -38,7 +38,7 @@ $blockchainRecords = $blockchainRecords ?? [];
                     <div class="text-3xl opacity-60">📅</div>
                 </div>
             </div>
-            <div class="bg-gradient-to-r from-blue-600 to-blue-900 rounded-lg p-4 text-white shadow-lg">
+            <div class="bg-gradient-to-r from-blue-600/50 to-blue-900/10 border border-blue-500/80 rounded-lg p-4 text-white shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm opacity-80">Total Positions</p>
@@ -49,7 +49,7 @@ $blockchainRecords = $blockchainRecords ?? [];
                     <div class="text-3xl opacity-60">📊</div>
                 </div>
             </div>
-            <div class="bg-gradient-to-r from-green-600 to-green-900 rounded-lg p-4 text-white shadow-lg">
+            <div class="bg-gradient-to-r from-green-600/50 to-green-900/10 border border-green-500/80 rounded-lg p-4 text-white shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm opacity-80">Companies Worked</p>
@@ -60,7 +60,7 @@ $blockchainRecords = $blockchainRecords ?? [];
                     <div class="text-3xl opacity-60">🏢</div>
                 </div>
             </div>
-            <div class="bg-gradient-to-r from-purple-600 to-purple-900 rounded-lg p-4 text-white shadow-lg">
+            <div class="bg-gradient-to-r from-purple-600/40 to-purple-900/10 border border-purple-500/80 rounded-lg p-4 text-white shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm opacity-80">Skills Acquired</p>
@@ -76,7 +76,7 @@ $blockchainRecords = $blockchainRecords ?? [];
         <!-- Timeline -->
         <div class="mb-8">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-h4 text-orange">Employment Timeline</h2>
+                <h2 class="text-h5 text-orange">Employment Timeline</h2>
                 <div class="flex gap-2">
                     <button id="refreshHistory" class="btn-3 text-xs px-3 py-1">
                         <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,8 +106,8 @@ $blockchainRecords = $blockchainRecords ?? [];
 
         <!-- Achievements & Feedback -->
         <div class="mb-8" id="achievementsSection">
-            <h2 class="text-h4 text-orange mb-4">Achievements & Feedback</h2>
-            <div id="achievementsList" class="space-y-4">
+            <h2 class="text-h5 text-orange mb-4">Achievements & Feedback</h2>
+            <div id="achievementsList" class="space-y-4 border border-gray-700 rounded-lg p-8 bg-black/40">
                 <!-- Dynamic content will be inserted here -->
             </div>
         </div>
@@ -115,7 +115,7 @@ $blockchainRecords = $blockchainRecords ?? [];
         <!-- Blockchain Records -->
         <div>
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-h4 text-orange">Blockchain Employment Records</h2>
+                <h2 class="text-h5 text-orange">Blockchain Employment Records</h2>
                 <button id="verifyBlockchain" class="btn-1 text-xs px-3 py-1">
                     <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -124,29 +124,29 @@ $blockchainRecords = $blockchainRecords ?? [];
                 </button>
             </div>
             
-            <div class="bg-gradient-to-r from-purple-600 to-purple-900 rounded-lg p-6 text-white shadow-lg">
+            <div class="bg-gradient-to-r from-purple-600/40 to-purple-900/30 rounded-lg p-6 text-white shadow-lg border border-purple-700">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-h5 font-semibold">Verified Employment History</h3>
-                    <div class="text-2xl">🔗</div>
+                    <div class="text-xl">🔗</div>
                 </div>
                 <p class="text-p-regular mb-4">Your employment records are securely stored on the blockchain and verified by previous employers.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <div class="bg-white/10 rounded-lg p-3 text-white">
                         <p class="text-sm opacity-80">Records Verified</p>
-                        <p class="text-xl font-bold" id="blockchainRecordsCount">
+                        <p class="text-md font-bold" id="blockchainRecordsCount">
                             <?= count($blockchainTransactions) ?>
                         </p>
                     </div>
                     <div class="bg-white/10 rounded-lg p-3 text-white">
                         <p class="text-sm opacity-80">Blockchain Status</p>
-                        <p class="text-xl font-bold" id="blockchainStatus">
+                        <p class="text-md font-bold" id="blockchainStatus">
                             <span class="text-green-400">✓ Verified</span>
                         </p>
                     </div>
                     <div class="bg-white/10 rounded-lg p-3 text-white">
                         <p class="text-sm opacity-80">Last Updated</p>
-                        <p class="text-xl font-bold" id="lastBlockchainUpdate">
+                        <p class="text-md font-bold" id="lastBlockchainUpdate">
                             <?= !empty($blockchainTransactions) ? date('M d, Y', strtotime($blockchainTransactions[0]['created_at'])) : 'Never' ?>
                         </p>
                     </div>
@@ -154,7 +154,7 @@ $blockchainRecords = $blockchainRecords ?? [];
                 
                 <!-- Blockchain Transactions -->
                 <div id="blockchainTransactions" class="mt-4">
-                    <h4 class="text-lg font-semibold mb-2">Recent Blockchain Transactions</h4>
+                    <h4 class="text-md font-semibold mb-2">Recent Blockchain Transactions</h4>
                     <div id="transactionsList" class="space-y-2 max-h-40 overflow-y-auto">
                         <!-- Dynamic content will be inserted here -->
                     </div>
@@ -254,9 +254,9 @@ function populateTimeline(history) {
         const companyHeader = document.createElement('div');
         companyHeader.className = 'relative flex items-start mb-4';
         companyHeader.innerHTML = `
-            <div class="absolute left-2 w-4 h-4 bg-blue-500 rounded-full border-4 border-darkgray shadow-md"></div>
-            <div class="ml-8 bg-gradient-to-r from-blue-900 to-blue-700 rounded-lg p-4 flex-1 shadow">
-                <h3 class="text-h4 text-white font-semibold">${company.company_name || 'Unknown Company'}</h3>
+            <div class="absolute left-2 w-4 h-4 bg-orange rounded-full border-4 border-darkgray shadow-md"></div>
+            <div class="ml-8 bg-gradient-to-r from-orange/40 to-orange/5 rounded-lg p-4 py-2 flex-1 shadow">
+                <h3 class="text-h5 text-white font-semibold">${company.company_name || 'Unknown Company'}</h3>
             </div>
         `;
         timelineItems.appendChild(companyHeader);
