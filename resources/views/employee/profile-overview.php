@@ -20,7 +20,8 @@
                 <div class="text-2xl font-bold text-white"><?= htmlspecialchars($employee['full_name'] ?? 'No Name') ?></div>
                 <div class="text-gray-300 text-xs mb-2"><span class="text-p-regular text-white font-medium"><?= htmlspecialchars($employee['unique_id'] ?? 'No ID') ?></span></div>
             </div>
-            <div class="text-lightgray text-sm mb-1">Position: <span class="font-semibold text-white">  <?= htmlspecialchars($employee['position'] ?? 'Employee') ?></span></div>
+            <div class="text-lightgray text-sm mb-1">Current Company: <span class="font-semibold text-white">  <?= htmlspecialchars($employee['company'] ?? 'N/A') ?></span></div>
+            <div class="text-lightgray text-sm mb-1">Current Role: <span class="font-semibold text-white">  <?= htmlspecialchars($employee['position'] ?? 'Employee') ?></span></div>
         </div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
@@ -69,9 +70,9 @@
                 <span class="text-p-regular-new text-lightgray">LinkedIn:</span>
                 <?php if (!empty($employee['linkedin_url'])): ?>
                     <a href="<?= htmlspecialchars($employee['linkedin_url']) ?>" 
-                       class="text-p-regular-new text-orange/50 font-medium cursor-pointer hover:text-orange hover:underline" 
+                       class="text-p-regular-new text-orange/70 font-medium cursor-pointer hover:text-orange hover:underline" 
                        target="_blank" rel="noopener noreferrer">
-                        <?= htmlspecialchars($employee['linkedin_url']) ?>
+                        Link
                     </a>
                 <?php else: ?>
                     <span class="text-p-regular-new text-orange/50 font-medium cursor-pointer">N/A</span>
@@ -81,9 +82,9 @@
                 <span class="text-p-regular-new text-lightgray">Portfolio:</span>
                 <?php if (!empty($employee['portfolio_url'])): ?>
                     <a href="<?= htmlspecialchars($employee['portfolio_url']) ?>" 
-                       class="text-p-regular-new text-orange/50 font-medium cursor-pointer hover:text-orange hover:underline" 
+                       class="text-p-regular-new text-orange/70 font-medium cursor-pointer hover:text-orange hover:underline" 
                        target="_blank" rel="noopener noreferrer">
-                        <?= htmlspecialchars($employee['portfolio_url']) ?>
+                        Link
                     </a>
                 <?php else: ?>
                     <span class="text-p-regular-new text-orange/50 font-medium cursor-pointer">N/A</span>
@@ -122,35 +123,37 @@
             <h3 class="text-h5 text-orange mb-4">Skills & Education</h3>
             <div class="space-y-3">
                 <div>
-                    <span class="text-p-regular-new text-lightgray">Skills:</span>
-                    <div class="flex flex-wrap gap-2 mt-2">
-                        <?php 
-                        $skills = $employee['skills'] ? json_decode($employee['skills'], true) : [];
-                        if (!empty($skills)) {
-                            foreach ($skills as $skill) {
-                                echo '<span class="bg-orange text-white px-3 py-1 rounded-full text-xs">' . htmlspecialchars($skill) . '</span>';
-                            }
-                        } else {
-                            echo '<span class="text-gray-500 text-sm">No skills listed</span>';
-                        }
-                        ?>
-                    </div>
-                </div>
+                                    <span class="text-p-regular-new text-lightgray">Skills:</span>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <?php
+                                        $skills = $employee['skills'] ? array_map('trim', explode(',', $employee['skills'])) : [];
+                                        if (!empty($skills)) {
+                                            foreach ($skills as $skill) {
+                                                if (!empty($skill)) {
+                                                    echo '<span class="bg-orange text-white px-3 py-1 rounded-full text-xs">' . htmlspecialchars($skill) . '</span>';
+                                                }
+                                            }
+                                        } else {
+                                            echo '<span class="text-gray-500 text-sm">No skills listed</span>';
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
                 <div>
-                    <span class="text-p-regular-new text-lightgray">Education:</span>
-                    <div class="mt-2">
-                        <?php 
-                        $education = $employee['education'] ? json_decode($employee['education'], true) : [];
-                        if (!empty($education)) {
-                            foreach ($education as $edu) {
-                                echo '<div class="text-p-regular-new text-white">• ' . htmlspecialchars($edu) . '</div>';
-                            }
-                        } else {
-                            echo '<div class="text-gray-500 text-sm">No education listed</div>';
-                        }
-                        ?>
-                    </div>
-                </div>
+                                    <span class="text-p-regular-new text-lightgray">Education:</span>
+                                    <div class="mt-2">
+                                        <?php
+                                        $education = $employee['education'] ? array_filter(array_map('trim', explode("\n", $employee['education']))) : [];
+                                        if (!empty($education)) {
+                                            foreach ($education as $edu) {
+                                                echo '<div class="text-p-regular-new text-white">• ' . htmlspecialchars($edu) . '</div>';
+                                            }
+                                        } else {
+                                            echo '<div class="text-gray-500 text-sm">No education listed</div>';
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
             </div>
         </div>
         <!-- Preferences -->
