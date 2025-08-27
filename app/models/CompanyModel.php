@@ -98,14 +98,94 @@ class CompanyModel {
     // Get company statistics (active/inactive members count)
     public function getCompanyStats($companyId) {
         $stmt = $this->pdo->prepare("
-            SELECT 
+            SELECT
                 COUNT(CASE WHEN status = 'active' THEN 1 END) as active_members,
                 COUNT(CASE WHEN status IN ('inactive', 'resigned', 'terminated') THEN 1 END) as inactive_members
-            FROM company_employees 
+            FROM company_employees
             WHERE company_id = :company_id
         ");
         $stmt->execute([':company_id' => $companyId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    // Get total employee count for a company
+    public function getTotalEmployeeCount($companyId) {
+        $stmt = $this->pdo->prepare("
+            SELECT COUNT(*) as total_employees
+            FROM company_employees
+            WHERE company_id = :company_id
+        ");
+        $stmt->execute([':company_id' => $companyId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total_employees'] ?? 0;
+    }
+    
+    // Get active employee count for a company
+    public function getActiveEmployeeCount($companyId) {
+        $stmt = $this->pdo->prepare("
+            SELECT COUNT(*) as active_employees
+            FROM company_employees
+            WHERE company_id = :company_id AND status = 'active'
+        ");
+        $stmt->execute([':company_id' => $companyId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['active_employees'] ?? 0;
+    }
+    
+    // Get inactive employee count for a company
+    public function getInactiveEmployeeCount($companyId) {
+        $stmt = $this->pdo->prepare("
+            SELECT COUNT(*) as inactive_employees
+            FROM company_employees
+            WHERE company_id = :company_id AND status IN ('inactive', 'resigned', 'terminated')
+        ");
+        $stmt->execute([':company_id' => $companyId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['inactive_employees'] ?? 0;
+    }
+    
+    // Get new employees count for this month for a company
+    public function getNewEmployeesThisMonth($companyId) {
+        $stmt = $this->pdo->prepare("
+            SELECT COUNT(*) as new_employees
+            FROM company_employees
+            WHERE company_id = :company_id
+            AND YEAR(start_date) = YEAR(CURDATE())
+            AND MONTH(start_date) = MONTH(CURDATE())
+        ");
+        $stmt->execute([':company_id' => $companyId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['new_employees'] ?? 0;
+    }
+    
+    // Get most common roles for a company
+    public function getMostCommonRoles($companyId) {
+        $stmt = $this->pdo->prepare("
+            SELECT role_title, COUNT(*) as count
+            FROM company_employees
+            WHERE company_id = :company_id
+            GROUP BY role_title
+            ORDER BY count DESC
+            LIMIT 10
+        ");
+        $stmt->execute([':company_id' => $companyId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    // Get employee growth trend data (monthly count for last 6 months)
+    public function getEmployeeGrowthTrend($companyId) {
+        $stmt = $this->pdo->prepare("
+            SELECT
+                DATE_FORMAT(start_date, '%Y-%m') as month,
+                COUNT(*) as count
+            FROM company_employees
+            WHERE company_id = :company_id
+            AND start_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+            GROUP BY DATE_FORMAT(start_date, '%Y-%m')
+            ORDER BY month ASC
+        ");
+        $stmt->execute([':company_id' => $companyId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>

@@ -106,11 +106,11 @@
 
                     <div class="flex justify-between bg-black/40 rounded-lg px-6 p-4 shadow  border border-green-400/5 hover-glow-green glass-effect-green">
                         <span class="text-p-regular-new text-lightgray">Active Members:</span>
-                        <span class="text-green-400  text-sm "><?= htmlspecialchars($company['company_size'] ?? 'N/A') ?></span>
+                        <span class="text-green-400  text-sm "><?= htmlspecialchars($activeMembers) ?></span>
                     </div>
                     <div class="flex justify-between bg-black/40 rounded-lg px-6 p-4 shadow  border border-red-600/5 hover-glow-red glass-effect-red">
                         <span class="text-p-regular-new text-lightgray">Inactive Members:</span>
-                        <span class="text-red-600  text-sm ">N/A</span>
+                        <span class="text-red-600  text-sm "><?= htmlspecialchars($inactiveMembers) ?></span>
                     </div>
                 </div>
             </div>

@@ -425,7 +425,18 @@ switch ($path) {
         // Restrict access to logged-in companies
         if (isset($_SESSION['role']) && $_SESSION['role'] == 'company' && isset($_SESSION['company_id'])) {
             $title = 'Dashboard';
-            $content = include_and_capture(__DIR__ . '/../resources/views/company/index.php');
+            // Get company stats
+            $companyModel = new CompanyModel();
+            $companyId = $_SESSION['company_id'];
+            $totalEmployees = $companyModel->getTotalEmployeeCount($companyId);
+            $activeEmployees = $companyModel->getActiveEmployeeCount($companyId);
+            $inactiveEmployees = $companyModel->getInactiveEmployeeCount($companyId);
+            $newEmployeesThisMonth = $companyModel->getNewEmployeesThisMonth($companyId);
+            $mostCommonRoles = $companyModel->getMostCommonRoles($companyId);
+            $employeeGrowthTrend = $companyModel->getEmployeeGrowthTrend($companyId);
+            ob_start();
+            include __DIR__ . '/../resources/views/company/index.php';
+            $content = ob_get_clean();
             $layout = 'company_dashboard';
         } else {
             // Redirect to login if not authorized
@@ -441,7 +452,11 @@ switch ($path) {
             $title = 'Company Profile';
             // Fetch company data
             $companyModel = new CompanyModel();
-            $company = $companyModel->getById($_SESSION['company_id']);
+            $companyId = $_SESSION['company_id'];
+            $company = $companyModel->getById($companyId);
+            // Fetch active and inactive employee counts
+            $activeMembers = $companyModel->getActiveEmployeeCount($companyId);
+            $inactiveMembers = $companyModel->getInactiveEmployeeCount($companyId);
             // Capture profile view output
             ob_start();
             include __DIR__ . '/../resources/views/company/profile-overview.php';
