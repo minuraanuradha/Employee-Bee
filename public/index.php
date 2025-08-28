@@ -178,6 +178,22 @@ switch ($path) {
         // Restrict access to logged-in employees
         if (isset($_SESSION['role']) && $_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
             $title = 'Employee Dashboard';
+            // Get employee data for the view
+            $userModel = new UserModel();
+            $employee = $userModel->getEmployeeById($_SESSION['user_id']);
+            if ($employee) {
+                $employmentHistory = $userModel->getEmployeeHistory($employee['unique_id']);
+                $careerStats = $userModel->getEmployeeCareerStats($employee['unique_id']);
+            } else {
+                // Initialize variables with default values if employee not found
+                $employee = [];
+                $employmentHistory = [];
+                $careerStats = [];
+            }
+            // Debug: Print variables to see what's being passed
+            error_log("Employee Dashboard - Employee: " . print_r($employee, true));
+            error_log("Employee Dashboard - Employment History: " . print_r($employmentHistory, true));
+            error_log("Employee Dashboard - Career Stats: " . print_r($careerStats, true));
             $content = include_and_capture(__DIR__ . '/../resources/views/employee/index.php');
             $layout = 'profile_dashboard';
         } else {
@@ -202,7 +218,7 @@ switch ($path) {
             break;
 
     // Navigation after login
-    case 'profile': 
+    case 'profile':
         // Log session details for debugging
         // REMOVE: console_log("Checking session for profile: role=" . ($_SESSION['role'] ?? 'none') . ", user_id=" . ($_SESSION['user_id'] ?? 'none') . ", company_id=" . ($_SESSION['company_id'] ?? 'none'), 'debug');
         // Check if user is logged in
@@ -210,6 +226,22 @@ switch ($path) {
             // Handle employee profile
             if ($_SESSION['role'] == 'employee' && isset($_SESSION['user_id'])) {
                 $title = 'Employee Profile';
+                // Get employee data for the view
+                $userModel = new UserModel();
+                $employee = $userModel->getEmployeeById($_SESSION['user_id']);
+                if ($employee) {
+                    $employmentHistory = $userModel->getEmployeeHistory($employee['unique_id']);
+                    $careerStats = $userModel->getEmployeeCareerStats($employee['unique_id']);
+                } else {
+                    // Initialize variables with default values if employee not found
+                    $employee = [];
+                    $employmentHistory = [];
+                    $careerStats = [];
+                }
+                // Debug: Print variables to see what's being passed
+                error_log("Employee Profile - Employee: " . print_r($employee, true));
+                error_log("Employee Profile - Employment History: " . print_r($employmentHistory, true));
+                error_log("Employee Profile - Career Stats: " . print_r($careerStats, true));
                 $content = include_and_capture(__DIR__ . '/../resources/views/employee/index.php');
                 $layout = 'profile_dashboard'; // Use dashboard layout for employee
             // Handle company profile

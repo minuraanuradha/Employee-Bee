@@ -91,13 +91,23 @@ class UserController {
     }
     
     public function profile() {
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employee') {
-            header("Location: ?path=login");
-            exit();
+            if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employee') {
+                header("Location: ?path=login");
+                exit();
+            }
+            $employee = $this->model->getEmployeeById($_SESSION['user_id']);
+            if (!$employee) {
+                $_SESSION['error'] = "Employee profile not found.";
+                header("Location: ?path=error");
+                exit();
+            }
+            
+            // Get employment history and career stats for the dashboard
+            $employmentHistory = $this->model->getEmployeeHistory($employee['unique_id']);
+            $careerStats = $this->model->getEmployeeCareerStats($employee['unique_id']);
+            
+            include '../resources/views/employee/index.php';
         }
-        $employee = $this->model->getEmployeeById($_SESSION['user_id']);
-        include '../resources/views/employee/index.php';
-    }
 
     public function profileOverview() {
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employee') {

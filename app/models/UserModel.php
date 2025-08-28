@@ -108,7 +108,8 @@ class UserModel {
             WHERE ea.id = :id
         ");
         $stmt->execute([':id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
     }
     
     // Get employee by unique_id

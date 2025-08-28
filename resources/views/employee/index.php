@@ -4,12 +4,18 @@ $user_id = $_SESSION['user_id'] ?? null;
 $user_role = $_SESSION['role'] ?? null;
 $unique_id = $_SESSION['unique_id'] ?? null;
 // $employee is expected to be provided by the controller
+$employee = $employee ?? [];
 $username = $employee['full_name'] ?? $_SESSION['full_name'] ?? 'Employee';
 $unique_id_display = $employee['unique_id'] ?? $unique_id ?? 'N/A';
+
+// Debug: Print variables to see what's being passed
+// error_log("Index View - Employee: " . print_r($employee, true));
+// error_log("Index View - Employment History: " . print_r($employmentHistory, true));
+// error_log("Index View - Career Stats: " . print_r($careerStats, true));
 ?>
 
 <!-- Welcome Banner -->
-<div class="bg-gradient-to-r from-orange to-orange/80 rounded-xl shadow-lg p-6 mb-6 text-white">
+<div class="bg-gradient-to-r from-orange to-orange/80 rounded-xl shadow-lg p-6 mb-6 text-white h-1/2">
     <h1 class="text-h3 font-bold mb-2">Welcome, <?= htmlspecialchars(explode(' ', $username)[0]) ?>!</h1>
     <p class="text-p-regular">Here's your career dashboard at a glance</p>
     <div class="flex flex-wrap gap-4 mt-4">
@@ -24,20 +30,7 @@ $unique_id_display = $employee['unique_id'] ?? $unique_id ?? 'N/A';
     </div>
 </div>
 
-<!-- Dashboard Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-    <!-- Calendar Section -->
-    <div class="bg-gray-800 rounded-xl shadow-lg p-6">
-        <h2 class="text-h4 font-bold mb-4 text-white">Calendar</h2>
-        <div id="dashboard-calendar" class="bg-gray-900 rounded-lg p-4"></div>
-    </div>
-    
-    <!-- Work Companies & Period Diagram -->
-    <div class="bg-gray-800 rounded-xl shadow-lg p-6">
-        <h2 class="text-h4 font-bold mb-4 text-white">Work History Overview</h2>
-        <canvas id="workHistoryChart" width="400" height="400"></canvas>
-    </div>
-</div>
+
 
 <!-- Chart.js & Calendar Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -252,3 +245,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+
+            }
+        }
+    });
+});
+</script>
+

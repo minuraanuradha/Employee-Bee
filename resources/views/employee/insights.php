@@ -209,7 +209,7 @@ $user_id = $_SESSION['user_id'] ?? null;
         </div>
     </div>  -->
 
-    <!-- Action Items -->
+    <!-- Action Items 
     <div class="bg-gradient-to-r from-orange/70 to-orange/40 border border-orange/80  rounded-lg p-6 text-white shadow-lg">
         <h2 class="text-h5 font-semibold mb-4">Recommended Actions</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -232,7 +232,7 @@ $user_id = $_SESSION['user_id'] ?? null;
         </div>
         <button class="btn-2 mt-4">Create Action Plan</button>
     </div>
-</div>
+</div>-->
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <ul class="text-p-regular space-y-2">
                         <li>• ${data.suggested_role}</li>
                     </ul>
-                    <button class="btn-2 mt-4 w-full">Explore This Role</button>
+                    
                 `;
                 aiRecommendations.appendChild(roleCard);
             }
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <ul class="text-p-regular space-y-2">
                         <li>• ${data.skills_to_learn}</li>
                     </ul>
-                    <button class="btn-2 mt-4 w-full">Find Courses</button>
+                    
                 `;
                 aiRecommendations.appendChild(skillsCard);
             }
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <ul class="text-p-regular space-y-2">
                         <li>• ${data.action_plan}</li>
                     </ul>
-                    <button class="btn-2 mt-4 w-full">Create Plan</button>
+                    
                 `;
                 aiRecommendations.appendChild(actionCard);
             }
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <ul class="text-p-regular space-y-2">
                         <li>• ${data.career_insight}</li>
                     </ul>
-                    <button class="btn-2 mt-4 w-full">Learn More</button>
+                    
                 `;
                 aiRecommendations.appendChild(insightCard);
             }
