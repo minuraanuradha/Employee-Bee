@@ -155,7 +155,11 @@ $user_id = $_SESSION['user_id'] ?? null;
     <div class="mb-8">
         <h2 class="text-h5 text-orange mb-4">AI Career Recommendations</h2>
         <div id="ai-recommendations" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- AI recommendations will be loaded here -->
+            <div class="bg-gradient-to-r from-gray-700 to-gray-900 rounded-lg p-6 text-white shadow-lg text-center">
+                <div class="text-3xl mb-4">💡</div>
+                <h3 class="text-h5 font-semibold mb-2">No Insights Yet</h3>
+                <p class="text-p-regular mb-4">Click "Generate New Insights" to get personalized career recommendations.</p>
+            </div>
         </div>
     </div>
 
@@ -240,9 +244,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadingIndicator = document.getElementById('loading');
     const aiRecommendations = document.getElementById('ai-recommendations');
     
-    // Load initial insights
-    loadInsights();
-    
     // Generate new insights when button is clicked
     generateButton.addEventListener('click', function() {
         generateButton.disabled = true;
@@ -288,11 +289,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function updateInsights(data) {
         // Update AI recommendations section
-        if (data.suggested_role || data.skills_to_learn || data.action_plan) {
+        if (data.suggested_role || data.skills_to_learn || data.action_plan || data.learn || data.action_plan || data.insight) {
             aiRecommendations.innerHTML = '';
             
             // Suggested Role card
-            if (data.suggested_role) {
+            if (data.suggested_role || data.suggested_next_role) {
                 const roleCard = document.createElement('div');
                 roleCard.className = 'bg-gradient-to-r from-green-600 to-green-900 rounded-lg p-6 text-white shadow-lg';
                 roleCard.innerHTML = `
@@ -302,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <p class="text-p-regular mb-4">Based on your career path:</p>
                     <ul class="text-p-regular space-y-2">
-                        <li>• ${data.suggested_role}</li>
+                        <li>• ${data.suggested_role || data.suggested_next_role}</li>
                     </ul>
                     
                 `;
@@ -310,9 +311,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Skills to Learn card
-            if (data.skills_to_learn) {
+            if (data.skills_to_learn || data.learn) {
                 const skillsCard = document.createElement('div');
                 skillsCard.className = 'bg-gradient-to-r from-blue-600 to-blue-900 rounded-lg p-6 text-white shadow-lg';
+                const skills = data.skills_to_learn || (Array.isArray(data.learn) ? data.learn.join(', ') : data.learn);
                 skillsCard.innerHTML = `
                     <div class="flex items-center mb-4">
                         <div class="text-3xl mr-3">📚</div>
@@ -320,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <p class="text-p-regular mb-4">To advance your career:</p>
                     <ul class="text-p-regular space-y-2">
-                        <li>• ${data.skills_to_learn}</li>
+                        <li>• ${skills}</li>
                     </ul>
                     
                 `;
@@ -331,6 +333,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.action_plan) {
                 const actionCard = document.createElement('div');
                 actionCard.className = 'bg-gradient-to-r from-purple-600 to-purple-900 rounded-lg p-6 text-white shadow-lg';
+                const actionPlanItems = Array.isArray(data.action_plan) ? data.action_plan : [data.action_plan];
+                const actionPlanHtml = actionPlanItems.map(item => `<li>• ${item}</li>`).join('');
                 actionCard.innerHTML = `
                     <div class="flex items-center mb-4">
                         <div class="text-3xl mr-3">📋</div>
@@ -338,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <p class="text-p-regular mb-4">Next steps for growth:</p>
                     <ul class="text-p-regular space-y-2">
-                        <li>• ${data.action_plan}</li>
+                        ${actionPlanHtml}
                     </ul>
                     
                 `;
@@ -346,9 +350,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Career Insight card
-            if (data.career_insight) {
+            if (data.career_insight || data.insight) {
                 const insightCard = document.createElement('div');
                 insightCard.className = 'bg-gradient-to-r from-orange to-orange/80 rounded-lg p-6 text-white shadow-lg';
+                const insight = data.career_insight || data.insight;
                 insightCard.innerHTML = `
                     <div class="flex items-center mb-4">
                         <div class="text-3xl mr-3">💡</div>
@@ -356,12 +361,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <p class="text-p-regular mb-4">Based on your profile:</p>
                     <ul class="text-p-regular space-y-2">
-                        <li>• ${data.career_insight}</li>
+                        <li>• ${insight}</li>
                     </ul>
                     
                 `;
                 aiRecommendations.appendChild(insightCard);
             }
+        } else {
+            // Show a message if no insights are available
+            aiRecommendations.innerHTML = `
+                <div class="bg-gradient-to-r from-gray-700 to-gray-900 rounded-lg p-6 text-white shadow-lg text-center">
+                    <div class="text-3xl mb-4">🤔</div>
+                    <h3 class="text-h5 font-semibold mb-2">No Personalized Insights</h3>
+                    <p class="text-p-regular mb-4">We couldn't generate personalized insights for your profile at the moment. Please try again later.</p>
+                </div>
+            `;
         }
     }
 });

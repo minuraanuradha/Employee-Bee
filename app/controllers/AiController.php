@@ -14,7 +14,7 @@ class AiController {
     
     /**
      * Generate career insights for the current user
-     * 
+     *
      * @return void
      */
     public function generateInsights() {
@@ -30,6 +30,7 @@ class AiController {
         
         // Get user details
         $user = $this->userModel->getEmployeeById($user_id);
+        
         if (!$user) {
             http_response_code(404);
             echo json_encode(['error' => 'User not found']);
@@ -45,7 +46,7 @@ class AiController {
             return;
         }
         
-        // Save insights (placeholder for future implementation)
+        // Save insights
         $this->aiService->saveInsights($insights);
         
         // Return insights
@@ -55,7 +56,7 @@ class AiController {
     
     /**
      * Get saved insights for the current user
-     * 
+     *
      * @return void
      */
     public function getInsights() {
@@ -79,11 +80,6 @@ class AiController {
         
         // Get saved insights
         $insights = $this->aiService->getSavedInsights($user['unique_id']);
-        
-        // If no saved insights, generate new ones
-        if (empty($insights)) {
-            $insights = $this->aiService->generateCareerInsights($user['unique_id']);
-        }
         
         header('Content-Type: application/json');
         echo json_encode($insights);

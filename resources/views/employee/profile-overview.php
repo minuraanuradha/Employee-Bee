@@ -20,8 +20,8 @@
                 <div class="text-2xl font-bold text-white"><?= htmlspecialchars($employee['full_name'] ?? 'No Name') ?></div>
                 <div class="text-gray-300 text-xs mb-2"><span class="text-p-regular text-white font-medium"><?= htmlspecialchars($employee['unique_id'] ?? 'No ID') ?></span></div>
             </div>
-            <div class="text-lightgray text-sm mb-1">Current Company: <span class="font-semibold text-white">  <?= htmlspecialchars($employee['company'] ?? 'N/A') ?></span></div>
-            <div class="text-lightgray text-sm mb-1">Current Role: <span class="font-semibold text-white">  <?= htmlspecialchars($employee['position'] ?? 'Employee') ?></span></div>
+            <!--div class="text-lightgray text-sm mb-1">Current Company: <span class="font-semibold text-white">  <?= htmlspecialchars($employee['company'] ?? 'N/A') ?></span></div>
+            <div class="text-lightgray text-sm mb-1">Current Role: <span class="font-semibold text-white">  <?= htmlspecialchars($employee['position'] ?? 'Employee') ?></span></div>-->
         </div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
