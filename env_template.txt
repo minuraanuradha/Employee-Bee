@@ -1,0 +1,38 @@
+# Database Configuration
+DB_HOST=localhost
+DB_NAME=employee_bee_db
+DB_USER=root
+DB_PASS=
+
+# Application Configuration
+APP_NAME=Employee-Bee
+APP_ENV=development
+APP_DEBUG=true
+APP_URL=http://localhost/Employee-Bee
+APP_KEY=your_app_secret_key_here_change_this_in_production
+
+# Blockchain Configuration
+BLOCKCHAIN_NETWORK=sepolia
+BLOCKCHAIN_RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_PROJECT_ID
+BLOCKCHAIN_PRIVATE_KEY=your_private_key_here_from_metamask
+EMPLOYMENT_RECORD_CONTRACT_ADDRESS=0xa4ee796134437692Ac0F93F2f813DFfdfA107CE4
+
+# AI Service Configuration
+AI_SERVICE_ENABLED=true
+AI_API_KEY=your_ai_api_key_here
+AI_SERVICE_URL=https://api.openai.com/v1
+
+# Security Configuration
+SESSION_SECURE=false
+SESSION_HTTP_ONLY=true
+
+# File Upload Configuration
+UPLOAD_MAX_SIZE=10485760
+ALLOWED_FILE_TYPES=jpg,jpeg,png,pdf,doc,docx
+
+# Logging Configuration
+LOG_LEVEL=debug
+LOG_CHANNEL=file
+
+# Node.js Bridge Configuration
+BRIDGE_PORT=3001 

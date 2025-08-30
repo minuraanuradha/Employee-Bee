@@ -1,8 +1,8 @@
-<div class="h-full w-full  flex flex-col justify-between px-6 lg:px-0">
+<div class="h-[calc(100vh-16px)] w-full  flex flex-col justify-between px-6 lg:px-0">
         <div class="flex-1 flex flex-col justify-center items-center w-full h-full">
             <!-- Back Button -->
             <div class="absolute top-8 left-8">
-                <button onclick="history.back()" class="btn-3 transition-colors duration-300 cursor-pointer">
+                <button onclick="history.back()" class="border border-white bg-white/10 transition-colors duration-300 cursor-pointer rounded-full px-6 text-sm p-1 hover:bg-white hover:text-black">
                     Back
                 </button>
             </div>
@@ -11,8 +11,8 @@
             <form method="POST" action="?path=signup" class="flex flex-col items-center w-full max-w-sm">
                 <!-- Logo -->
                 <div class="  flex flex-col items-center ">
-                    <div class="px-4 py-2 border-orange rounded-lg bg-black ">
-                        <img src="assets/images/Logo/Lgo.png" alt="EmployeeBee Logo" class="h-20 w-auto object-contain" />
+                    <div class="px-4 py-2 border-orange rounded-lg ">
+                        <img src="assets/images/Logo/Asset 2.png" alt="EmployeeBee Logo" class="h-16 w-auto object-contain" />
                     </div>
                 </div>
                 
@@ -25,7 +25,7 @@
                 
                 <!-- Account Type Section -->
                 <div class="w-full mb-8">
-                    <h2 class="text-lg text-gray-300 mb-6 text-sm">1. Choose account type</h2>
+                    <h2 class="text-center text-gray-300 mb-6 text-sm">Choose account type</h2>
                     
                     <!-- Account Type Buttons -->
                     <div class="flex gap-4 mb-6">
@@ -41,7 +41,7 @@
                             type="button"
                             onclick="selectAccountType('company')" 
                             id="companyBtn"
-                            class="flex-1 py-2 bg-transparent border border-gray-600 text-sm text-gray-300 font-semibold rounded-lg hover:border-orange hover:text-orange transition-colors duration-300"
+                            class="flex-1 py-2 bg-black border border-gray-600 text-sm text-gray-300 font-semibold rounded-lg hover:border-orange hover:text-orange transition-colors duration-300"
                         >
                             Company
                         </button>
@@ -54,7 +54,7 @@
                     <button 
                         type="button"
                         onclick="goToNextStep()"
-                        class="w-full py-3 bg-transparent border border-orange  text-sm font-semibold rounded-lg hover:bg-orange text-white transition-colors duration-300"
+                        class="w-full py-3 border border-orange bg-orange/50 text-sm font-semibold rounded-lg hover:bg-orange text-white transition-colors duration-300"
                     >
                         Next Steps
                     </button>
@@ -91,11 +91,11 @@ function selectAccountType(type) {
     
     if (type === 'employee') {
         employeeBtn.className = 'flex-1 py-2 bg-orange text-white text-sm font-semibold rounded-lg transition-colors duration-300';
-        companyBtn.className = 'flex-1 py-2 bg-transparent border  text-sm border-gray-600 text-gray-300 font-semibold rounded-lg hover:border-orange hover:text-orange transition-colors duration-300';
+        companyBtn.className = 'flex-1 py-2 bg-black border  text-sm border-gray-600 text-gray-300 font-semibold rounded-lg hover:border-orange hover:text-orange transition-colors duration-300';
         accountTypeInput.value = 'employee';
     } else {
         companyBtn.className = 'flex-1 py-2 bg-orange text-white text-sm font-semibold rounded-lg transition-colors duration-300';
-        employeeBtn.className = 'flex-1 py-2 bg-transparent border  text-sm border-gray-600 text-gray-300 font-semibold rounded-lg hover:border-orange hover:text-orange transition-colors duration-300';
+        employeeBtn.className = 'flex-1 py-2 bg-black border  text-sm border-gray-600 text-gray-300 font-semibold rounded-lg hover:border-orange hover:text-orange transition-colors duration-300';
         accountTypeInput.value = 'company';
     }
 }

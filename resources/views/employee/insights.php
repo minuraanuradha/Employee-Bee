@@ -3,13 +3,15 @@
 $user_id = $_SESSION['user_id'] ?? null;
 ?>
 
-<div class="p-6 bg- min-h-screen rounded-lg shadow-md">
+<div class="p-2 bg- min-h-screen rounded-lg shadow-md">
     <div class="mb-6">
-        <h1 class="text-h3 text-white mb-2">Career Insights</h1>
-        <p class="text-p-regular text-lightgray">Analytics and recommendations for your career growth</p>
+        <h1 class="text-h5 text-orange ">Career Insights</h1>
+        <p class="text-p-regular-new text-lightgray">Analytics and recommendations for your career growth</p>
+        <button id="generate-insights" class="btn-1 mt-4">Generate New Insights</button>
+        <div id="loading" class="hidden text-orange mt-2">Generating insights...</div>
     </div>
 
-    <!-- Key Metrics -->
+    <!-- Key Metrics 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <div class="bg-gradient-to-r from-orange to-orange/80 rounded-lg p-4 text-white shadow-lg">
             <div class="flex items-center justify-between">
@@ -47,9 +49,9 @@ $user_id = $_SESSION['user_id'] ?? null;
                 <div class="text-3xl opacity-60">😊</div>
             </div>
         </div>
-    </div>
+    </div>-->
 
-    <!-- Skills Analysis -->
+    <!-- Skills Analysis 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div class="bg-black/40 rounded-lg p-6 shadow">
             <h2 class="text-h4 text-orange mb-4">Skills Proficiency</h2>
@@ -147,57 +149,21 @@ $user_id = $_SESSION['user_id'] ?? null;
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- AI Recommendations -->
     <div class="mb-8">
-        <h2 class="text-h4 text-orange mb-4">AI Career Recommendations</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div class="bg-gradient-to-r from-blue-600 to-blue-900 rounded-lg p-6 text-white shadow-lg">
-                <div class="flex items-center mb-4">
-                    <div class="text-3xl mr-3">🤖</div>
-                    <h3 class="text-h5 font-semibold">Skill Development</h3>
-                </div>
-                <p class="text-p-regular mb-4">Based on market trends, consider learning:</p>
-                <ul class="text-p-regular space-y-2">
-                    <li>• Machine Learning</li>
-                    <li>• Blockchain Development</li>
-                    <li>• DevOps Practices</li>
-                </ul>
-                <button class="btn-2 mt-4 w-full">View Courses</button>
-            </div>
-
-            <div class="bg-gradient-to-r from-green-600 to-green-900 rounded-lg p-6 text-white shadow-lg">
-                <div class="flex items-center mb-4">
-                    <div class="text-3xl mr-3">💼</div>
-                    <h3 class="text-h5 font-semibold">Career Path</h3>
-                </div>
-                <p class="text-p-regular mb-4">Recommended next steps:</p>
-                <ul class="text-p-regular space-y-2">
-                    <li>• Lead Developer Role</li>
-                    <li>• Technical Architect</li>
-                    <li>• Engineering Manager</li>
-                </ul>
-                <button class="btn-2 mt-4 w-full">Explore Roles</button>
-            </div>
-
-            <div class="bg-gradient-to-r from-purple-600 to-purple-900 rounded-lg p-6 text-white shadow-lg">
-                <div class="flex items-center mb-4">
-                    <div class="text-3xl mr-3">📊</div>
-                    <h3 class="text-h5 font-semibold">Market Analysis</h3>
-                </div>
-                <p class="text-p-regular mb-4">Current market insights:</p>
-                <ul class="text-p-regular space-y-2">
-                    <li>• High demand for React</li>
-                    <li>• Cloud skills +25% salary</li>
-                    <li>• Remote work opportunities</li>
-                </ul>
-                <button class="btn-2 mt-4 w-full">View Report</button>
+        <h2 class="text-h5 text-orange mb-4">AI Career Recommendations</h2>
+        <div id="ai-recommendations" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="bg-gradient-to-r from-gray-700 to-gray-900 rounded-lg p-6 text-white shadow-lg text-center">
+                <div class="text-3xl mb-4">💡</div>
+                <h3 class="text-h5 font-semibold mb-2">No Insights Yet</h3>
+                <p class="text-p-regular mb-4">Click "Generate New Insights" to get personalized career recommendations.</p>
             </div>
         </div>
     </div>
 
-    <!-- Performance Analytics -->
+    <!-- Performance Analytics
     <div class="mb-8">
         <h2 class="text-h4 text-orange mb-4">Performance Analytics</h2>
         <div class="bg-black/40 rounded-lg p-6 shadow">
@@ -245,14 +211,14 @@ $user_id = $_SESSION['user_id'] ?? null;
                 </div>
             </div>
         </div>
-    </div>
+    </div>  -->
 
-    <!-- Action Items -->
-    <div class="bg-gradient-to-r from-orange to-orange/80 rounded-lg p-6 text-white shadow-lg">
-        <h2 class="text-h4 font-semibold mb-4">Recommended Actions</h2>
+    <!-- Action Items 
+    <div class="bg-gradient-to-r from-orange/70 to-orange/40 border border-orange/80  rounded-lg p-6 text-white shadow-lg">
+        <h2 class="text-h5 font-semibold mb-4">Recommended Actions</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-white/10 rounded-lg p-4 text-white">
-                <h3 class="text-h5 font-semibold mb-2">Short Term (1-3 months)</h3>
+                <h3 class="text-lg font-bold mb-2">Short Term (1-3 months)</h3>
                 <ul class="text-p-regular space-y-1">
                     <li>• Complete AWS certification</li>
                     <li>• Lead a team project</li>
@@ -260,7 +226,7 @@ $user_id = $_SESSION['user_id'] ?? null;
                 </ul>
             </div>
             <div class="bg-white/10 rounded-lg p-4 text-white">
-                <h3 class="text-h5 font-semibold mb-2">Long Term (6-12 months)</h3>
+                <h3 class="text-lg font-bold  mb-2">Long Term (6-12 months)</h3>
                 <ul class="text-p-regular space-y-1">
                     <li>• Apply for Lead Developer role</li>
                     <li>• Learn Machine Learning</li>
@@ -270,4 +236,147 @@ $user_id = $_SESSION['user_id'] ?? null;
         </div>
         <button class="btn-2 mt-4">Create Action Plan</button>
     </div>
-</div> 
+</div>-->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const generateButton = document.getElementById('generate-insights');
+    const loadingIndicator = document.getElementById('loading');
+    const aiRecommendations = document.getElementById('ai-recommendations');
+    
+    // Generate new insights when button is clicked
+    generateButton.addEventListener('click', function() {
+        generateButton.disabled = true;
+        loadingIndicator.classList.remove('hidden');
+        
+        fetch('api/ai.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error:', data.error);
+                alert('Error generating insights: ' + data.error);
+            } else {
+                updateInsights(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error generating insights. Please try again.');
+        })
+        .finally(() => {
+            generateButton.disabled = false;
+            loadingIndicator.classList.add('hidden');
+        });
+    });
+    
+    function loadInsights() {
+        fetch('api/ai.php')
+        .then(response => response.json())
+        .then(data => {
+            if (!data.error) {
+                updateInsights(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error loading insights:', error);
+        });
+    }
+    
+    function updateInsights(data) {
+        // Update AI recommendations section
+        if (data.suggested_role || data.skills_to_learn || data.action_plan || data.learn || data.action_plan || data.insight) {
+            aiRecommendations.innerHTML = '';
+            
+            // Suggested Role card
+            if (data.suggested_role || data.suggested_next_role) {
+                const roleCard = document.createElement('div');
+                roleCard.className = 'bg-gradient-to-r from-green-600 to-green-900 rounded-lg p-6 text-white shadow-lg';
+                roleCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="text-3xl mr-3">💼</div>
+                        <h3 class="text-h5 font-semibold">Suggested Role</h3>
+                    </div>
+                    <p class="text-p-regular mb-4">Based on your career path:</p>
+                    <ul class="text-p-regular space-y-2">
+                        <li>• ${data.suggested_role || data.suggested_next_role}</li>
+                    </ul>
+                    
+                `;
+                aiRecommendations.appendChild(roleCard);
+            }
+            
+            // Skills to Learn card
+            if (data.skills_to_learn || data.learn) {
+                const skillsCard = document.createElement('div');
+                skillsCard.className = 'bg-gradient-to-r from-blue-600 to-blue-900 rounded-lg p-6 text-white shadow-lg';
+                const skills = data.skills_to_learn || (Array.isArray(data.learn) ? data.learn.join(', ') : data.learn);
+                skillsCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="text-3xl mr-3">📚</div>
+                        <h3 class="text-h5 font-semibold">Skills to Learn</h3>
+                    </div>
+                    <p class="text-p-regular mb-4">To advance your career:</p>
+                    <ul class="text-p-regular space-y-2">
+                        <li>• ${skills}</li>
+                    </ul>
+                    
+                `;
+                aiRecommendations.appendChild(skillsCard);
+            }
+            
+            // Action Plan card
+            if (data.action_plan) {
+                const actionCard = document.createElement('div');
+                actionCard.className = 'bg-gradient-to-r from-purple-600 to-purple-900 rounded-lg p-6 text-white shadow-lg';
+                const actionPlanItems = Array.isArray(data.action_plan) ? data.action_plan : [data.action_plan];
+                const actionPlanHtml = actionPlanItems.map(item => `<li>• ${item}</li>`).join('');
+                actionCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="text-3xl mr-3">📋</div>
+                        <h3 class="text-h5 font-semibold">Action Plan</h3>
+                    </div>
+                    <p class="text-p-regular mb-4">Next steps for growth:</p>
+                    <ul class="text-p-regular space-y-2">
+                        ${actionPlanHtml}
+                    </ul>
+                    
+                `;
+                aiRecommendations.appendChild(actionCard);
+            }
+            
+            // Career Insight card
+            if (data.career_insight || data.insight) {
+                const insightCard = document.createElement('div');
+                insightCard.className = 'bg-gradient-to-r from-orange to-orange/80 rounded-lg p-6 text-white shadow-lg';
+                const insight = data.career_insight || data.insight;
+                insightCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="text-3xl mr-3">💡</div>
+                        <h3 class="text-h5 font-semibold">Career Insight</h3>
+                    </div>
+                    <p class="text-p-regular mb-4">Based on your profile:</p>
+                    <ul class="text-p-regular space-y-2">
+                        <li>• ${insight}</li>
+                    </ul>
+                    
+                `;
+                aiRecommendations.appendChild(insightCard);
+            }
+        } else {
+            // Show a message if no insights are available
+            aiRecommendations.innerHTML = `
+                <div class="bg-gradient-to-r from-gray-700 to-gray-900 rounded-lg p-6 text-white shadow-lg text-center">
+                    <div class="text-3xl mb-4">🤔</div>
+                    <h3 class="text-h5 font-semibold mb-2">No Personalized Insights</h3>
+                    <p class="text-p-regular mb-4">We couldn't generate personalized insights for your profile at the moment. Please try again later.</p>
+                </div>
+            `;
+        }
+    }
+});
+</script>

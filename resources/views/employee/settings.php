@@ -3,23 +3,23 @@
 $user_id = $_SESSION['user_id'] ?? null;
 ?>
 
-<div class="p-6 bg- min-h-screen rounded-lg shadow-md">
-    <div class="mb-6">
-        <h1 class="text-h3 text-white mb-2">Settings</h1>
-        <p class="text-p-regular text-lightgray">Manage your account settings and preferences</p>
+<div class="p-2 bg- min-h-screen rounded-lg shadow-md">
+    <div class="mb-4 pt-0">
+        <h1 class="text-h5 text-orange ">Settings</h1>
+        <p class="text-p-regular-new text-lightgray">Manage your account settings and preferences</p>
     </div>
 
-    <!-- Settings Navigation -->
+    <!-- Settings Navigation 
     <div class="flex space-x-1 mb-6 bg-black/40 rounded-lg p-1">
         <button class="flex-1 py-2 px-4 rounded-md bg-darkgray text-orange font-medium shadow-sm">Account</button>
         <button class="flex-1 py-2 px-4 rounded-md text-lightgray hover:bg-darkgray hover:text-orange transition-colors">Security</button>
         <button class="flex-1 py-2 px-4 rounded-md text-lightgray hover:bg-darkgray hover:text-orange transition-colors">Notifications</button>
         <button class="flex-1 py-2 px-4 rounded-md text-lightgray hover:bg-darkgray hover:text-orange transition-colors">Privacy</button>
-    </div>
+    </div> -->
 
     <!-- Account Settings -->
     <div class="space-y-6">
-        <!-- Profile Information -->
+        <!-- Profile Information 
         <div class="bg-black/40 rounded-lg p-6 shadow">
             <h2 class="text-h4 text-orange mb-4">Profile Information</h2>
             <form class="space-y-4">
@@ -53,13 +53,13 @@ $user_id = $_SESSION['user_id'] ?? null;
                     <button type="submit" class="btn-1">Save Changes</button>
                 </div>
             </form>
-        </div>
+        </div> -->
 
         <!-- Security Settings -->
-        <div class="bg-black/40 rounded-lg p-6 shadow">
-            <h2 class="text-h4 text-orange mb-4">Security Settings</h2>
+        <div class="bg-black/40 rounded-lg p-6 shadow border border-white/10 ">
+            <h2 class="text-h5 text-orange mb-4">Change Password</h2>
             <div class="space-y-4">
-                <div class="flex items-center justify-between p-4 bg-darkgray rounded-lg">
+                <!--<div class="flex items-center justify-between p-4 bg-darkgray rounded-lg">
                     <div>
                         <h3 class="text-h5 text-white font-medium">Two-Factor Authentication</h3>
                         <p class="text-p-regular text-lightgray">Add an extra layer of security to your account</p>
@@ -87,22 +87,22 @@ $user_id = $_SESSION['user_id'] ?? null;
                         <p class="text-p-regular text-lightgray">Manage active sessions and devices</p>
                     </div>
                     <button class="btn-2">Manage Sessions</button>
-                </div>
+                </div> -->
 
-                <div class="p-4 bg-darkgray rounded-lg">
-                    <h3 class="text-h5 text-white font-medium mb-3">Change Password</h3>
+                <div class="">
+                    <!--<h3 class="text-lg text-white font-bold mb-1">Change Password</h3>-->
                     <form class="space-y-3">
                         <div>
                             <label class="block text-p-regular text-lightgray font-medium mb-1">Current Password</label>
-                            <input type="password" class="w-full px-3 py-2 border border-gray-700 rounded-md bg-darkgray text-white focus:outline-none focus:ring-2 focus:ring-orange focus:border-transparent">
+                            <input type="password" class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300">
                         </div>
                         <div>
                             <label class="block text-p-regular text-lightgray font-medium mb-1">New Password</label>
-                            <input type="password" class="w-full px-3 py-2 border border-gray-700 rounded-md bg-darkgray text-white focus:outline-none focus:ring-2 focus:ring-orange focus:border-transparent">
+                            <input type="password" class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300">
                         </div>
                         <div>
                             <label class="block text-p-regular text-lightgray font-medium mb-1">Confirm New Password</label>
-                            <input type="password" class="w-full px-3 py-2 border border-gray-700 rounded-md bg-darkgray text-white focus:outline-none focus:ring-2 focus:ring-orange focus:border-transparent">
+                            <input type="password" class="w-full px-4 py-2 rounded-lg border border-gray-600 bg-black text-white text-sm placeholder-gray-400 focus:outline-none focus:border-orange transition-colors duration-300">
                         </div>
                         <button type="submit" class="btn-1">Update Password</button>
                     </form>
@@ -110,7 +110,7 @@ $user_id = $_SESSION['user_id'] ?? null;
             </div>
         </div>
 
-        <!-- Notification Settings -->
+        <!-- Notification Settings 
         <div class="bg-black/40 rounded-lg p-6 shadow">
             <h2 class="text-h4 text-orange mb-4">Notification Preferences</h2>
             <div class="space-y-4">
@@ -169,13 +169,13 @@ $user_id = $_SESSION['user_id'] ?? null;
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Privacy Settings -->
-        <div class="bg-black/40 rounded-lg p-6 shadow">
-            <h2 class="text-h4 text-orange mb-4">Privacy Settings</h2>
+        <div class="bg-black/40 rounded-lg p-6 shadow border border-white/10">
+            <h2 class="text-h5 text-orange mb-4">Privacy Settings</h2>
             <div class="space-y-4">
-                <div class="flex items-center justify-between p-4 bg-darkgray rounded-lg">
+                <!--<div class="flex items-center justify-between p-4 bg-darkgray rounded-lg">
                     <div>
                         <h3 class="text-h5 text-white font-medium">Profile Visibility</h3>
                         <p class="text-p-regular text-lightgray">Control who can see your profile information</p>
@@ -213,12 +213,14 @@ $user_id = $_SESSION['user_id'] ?? null;
                     <h3 class="text-h5 text-white font-medium mb-3">Data Export</h3>
                     <p class="text-p-regular text-lightgray mb-3">Download a copy of your data</p>
                     <button class="btn-2">Export My Data</button>
-                </div>
+                </div> -->
 
-                <div class="p-4 bg-darkgray rounded-lg">
-                    <h3 class="text-h5 text-white font-medium mb-3">Account Deletion</h3>
-                    <p class="text-p-regular text-lightgray mb-3">Permanently delete your account and all associated data</p>
-                    <button class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">Delete Account</button>
+                <div class="p-4 bg-black rounded-lg flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg text-white font-bold mb-1">Account Deletion</h3>
+                        <p class="text-p-regular text-lightgray ">Permanently delete your account and all associated data</p>
+                    </div>
+                    <button class="bg-red-900/70 border border-red-700  text-white px-6 py-1 rounded-lg hover:bg-red-700 transition-colors text-sm font-semibold">Delete Account</button>
                 </div>
             </div>
         </div>

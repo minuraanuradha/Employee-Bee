@@ -134,6 +134,18 @@ module.exports = {
             fontSize: '0.8rem'
           }
         },
+        '.text-p-regular-new': {
+          fontSize: '0.8rem',
+          fontWeight: '400',
+          fontFamily: 'Roboto Flex, sans-serif',
+          letterSpacing: 'normal',
+          '@screen sm': {
+            fontSize: '0.8rem'
+          },
+          '@screen md': {
+            fontSize: '0.8rem'
+          }
+        },
         '.text-p-small': {
           fontSize: '0.7rem',
           fontWeight: '300',
@@ -151,11 +163,27 @@ module.exports = {
 
       const buttonStyles = {
         '.btn-1': {
-          backgroundColor: '#FF3F00', // orange
+          backgroundColor: 'rgba(128, 32, 0, 0.80)', // orange
+          border: '1px solid #FF3F00', // orange
           color: '#DCDCDC', // white
           fontSize: '0.8rem', // text-sm
           fontWeight: '500',
-          padding: '0.4rem 2.25rem', // py-1.5 px-9
+          padding: '0.3rem 2.25rem', // py-1.5 px-9
+          borderRadius: '0.6rem', // rounded
+          letterSpacing: '0.02em', // tracking-bit
+          transition: 'all 0.3s ease', // transition-all
+          fontFamily: 'Roboto Flex, sans-serif',
+          '&:hover': {
+            backgroundColor: '#CC3300' // Darker orange
+          }
+        },
+        '.btn-12': {
+          backgroundColor: 'rgba(128, 32, 0, 0.80)', // orange
+          border: '1px solid #FF3F00', // orange
+          color: '#DCDCDC', // white
+          fontSize: '0.8rem', // text-sm
+          fontWeight: '500',
+          padding: '0.3rem 2.25rem', // py-1.5 px-9
           borderRadius: '0.6rem', // rounded
           letterSpacing: '0.02em', // tracking-bit
           transition: 'all 0.3s ease', // transition-all
@@ -166,10 +194,11 @@ module.exports = {
         },
         '.btn-2': {
           backgroundColor: '#DCDCDC', // white
+          border: '1px solid #DCDCDC', // orange
           color: '#FF3F00', // orange
           fontSize: '0.8rem', // text-sm
           fontWeight: '500',
-          padding: '0.4rem 2.25rem', // py-1.5 px-9
+          padding: '0.3rem 2.25rem', // py-1.5 px-9
           borderRadius: '0.6rem', // rounded
           letterSpacing: '0.02em', // tracking-bit
           transition: 'all 0.3s ease',
@@ -180,10 +209,11 @@ module.exports = {
         },
         '.btn-3': {
           border: '1px solid #DCDCDC', // white
+          backgroundColor: '#DCDCDC1a',
           color: '#DCDCDC', // white
           fontSize: '0.8rem', // text-sm
           fontWeight: '500',
-          padding: '0.4rem 2.25rem', // py-1.5 px-9
+          padding: '0.3rem 2.25rem', // py-1.5 px-9
           borderRadius: '0.6rem', // rounded
           letterSpacing: '0.02em', // tracking-bit
           transition: 'all 0.3s ease',
@@ -198,7 +228,7 @@ module.exports = {
           color: '#FF3F00', // orange
           fontSize: '0.8rem', // text-sm
           fontWeight: '500',
-          padding: '0.4rem 2.25rem', // py-1.5 px-9
+          padding: '0.3rem 2.25rem', // py-1.5 px-9
           borderRadius: '0.6rem', // rounded
           letterSpacing: '0.02em', // tracking-bit
           transition: 'all 0.3s ease',

@@ -2,6 +2,7 @@
 //session_start();
 require_once '../app/models/UserModel.php';
 require_once '../app/models/CompanyModel.php';
+require_once '../app/config/Database.php'; // Added missing import for Database
 
 class AuthController {
     private $userModel;
@@ -50,12 +51,32 @@ class AuthController {
                 header("Location: ?path=profile");
                 exit();
             } else {
-                echo "Invalid email or password";
+                $_SESSION['login_error'] = "Invalid email or password";
+                header("Location: ?path=login");
+                exit();
             }
         }
     }
 
     public function logout() {
+        // Store session duration before destroying session
+        if (isset($_SESSION['user_id']) && isset($_SESSION['login_start_time'])) {
+            $employee_id = $_SESSION['user_id'];
+            $start_time = $_SESSION['login_start_time'];
+            $duration = time() - $start_time;
+            $date = date('Y-m-d');
+            $pdo = (new Database())->getConnection();
+            $stmt = $pdo->prepare('
+                INSERT INTO employee_login_activity (employee_id, date, waiting_time_seconds)
+                VALUES (:employee_id, :date, :duration)
+                ON DUPLICATE KEY UPDATE waiting_time_seconds = waiting_time_seconds + VALUES(waiting_time_seconds)
+            ');
+            $stmt->execute([
+                ':employee_id' => $employee_id,
+                ':date' => $date,
+                ':duration' => $duration
+            ]);
+        }
         session_destroy();
         header("Location: ?path=login");
         exit();

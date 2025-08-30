@@ -1,6 +1,8 @@
 <?php
-require_once '../app/config/database.php';
-
+require_once __DIR__ . '/../config/database.php';
+ 
+use DateTime;
+ 
 class UserModel {
     private $pdo;
 
@@ -106,7 +108,8 @@ class UserModel {
             WHERE ea.id = :id
         ");
         $stmt->execute([':id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
     }
     
     // Get employee by unique_id
@@ -230,5 +233,467 @@ class UserModel {
         $stmt->execute([':nic' => $nic]);
         return $stmt->fetchColumn() > 0;
     }
+
+    // Search employees for company add (AJAX), include status for this company
+    public function searchEmployees($query, $company_id = null) {
+        $sql = "
+            SELECT ep.employee_id, ep.full_name, ep.email, ea.unique_id, ep.profile_picture,
+                   ce.status
+            FROM employee_profile ep
+            JOIN employee_auth ea ON ep.employee_id = ea.id
+            LEFT JOIN company_employees ce
+                ON ce.employee_unique_id = ea.unique_id
+                AND ce.company_id = :company_id
+            WHERE ep.full_name LIKE :q OR ep.email LIKE :q OR ea.unique_id LIKE :q
+            LIMIT 10
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':q' => '%' . $query . '%',
+            ':company_id' => $company_id
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Add employee to company, prevent duplicates, with role, skills, start_date
+    public function addEmployeeToCompany($company_id, $unique_id, $role_title, $skills_on_hire, $start_date) {
+        // Check if already added
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM company_employees WHERE company_id = ? AND employee_unique_id = ?");
+        $stmt->execute([$company_id, $unique_id]);
+        if ($stmt->fetchColumn() > 0) {
+            return ['success' => false, 'message' => 'Employee already added!'];
+        }
+        // Insert
+        $stmt = $this->pdo->prepare("INSERT INTO company_employees (company_id, employee_unique_id, role_title, skills_on_hire, start_date, status) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$company_id, $unique_id, $role_title, $skills_on_hire, $start_date, 'active']);
+        return ['success' => true, 'message' => 'Employee added successfully!'];
+    }
+
+    public function getActiveEmployees($company_id) {
+        $sql = "
+            SELECT ep.full_name, ep.email, ep.profile_picture,
+                ce.role_title, ce.start_date, ce.end_date, ce.status
+            FROM company_employees ce
+            LEFT JOIN employee_auth ea ON ce.employee_unique_id = ea.unique_id
+            LEFT JOIN employee_profile ep ON ep.employee_id = ea.id
+            WHERE ce.company_id = :company_id AND ce.status = 'active'
+            ORDER BY ce.start_date DESC
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':company_id' => $company_id]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getInactiveEmployees($company_id) {
+    $sql = "
+        SELECT ep.full_name, ep.email, ep.profile_picture,
+               ce.role_title, ce.start_date, ce.end_date, ce.status
+        FROM company_employees ce
+        LEFT JOIN employee_auth ea ON ce.employee_unique_id = ea.unique_id
+        LEFT JOIN employee_profile ep ON ep.employee_id = ea.id
+        WHERE ce.company_id = :company_id AND ce.status = 'inactive'
+        ORDER BY ce.end_date DESC
+    ";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([':company_id' => $company_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-?>
+
+    // Update employee status and add feedback/skills
+    public function updateEmployeeStatus($company_id, $employee_unique_id, $data) {
+        try {
+            $this->pdo->beginTransaction();
+            
+            // Get employee auth ID for career data updates
+            $stmt = $this->pdo->prepare("SELECT id FROM employee_auth WHERE unique_id = :unique_id");
+            $stmt->execute([':unique_id' => $employee_unique_id]);
+            $employee_id = $stmt->fetchColumn();
+            
+            if (!$employee_id) {
+                throw new Exception("Employee not found");
+            }
+            
+            // Get current company employee record for record index
+            $stmt = $this->pdo->prepare("SELECT id, role_title FROM company_employees WHERE company_id = :company_id AND employee_unique_id = :employee_unique_id");
+            $stmt->execute([':company_id' => $company_id, ':employee_unique_id' => $employee_unique_id]);
+            $companyEmployee = $stmt->fetch(PDO::FETCH_ASSOC);
+            $companyEmployeeId = $companyEmployee['id'] ?? null;
+            $currentRole = $companyEmployee['role_title'] ?? '';
+            
+            if (!$companyEmployeeId) {
+                throw new Exception("Employee not found in company");
+            }
+            
+            // Get record index from blockchain_verification table
+            $stmt = $this->pdo->prepare("SELECT record_index FROM blockchain_verification WHERE employee_id = :employee_id AND company_id = :company_id ORDER BY record_index DESC LIMIT 1");
+            $stmt->execute([':employee_id' => $employee_unique_id, ':company_id' => $company_id]);
+            $recordIndex = $stmt->fetchColumn() ?: 0;
+            
+            // Handle different update types
+            $update_type = $data['update_type'] ?? '';
+            $new_skills = $data['new_skills'] ?? '';
+            $current_skills = $data['current_skills'] ?? '';
+            $role_title = $data['role_title'] ?? '';
+            $current_role = $data['current_role'] ?? '';
+            
+            // Update company_employees table
+            $updateFields = [];
+            $updateParams = [':company_id' => $company_id, ':employee_unique_id' => $employee_unique_id];
+            
+            if (isset($data['status'])) {
+                $updateFields[] = 'status = :status';
+                $updateParams[':status'] = $data['status'];
+            }
+            
+            // Only update role if it's a role update or role title is provided
+            if (($update_type === 'role' && $role_title) || ($update_type !== 'role' && $role_title)) {
+                $updateFields[] = 'role_title = :role_title';
+                $updateParams[':role_title'] = $role_title;
+            }
+            
+            if (isset($data['end_date']) && $data['end_date']) {
+                $updateFields[] = 'end_date = :end_date';
+                $updateParams[':end_date'] = $data['end_date'];
+            }
+            
+            if (!empty($updateFields)) {
+                $stmt = $this->pdo->prepare("UPDATE company_employees SET " . implode(', ', $updateFields) . " WHERE company_id = :company_id AND employee_unique_id = :employee_unique_id");
+                $stmt->execute($updateParams);
+            }
+            
+            // Update employee career data if skills have changed
+            if ($new_skills) {
+                // Combine current skills with new skills
+                $all_skills = $current_skills;
+                if ($all_skills) {
+                    $all_skills .= ', ' . $new_skills;
+                } else {
+                    $all_skills = $new_skills;
+                }
+                
+                // Update employee_career_data table
+                $stmt = $this->pdo->prepare("UPDATE employee_career_data SET skills = :skills WHERE employee_id = :employee_id");
+                $stmt->execute([
+                    ':skills' => $all_skills,
+                    ':employee_id' => $employee_id
+                ]);
+            }
+            
+            // Add feedback record if provided
+            if ($companyEmployeeId && (isset($data['feedback_text']) || isset($data['new_skills']))) {
+                $feedbackType = 'comment';
+                
+                // Determine feedback type based on update type
+                if ($update_type === 'resignation') {
+                    $feedbackType = 'resignation';
+                } elseif ($update_type === 'role' || (isset($data['role_title']) && $data['role_title'] && $data['role_title'] !== $current_role)) {
+                    $feedbackType = 'promotion';
+                } elseif ($new_skills) {
+                    $feedbackType = 'skill_update';
+                }
+                
+                $stmt = $this->pdo->prepare("INSERT INTO employee_feedback (
+                    company_employee_id, feedback_type, feedback_text, updated_role, new_skills
+                ) VALUES (
+                    :company_employee_id, :feedback_type, :feedback_text, :updated_role, :new_skills
+                )");
+                
+                $stmt->execute([
+                    ':company_employee_id' => $companyEmployeeId,
+                    ':feedback_type' => $feedbackType,
+                    ':feedback_text' => $data['feedback_text'] ?? '',
+                    ':updated_role' => ($update_type === 'role' || $role_title) ? $role_title : null,
+                    ':new_skills' => $new_skills ?: null
+                ]);
+            }
+            
+            $this->pdo->commit();
+            return [
+                'success' => true,
+                'message' => 'Employee updated successfully!',
+                'record_index' => $recordIndex
+            ];
+            
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            return ['success' => false, 'message' => 'Error updating employee: ' . $e->getMessage()];
+        }
+    }
+    
+    // Get employee details for update form
+    public function getEmployeeForUpdate($company_id, $employee_unique_id) {
+        $stmt = $this->pdo->prepare("
+            SELECT ce.*, ea.unique_id, ep.full_name, ep.email, ep.profile_picture,
+                   ecd.skills, ecd.education
+            FROM company_employees ce
+            LEFT JOIN employee_auth ea ON ce.employee_unique_id = ea.unique_id
+            LEFT JOIN employee_profile ep ON ea.id = ep.employee_id
+            LEFT JOIN employee_career_data ecd ON ea.id = ecd.employee_id
+            WHERE ce.company_id = :company_id AND ce.employee_unique_id = :employee_unique_id
+        ");
+        $stmt->execute([
+            ':company_id' => $company_id,
+            ':employee_unique_id' => $employee_unique_id
+        ]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    // Get employee feedback history
+    public function getEmployeeFeedback($company_id, $employee_unique_id) {
+        $stmt = $this->pdo->prepare("
+            SELECT ef.*, ce.role_title as current_role
+            FROM employee_feedback ef
+            JOIN company_employees ce ON ef.company_employee_id = ce.id
+            WHERE ce.company_id = :company_id AND ce.employee_unique_id = :employee_unique_id
+            ORDER BY ef.date_recorded DESC
+        ");
+        $stmt->execute([
+            ':company_id' => $company_id,
+            ':employee_unique_id' => $employee_unique_id
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+        // Get employee's complete employment history
+        public function getEmployeeHistory($employee_unique_id) {
+            // First, get all company positions for this employee
+            $stmt = $this->pdo->prepare("
+                SELECT ce.*, cp.company_name, cp.industry, cp.logo_path
+                FROM company_employees ce
+                LEFT JOIN company_profile cp ON ce.company_id = cp.id
+                WHERE ce.employee_unique_id = :employee_unique_id
+                ORDER BY ce.company_id, ce.start_date ASC
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            $positions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Group positions by company and role to show role history
+            $groupedPositions = [];
+            foreach ($positions as $position) {
+                $companyId = $position['company_id'];
+                $roleTitle = $position['role_title'];
+                $key = $companyId . '_' . $roleTitle;
+                
+                if (!isset($groupedPositions[$key])) {
+                    $groupedPositions[$key] = [
+                        'company_id' => $companyId,
+                        'company_name' => $position['company_name'],
+                        'role_title' => $roleTitle,
+                        'status' => $position['status'],
+                        'skills_on_hire' => $position['skills_on_hire'],
+                        'start_date' => $position['start_date'],
+                        'end_date' => $position['end_date'],
+                        'positions' => [],
+                        'feedback_history' => []
+                    ];
+                }
+                
+                // Add this position to the positions array
+                $groupedPositions[$key]['positions'][] = [
+                    'start_date' => $position['start_date'],
+                    'end_date' => $position['end_date'],
+                    'status' => $position['status']
+                ];
+                
+                // Update the overall start and end dates
+                if ($position['start_date'] < $groupedPositions[$key]['start_date']) {
+                    $groupedPositions[$key]['start_date'] = $position['start_date'];
+                }
+                if ($position['end_date'] > $groupedPositions[$key]['end_date'] || $position['end_date'] === null) {
+                    $groupedPositions[$key]['end_date'] = $position['end_date'];
+                }
+                
+                // If this is the current position (last one for this role), get feedback history
+                if (count($groupedPositions[$key]['positions']) === 1 ||
+                    $position['start_date'] >= end($groupedPositions[$key]['positions'])['start_date']) {
+                    $stmt = $this->pdo->prepare("
+                        SELECT ef.*, ce.role_title as current_role
+                        FROM employee_feedback ef
+                        JOIN company_employees ce ON ef.company_employee_id = ce.id
+                        WHERE ef.company_employee_id = :company_employee_id
+                        ORDER BY ef.date_recorded ASC
+                    ");
+                    $stmt->execute([':company_employee_id' => $position['id']]);
+                    $groupedPositions[$key]['feedback_history'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    
+                    // Get current skills for this role by combining skills_on_hire with all new_skills from feedback
+                    $currentSkills = [];
+                    if ($position['skills_on_hire']) {
+                        $currentSkills = array_merge($currentSkills, array_map('trim', explode(',', $position['skills_on_hire'])));
+                    }
+                    
+                    foreach ($groupedPositions[$key]['feedback_history'] as $feedback) {
+                        if ($feedback['new_skills']) {
+                            $currentSkills = array_merge($currentSkills, array_map('trim', explode(',', $feedback['new_skills'])));
+                        }
+                    }
+                    
+                    // Remove duplicates and empty values
+                    $currentSkills = array_filter(array_unique($currentSkills));
+                    $groupedPositions[$key]['current_skills'] = implode(', ', $currentSkills);
+                }
+            }
+            
+            // Convert associative array to indexed array
+            return array_values($groupedPositions);
+        }
+        
+        // Get employee career statistics
+        public function getEmployeeCareerStats($employee_unique_id) {
+            // Get basic employment stats
+            $stmt = $this->pdo->prepare("
+                SELECT
+                    COUNT(DISTINCT ce.company_id) as companies_worked,
+                    COUNT(DISTINCT ce.id) as total_positions,
+                    MIN(ce.start_date) as career_start,
+                    MAX(CASE WHEN ce.status = 'active' THEN ce.start_date ELSE ce.end_date END) as last_activity
+                FROM company_employees ce
+                WHERE ce.employee_unique_id = :employee_unique_id
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            $basicStats = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            // Calculate total experience in days
+            $totalExperience = 0;
+            $stmt = $this->pdo->prepare("
+                SELECT start_date, end_date, status
+                FROM company_employees
+                WHERE employee_unique_id = :employee_unique_id
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            $positions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach ($positions as $position) {
+                $startDate = new DateTime($position['start_date']);
+                $endDate = $position['end_date'] ? new DateTime($position['end_date']) : new DateTime();
+                $diff = $startDate->diff($endDate);
+                $totalExperience += $diff->days;
+            }
+            
+            // Get unique skills count
+            $stmt = $this->pdo->prepare("
+                SELECT GROUP_CONCAT(DISTINCT ef.new_skills) as all_skills
+                FROM employee_feedback ef
+                JOIN company_employees ce ON ef.company_employee_id = ce.id
+                WHERE ce.employee_unique_id = :employee_unique_id AND ef.new_skills IS NOT NULL
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            $skillsData = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            $uniqueSkills = 0;
+            if ($skillsData['all_skills']) {
+                $allSkills = explode(',', $skillsData['all_skills']);
+                $uniqueSkills = count(array_unique(array_map('trim', $allSkills)));
+            }
+            
+            return [
+                'companies_worked' => $basicStats['companies_worked'] ?? 0,
+                'total_positions' => $basicStats['total_positions'] ?? 0,
+                'career_start' => $basicStats['career_start'],
+                'total_experience_days' => $totalExperience,
+                'total_experience_years' => round($totalExperience / 365, 1),
+                'skills_acquired' => $uniqueSkills,
+                'last_activity' => $basicStats['last_activity']
+            ];
+        }
+        
+        // Get employee feedback and achievements
+        public function getEmployeeAchievements($employee_unique_id) {
+            $stmt = $this->pdo->prepare("
+                SELECT ef.*, ce.role_title, cp.company_name
+                FROM employee_feedback ef
+                JOIN company_employees ce ON ef.company_employee_id = ce.id
+                JOIN company_profile cp ON ce.company_id = cp.id
+                WHERE ce.employee_unique_id = :employee_unique_id
+                ORDER BY ef.date_recorded DESC
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
+        // Get blockchain transaction history for employee
+        public function getEmployeeBlockchainTransactions($employee_unique_id) {
+            $stmt = $this->pdo->prepare("
+                SELECT * FROM blockchain_transactions
+                WHERE employee_id = :employee_unique_id
+                ORDER BY created_at DESC
+            ");
+            $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
+        /**
+         * Get current role for an employee
+         *
+         * @param string $employee_unique_id
+         * @return array
+         */
+        public function getCurrentRole($employee_unique_id) {
+            try {
+                $stmt = $this->pdo->prepare("
+                    SELECT role_title
+                    FROM company_employees
+                    WHERE employee_unique_id = :employee_unique_id
+                    AND status = 'active'
+                    ORDER BY start_date DESC
+                    LIMIT 1
+                ");
+                $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            } catch (Exception $e) {
+                return null;
+            }
+        }
+        
+        /**
+         * Calculate years of experience for an employee
+         *
+         * @param string $employee_unique_id
+         * @return int
+         */
+        public function calculateYearsOfExperience($employee_unique_id) {
+            try {
+                // Get all positions for this employee
+                $stmt = $this->pdo->prepare("
+                    SELECT start_date, end_date
+                    FROM company_employees
+                    WHERE employee_unique_id = :employee_unique_id
+                ");
+                $stmt->execute([':employee_unique_id' => $employee_unique_id]);
+                $positions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                $totalExperienceDays = 0;
+                foreach ($positions as $position) {
+                    $startDate = new DateTime($position['start_date']);
+                    $endDate = $position['end_date'] ? new DateTime($position['end_date']) : new DateTime();
+                    $diff = $startDate->diff($endDate);
+                    $totalExperienceDays += $diff->days;
+                }
+                
+                // Convert days to years
+                return (int)($totalExperienceDays / 365);
+            } catch (Exception $e) {
+                return 0;
+            }
+        }
+        
+/**
+     * Get a list of employees for testing
+     *
+     * @return array
+     */
+    public function getAllEmployees() {
+        try {
+            $stmt = $this->pdo->prepare("SELECT unique_id, email FROM employee_auth LIMIT 10");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+    }
+    ?>

@@ -48,11 +48,11 @@ if (strpos($companyLogo, 'storage/') === 0) {
             </button>
                 <!-- User Avatar -->
                 <div class="flex items-center space-x-2 ">
-                    <div class="flex items-center space-x-2 text-white text-small username">
+                    <div class="flex items-center space-x-3 text-white text-small username">
                         <div class="flex flex-col p-0">
                             <span class="text-sm font-medium sidebar-text"><?= htmlspecialchars($companyName) ?></span>
                         </div>
-                        <img src="<?= htmlspecialchars($companyLogo) ?>" alt="Company Logo" class="h-7 w-7 rounded-full border border-orange bg-orange">
+                        <img src="<?= htmlspecialchars($companyLogo) ?>" alt="Company Logo" class="h-7 w-7 rounded-md border border- bg-white">
                     </div>
                 </div>
             </div>

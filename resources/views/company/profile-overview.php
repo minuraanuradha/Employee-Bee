@@ -1,42 +1,212 @@
-<!-- Company Profile Overview -->
-<div class="max-w-3xl mx-auto mt-8">
+<!--Company Profile-->
+
+<div class="mx-auto  p-2">
+    <div class="mb-4 pt-0">
+        <h2 class="text-h5 text-orange ">Company Profile</h2>
+        <p class="text-p-regular-new text-lightgray">View and manage your company profile and preferences.</p>
+    </div>
     <!-- Profile Card -->
-    <div class="bg-darkgray rounded-xl shadow-xl p-8 flex flex-col md:flex-row items-center gap-8">
+    <div class="bg-gradient-to-r from-orange/40 to-orange/20 rounded-lg shadow-xl p-4 flex flex-col md:flex-row items-start gap-8 backdrop-blur-md border-orange border">
         <!-- Logo -->
-        <div class="flex-shrink-0 flex flex-col items-center">
-            <img src="/assets/images/Logo/Lgo.png" alt="Company Logo" class="h-28 w-28 rounded-full border-4 border-orange shadow mb-2" />
-            <button class="btn-3 text-xs mt-2">Change Logo</button>
+        <div class="flex-shrink-0 flex flex-col items-center ">
+            <?php 
+            $logoPath = !empty($company['logo_path']) ? '/employee-bee/' . htmlspecialchars($company['logo_path']) : '/assets/images/Logo/Lgo.png';
+            ?>
+            <img src="<?= $logoPath ?>" alt="Company Logo" class="h-28 w-28 rounded-xl border-1.5 border-white shadow-xl bg-white" />
         </div>
         <!-- Info -->
         <div class="flex-1 w-full">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2">
-                <div class="text-2xl font-bold text-orange">Acme Corporation</div>
-                <button class="btn-1 flex items-center gap-1 text-xs"><span>✏️</span> Edit Profile</button>
+            <div class="flex flex-col md:flex-row md:items-end md:justify-right gap-2 mb-2">
+                <div class="text-2xl font-bold text-white"><?= htmlspecialchars($company['company_name'] ?? 'No Name') ?></div>
+                <div class="text-gray-300 text-xs "><span class="text-p-regular-new text-lightgray ">( <?= htmlspecialchars($company['industry'] ?? 'N/A') ?> )</span></div>
             </div>
-            <div class="text-lightgray text-sm mb-4">Industry: <span class="font-semibold text-white">Technology</span> &bull; Location: <span class="font-semibold text-white">San Francisco, CA</span></div>
-            <div class="text-gray-400 text-sm mb-2">Contact: <span class="text-white">info@acme.com</span> &bull; <span class="text-white">+1 555-123-4567</span></div>
-            <div class="text-gray-300 text-sm mb-4">Website: <a href="#" class="text-orange hover:underline">www.acme.com</a></div>
-            <div class="text-lightgray text-base mb-2">About</div>
-            <div class="text-gray-300 text-sm mb-2">Acme Corporation is a leading provider of innovative tech solutions, helping businesses grow and succeed in the digital age. Our mission is to empower organizations with cutting-edge technology and exceptional service.</div>
+            <div class="text-p-regular-new text-lightgray"><?= htmlspecialchars($company['description'] ?? 'No description') ?></div>
         </div>
     </div>
-    <!-- Profile Details (optional extra info) -->
-    <div class="bg-black rounded-xl shadow-lg p-6 mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-            <div class="text-xs text-gray-400 mb-1">Founded</div>
-            <div class="text-lightgray font-semibold">2012</div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+        <!-- Company Information -->
+<div class="bg-black/40 rounded-lg p-6 shadow border border-white/10">
+    <h3 class="text-h5 text-orange mb-4">Company Information</h3>
+    <div class="space-y-3">
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Company Name:</span>
+            <span class="text-p-regular-new text-white"><?= htmlspecialchars($company['company_name'] ?? 'N/A') ?></span>
         </div>
-        <div>
-            <div class="text-xs text-gray-400 mb-1">Company Size</div>
-            <div class="text-lightgray font-semibold">128 Employees</div>
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Industry:</span>
+            <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['industry'] ?? 'N/A') ?></span>
         </div>
-        <div>
-            <div class="text-xs text-gray-400 mb-1">Registration No.</div>
-            <div class="text-lightgray font-semibold">ACME-2023-001</div>
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Location:</span>
+            <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['location'] ?? 'N/A') ?></span>
         </div>
-        <div>
-            <div class="text-xs text-gray-400 mb-1">Verified</div>
-            <div class="text-green-400 font-semibold">✔ Blockchain Verified</div>
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Contact Email:</span>
+            <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['email'] ?? 'N/A') ?></span>
+        </div>
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Phone:</span>
+            <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['phone_number'] ?? 'N/A') ?></span>
+        </div>
+        <div class="flex justify-between items-center">
+            <span class="text-p-regular-new text-lightgray">Website:</span>
+            <?php if (!empty($company['website_url'])): ?>
+                <a href="<?= htmlspecialchars($company['website_url']) ?>" 
+                   class="text-p-regular-new text-orange/70  rounded-lg px-2 py-0.1  hover:text-orange transition-all duration-300"
+                   target="_blank" rel="noopener noreferrer">
+                    Link
+                </a>
+            <?php else: ?>
+                <span class="text-p-regular-new text-orange/50 font-medium">N/A</span>
+            <?php endif; ?>
+        </div>
+        <div class="flex justify-between items-center">
+            <span class="text-p-regular-new text-lightgray">LinkedIn:</span>
+            <?php if (!empty($company['linkedin_url'])): ?>
+                <a href="<?= htmlspecialchars($company['linkedin_url']) ?>" 
+                   class="text-p-regular-new text-orange/70  rounded-lg px-2 py-0.1  hover:text-orange transition-all duration-300"
+                   target="_blank" rel="noopener noreferrer">
+                    Link
+                </a>
+            <?php else: ?>
+                <span class="text-p-regular-new text-orange/50 font-medium">N/A</span>
+            <?php endif; ?>
+        </div>
+        <div class="flex justify-between">
+            <span class="text-p-regular-new text-lightgray">Contact Person:</span>
+            <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['contact_person'] ?? 'N/A') ?></span>
         </div>
     </div>
 </div>
+        <!-- Registration & Verification -->
+        <div class="space-y-4 flex flex-col">
+            <div class="bg-black/40 rounded-lg p-6 shadow  border border-white/10">
+                <h3 class="text-h5 text-orange mb-4">Registration & Verification</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-p-regular-new text-lightgray">Registration No.:</span>
+                        <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['business_registration_number'] ?? 'N/A') ?></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-p-regular-new text-lightgray">Founded:</span>
+                        <span class="text-p-regular text-white font-medium">N/A</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-p-regular-new text-lightgray">Company Size:</span>
+                        <span class="text-p-regular text-white font-medium"><?= htmlspecialchars($company['company_size'] ?? 'N/A') ?></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-p-regular-new text-lightgray">Blockchain Verified:</span>
+                        <span class="text-green-400 font-medium">N/A</span>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="space-y-3">
+
+                    <div class="flex justify-between bg-black/40 rounded-lg px-6 p-4 shadow  border border-green-400/5 hover-glow-green glass-effect-green">
+                        <span class="text-p-regular-new text-lightgray">Active Members:</span>
+                        <span class="text-green-400  text-sm "><?= htmlspecialchars($activeMembers) ?></span>
+                    </div>
+                    <div class="flex justify-between bg-black/40 rounded-lg px-6 p-4 shadow  border border-red-600/5 hover-glow-red glass-effect-red">
+                        <span class="text-p-regular-new text-lightgray">Inactive Members:</span>
+                        <span class="text-red-600  text-sm "><?= htmlspecialchars($inactiveMembers) ?></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Preferences (static for now) -->
+        <!--<div class="bg-black/40 rounded-lg p-6 shadow">
+            <h3 class="text-h5 text-orange mb-4">Preferences</h3>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-p-regular text-lightgray">Email Notifications:</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange"></div>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-p-regular text-lightgray">SMS Notifications:</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange"></div>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-p-regular text-lightgray">Two-Factor Auth:</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange"></div>
+                    </label>
+                </div>
+            </div>
+        </div>-->
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-1 gap-4 mt-4 ">
+        <!-- Registration & Verification -->
+        <div class="space-y-4 flex flex-col">
+
+            <!-- About Company -->
+            <div class="bg-black/40 rounded-lg p-6 shadow lg:col-span-2  border border-white/10">
+                <h3 class="text-h5 text-orange mb-4">About Company</h3>
+                <div class="text-p-regular-new text-lightgray/80"><?= htmlspecialchars($company['description'] ?? 'No description') ?></div>
+            </div>
+        </div>
+        <!-- Preferences (static for now) -->
+        <!--<div class="bg-black/40 rounded-lg p-6 shadow">
+            <h3 class="text-h5 text-orange mb-4">Preferences</h3>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-p-regular text-lightgray">Email Notifications:</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange"></div>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-p-regular text-lightgray">SMS Notifications:</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange"></div>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-p-regular text-lightgray">Two-Factor Auth:</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange"></div>
+                    </label>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <!-- Action Buttons -->
+    <div class="flex justify-end space-x-4 mt-6">
+        <!--<a href="?path=company" class="btn-3">Back to Dashboard</a>-->
+        <a href="?path=company/edit-profile" class="btn-1">Edit Profile</a>
+    </div>
+</div>
+<style>
+        .glass-effect-red {
+        background: rgba(186, 9, 0, 0.01);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(186, 9, 0, 0.4);
+    }
+        .glass-effect-green {
+        background: rgba(0, 186, 19, 0.01);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 186, 19, 0.4);
+    }
+        .hover-glow-red:hover {
+        box-shadow: 0 0 8px rgba(186, 9, 0, 0.1);
+        transform: translateY(-1px);
+        transition: all 0.3s ease;
+    }
+        .hover-glow-green:hover {
+        box-shadow: 0 0 8px rgba(0, 186, 19, 0.1);
+        transform: translateY(-1px);
+        transition: all 0.3s ease;
+    }
+</style>
